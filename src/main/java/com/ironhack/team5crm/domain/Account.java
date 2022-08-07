@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,7 +23,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "industry")
@@ -36,10 +38,12 @@ public class Account {
     @Column(name = "country")
     private String country;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.MERGE)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Contact> contactList;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.MERGE)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Opportunity> opportunityList;
 
     // * CONSTRUCTOR

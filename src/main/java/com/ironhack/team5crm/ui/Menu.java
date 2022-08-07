@@ -1,6 +1,7 @@
 package com.ironhack.team5crm.ui;
 
-import com.ironhack.team5crm.data.exceptions.DataNotFoundException;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.domain.Lead;
 import com.ironhack.team5crm.domain.enums.Industry;
 import com.ironhack.team5crm.domain.enums.Product;
@@ -10,24 +11,30 @@ import com.ironhack.team5crm.services.OpportunityService;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@NoArgsConstructor
 public class Menu implements ConsoleOperations {
 
-    private final LeadService leadService;
-    private final OpportunityService opportunityService;
+    @Autowired
+    private  LeadService leadService;
+
+    @Autowired
+    private  OpportunityService opportunityService;
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
-    public Menu(LeadService leadService, OpportunityService opportunityService) {
-        this.leadService = leadService;
-        this.opportunityService = opportunityService;
-    }
-
     public void main() throws WrongInputException, AbortedException {
+
+        FlatLightLaf.setup();
+
         String input;
 
         do {

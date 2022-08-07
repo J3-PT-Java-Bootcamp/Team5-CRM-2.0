@@ -6,7 +6,7 @@ import com.ironhack.team5crm.data.LeadRepository;
 import com.ironhack.team5crm.data.OpportunityRepository;
 import com.ironhack.team5crm.data.datasources.Datasource;
 import com.ironhack.team5crm.data.datasources.impl.InMemoryDatasource;
-import com.ironhack.team5crm.data.exceptions.DataNotFoundException;
+import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.domain.Lead;
 import com.ironhack.team5crm.domain.enums.Industry;
 import com.ironhack.team5crm.domain.enums.Product;
@@ -16,16 +16,27 @@ import com.ironhack.team5crm.services.exceptions.EmptyException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class LeadServiceTest {
 
     Datasource datasource = InMemoryDatasource.getInstance();
-    LeadRepository leadRepo = LeadRepository.getInstance(datasource);
-    ContactRepository contactRepo = ContactRepository.getInstance(datasource);
-    AccountRepository accountRepo = AccountRepository.getInstance(datasource);
-    OpportunityRepository opportunityRepo = OpportunityRepository.getInstance(datasource);
+
+    @Autowired
+    LeadRepository leadRepo;
+
+    @Autowired
+    OpportunityRepository opportunityRepository;
+    @Autowired
+    ContactRepository contactRepository;
+    @Autowired
+    AccountRepository accountRepo;
+
+    @Autowired
     LeadService leadService;
 
     Lead lead1;
@@ -33,31 +44,21 @@ class LeadServiceTest {
 
     @BeforeEach
     void setUp() {
-        leadService = LeadService.getInstance(leadRepo, contactRepo, accountRepo, opportunityRepo);
+        leadRepo.deleteAll();
+        opportunityRepository.deleteAll();
+        contactRepository.deleteAll();
+        accountRepo.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
-        leadRepo.deleteAllLeads();
-        accountRepo.deleteAllAccounts();
-    }
-
-    @Test
-    void test_getInstance() {
-        var datasource = InMemoryDatasource.getInstance();
-        var leadRepo = LeadRepository.getInstance(datasource);
-        var contactRepo = ContactRepository.getInstance(datasource);
-        var accountRepo = AccountRepository.getInstance(datasource);
-        var opportunityRepo = OpportunityRepository.getInstance(datasource);
-        assertEquals(leadService, LeadService.getInstance(leadRepo, contactRepo, accountRepo, opportunityRepo));
     }
 
     @Test
     void test_newLead() {
-        var lead = new Lead(leadRepo.maxLeadId(), "test", "666666666", "test@gmail.com", "company");
+        var lead = new Lead("test", "666666666", "test@gmail.com", "company");
         var leadCreated = leadService.newLead(lead.getName(), lead.getPhoneNumber(), lead.getEmail(),
                 lead.getCompanyName());
-        assertEquals(lead.getId(), leadCreated.getId());
         assertEquals(lead.getName(), leadCreated.getName());
         assertEquals(lead.getPhoneNumber(), leadCreated.getPhoneNumber());
         assertEquals(lead.getEmail(), leadCreated.getEmail());
@@ -77,9 +78,13 @@ class LeadServiceTest {
         Team5CrmException exception = null;
         try {
             var account = leadService.convert(this.lead1.getId(), product, prodQty, industry, emp, city, country);
+            assertNotNull(account.getId());
+            assertNotNull(account.getContactList().get(0).getId());
             var oppCreated = account.getOpportunityList().get(0);
             assertNotNull(oppCreated);
+            assertNotNull(oppCreated.getId());
             assertNotNull(oppCreated.getDecisionMaker());
+            assertNotNull(oppCreated.getDecisionMaker().getId());
             assertEquals(this.lead1.getName(), oppCreated.getDecisionMaker().getName());
             assertEquals(this.lead1.getPhoneNumber(), oppCreated.getDecisionMaker().getPhoneNumber());
             assertEquals(this.lead1.getEmail(), oppCreated.getDecisionMaker().getEmail());

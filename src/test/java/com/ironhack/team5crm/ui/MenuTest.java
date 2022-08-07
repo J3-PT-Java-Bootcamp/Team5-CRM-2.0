@@ -1,6 +1,5 @@
 package com.ironhack.team5crm.ui;
 
-import com.ironhack.team5crm.data.AccountRepository;
 import com.ironhack.team5crm.data.ContactRepository;
 import com.ironhack.team5crm.data.LeadRepository;
 import com.ironhack.team5crm.data.OpportunityRepository;
@@ -13,26 +12,20 @@ import com.ironhack.team5crm.services.LeadService;
 import com.ironhack.team5crm.services.OpportunityService;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest
 class MenuTest {
 
-    Datasource datasource = JsonDatasource.getInstance();
-
-    OpportunityRepository opportunityRepository = OpportunityRepository.getInstance(datasource);
-    OpportunityService opportunityService = OpportunityService.getInstance(opportunityRepository);
-
-    AccountRepository accountRepository = AccountRepository.getInstance(datasource);
-    LeadRepository leadRepository = LeadRepository.getInstance(datasource);
-    ContactRepository contactRepository = ContactRepository.getInstance(datasource);
-
-    LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository, opportunityRepository);
-
-    Menu menu = new Menu(leadService, opportunityService);
+    @Autowired
+    Menu menu;
 
     MenuTest() throws IOException {
 
@@ -44,24 +37,26 @@ class MenuTest {
 
         var testStatus = menu.getStatus();
         System.out.println(testStatus);
-        assertEquals(Status.OPEN,testStatus);
+        assertEquals(Status.OPEN, testStatus);
     }
+
     @Test
     void getStatus_close_won() throws AbortedException {
         // select closed_won on the menu
 
         var testStatus = menu.getStatus();
         System.out.println(testStatus);
-        assertEquals(Status.CLOSED_WON,testStatus);
+        assertEquals(Status.CLOSED_WON, testStatus);
 
     }
+
     @Test
     void getStatus_close_lost() throws AbortedException {
         // select closed_lost on the menu
 
         var testStatus = menu.getStatus();
         System.out.println(testStatus);
-        assertEquals(Status.CLOSED_LOST,testStatus);
+        assertEquals(Status.CLOSED_LOST, testStatus);
     }
 
     @Test
@@ -71,7 +66,7 @@ class MenuTest {
         var testProduct = menu.getProduct();
         System.out.println(testProduct);
 
-        assertEquals(Product.HYBRID,testProduct);
+        assertEquals(Product.HYBRID, testProduct);
     }
 
     @Test
@@ -85,9 +80,9 @@ class MenuTest {
 
         var testProduct = menu.getProduct();
 
-        if (testList.contains(testProduct)){
+        if (testList.contains(testProduct)) {
             inTheList = true;
-            System.out.println("User selected: "+testProduct+" which is in the List");
+            System.out.println("User selected: " + testProduct + " which is in the List");
         }
 
         assertTrue(inTheList);
@@ -106,9 +101,9 @@ class MenuTest {
 
         var testIndustry = menu.getIndustry();
 
-        if (testList.contains(testIndustry)){
+        if (testList.contains(testIndustry)) {
             inTheList = true;
-            System.out.println("User selected: "+testIndustry+" which is in the List");
+            System.out.println("User selected: " + testIndustry + " which is in the List");
         }
 
         assertTrue(inTheList);
