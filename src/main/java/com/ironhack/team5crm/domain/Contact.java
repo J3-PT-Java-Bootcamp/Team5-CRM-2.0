@@ -1,48 +1,46 @@
 package com.ironhack.team5crm.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "contacts")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Contact {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private int id;
+
+    @Column(name = "name")
     private String name;
-    private String phone;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "email")
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
 
     //* CONSTRUCTOR
     //**********************************************
-    public Contact(int id, String name, String phone, String email) {
+    public Contact(int id, String name, String phoneNumber, String email) {
         this.id = id;
         this.name = name;
-        this.phone = phone;
-        this.email = email;
-    }
-
-
-    //* GETTERS AND SETTERS
-    //**********************************************
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getPhone() {
-        return phone;
-    }
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
+        this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
@@ -65,7 +63,7 @@ public class Contact {
     public String toString() {
         return "👤 Contact with ID " + id + ": \n" +
                 "Name: " + name + "\n" +
-                "Phone: " + phone +  "\n" +
+                "Phone: " + phoneNumber +  "\n" +
                 "e-mail: " + email + "\n";
     }
 }

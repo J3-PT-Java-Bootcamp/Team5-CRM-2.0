@@ -2,20 +2,48 @@ package com.ironhack.team5crm.domain;
 
 import com.ironhack.team5crm.domain.enums.Product;
 import com.ironhack.team5crm.domain.enums.Status;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "opportunities")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Opportunity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "decision_maker_id")
     private Contact decisionMaker;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
     private Status status;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "product")
     private Product product;
+
+    @Column(name = "quantity")
     private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     //* CONSTRUCTORS
     //**********************************************
-    public Opportunity() {
-    }
 
     public Opportunity(int id, Contact decisionMaker, Status status, Product product, int quantity) {
         this.id = id;
@@ -24,41 +52,6 @@ public class Opportunity {
         this.product = product;
         this.quantity = quantity;
     }
-
-
-    //* GETTERS AND SETTERS
-    //**********************************************
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public Contact getDecisionMaker() {
-        return decisionMaker;
-    }
-    public void setDecisionMaker(Contact decisionMaker) {
-        this.decisionMaker = decisionMaker;
-    }
-    public Status getStatus() {
-        return status;
-    }
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-    public Product getProduct() {
-        return product;
-    }
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-    public int getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
 
     //* Equals, hashcode and toString
     //**********************************************
@@ -80,7 +73,7 @@ public class Opportunity {
         return "📘 Opportunity with ID "+ id + ":\n" +
                 "-------------------------------:\n" +
                 "🗣 Decision Maker is " + decisionMaker.getName() +" (Contact ID: "+decisionMaker.getId() + ")\n" +
-                "📞: "+decisionMaker.getPhone()+ "  |  📧: " +decisionMaker.getEmail()+ "\n" +
+                "📞: "+decisionMaker.getPhoneNumber()+ "  |  📧: " +decisionMaker.getEmail()+ "\n" +
                 "PRODUCT: "+ product +" | QUANTITY: " + quantity + " | STATUS: " + status + "\n";
     }
 }

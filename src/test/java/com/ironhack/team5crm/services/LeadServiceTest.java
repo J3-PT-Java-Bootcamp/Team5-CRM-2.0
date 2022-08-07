@@ -81,7 +81,7 @@ class LeadServiceTest {
             assertNotNull(oppCreated);
             assertNotNull(oppCreated.getDecisionMaker());
             assertEquals(this.lead1.getName(), oppCreated.getDecisionMaker().getName());
-            assertEquals(this.lead1.getPhoneNumber(), oppCreated.getDecisionMaker().getPhone());
+            assertEquals(this.lead1.getPhoneNumber(), oppCreated.getDecisionMaker().getPhoneNumber());
             assertEquals(this.lead1.getEmail(), oppCreated.getDecisionMaker().getEmail());
             assertEquals(account.getContactList().get(0), oppCreated.getDecisionMaker());
             assertEquals(product, oppCreated.getProduct());

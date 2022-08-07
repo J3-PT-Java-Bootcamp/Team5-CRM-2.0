@@ -1,86 +1,55 @@
 package com.ironhack.team5crm.domain;
 
 import com.ironhack.team5crm.domain.enums.Industry;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "accounts")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private int id;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "industry")
     private Industry industry;
+
+    @Column(name = "employee_count")
     private int employeesCount;
+
+    @Column(name = "city")
     private String city;
+
+    @Column(name = "country")
     private String country;
+
+    @OneToMany(mappedBy = "account")
     private List<Contact> contactList;
+
+    @OneToMany(mappedBy = "account")
     private List<Opportunity> opportunityList;
 
     // * CONSTRUCTOR
     // **********************************************
-    public Account(int id, Industry industry, int employeesCount, String city, String country, List<Contact> contactList, List<Opportunity> opportunityList) {
-        this.id = id;
+    public Account(Industry industry, int employeesCount, String city, String country, List<Contact> contactList, List<Opportunity> opportunityList) {
         this.industry = industry;
         this.employeesCount = employeesCount;
         this.city = city;
         this.country = country;
         this.contactList = contactList;
-        this.opportunityList = opportunityList;
-    }
-
-    // * GETTERS AND SETTERS
-    // **********************************************
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Industry getIndustry() {
-        return industry;
-    }
-
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
-    }
-
-    public int getEmployeesCount() {
-        return employeesCount;
-    }
-
-    public void setEmployeesCount(int employeesCount) {
-        this.employeesCount = employeesCount;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public List<Contact> getContactList() {
-        return contactList;
-    }
-
-    public void setContactList(List<Contact> contactList) {
-        this.contactList = contactList;
-    }
-
-    public List<Opportunity> getOpportunityList() {
-        return opportunityList;
-    }
-
-    public void setOpportunityList(List<Opportunity> opportunityList) {
         this.opportunityList = opportunityList;
     }
 

@@ -66,17 +66,17 @@ class ContactTest {
         testContact = contacts.get(2);
         var aux = "555-111-999";
         Assertions.assertNotNull(testContact);
-        Assertions.assertEquals(aux, testContact.getPhone());
+        Assertions.assertEquals(aux, testContact.getPhoneNumber());
     }
 
     @Test
     @DisplayName("Setting Phone from contact ok")
     void setPhone() {
         testContact = contacts.get(1);
-        testContact.setPhone("1-777-99-0");
+        testContact.setPhoneNumber("1-777-99-0");
         var aux = "1-777-99-0";
         Assertions.assertNotNull(testContact);
-        Assertions.assertEquals(aux, testContact.getPhone());
+        Assertions.assertEquals(aux, testContact.getPhoneNumber());
     }
 
     @Test

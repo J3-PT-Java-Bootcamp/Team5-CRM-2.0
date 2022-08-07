@@ -10,11 +10,14 @@ import com.ironhack.team5crm.data.datasources.impl.JsonDatasource;
 import com.ironhack.team5crm.services.LeadService;
 import com.ironhack.team5crm.services.OpportunityService;
 import com.ironhack.team5crm.ui.Menu;
+import com.ironhack.team5crm.ui.exceptions.AbortedException;
+import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.awt.*;
+import java.io.IOException;
 
 @SpringBootApplication
 public class Team5CrmApplication {
@@ -28,40 +31,44 @@ public class Team5CrmApplication {
 
         // The Swing application must be placed on the Swing Event Queue
         // https://stackoverflow.com/a/43684747 -> needs more research to know why
-        EventQueue.invokeLater(() -> {
+//        EventQueue.invokeLater(() -> {
+//
+//            try {
+//                launchUI();
+//            } catch (Exception e) {
+//                System.out.println(e);
+//            }
+//
+//        });
 
-            try {
-                FlatLightLaf.setup();
+    }
 
-                // Setup datasources
+    private static void launchUI() throws IOException, WrongInputException, AbortedException {
+        FlatLightLaf.setup();
 
-                // Uncomment this next line to use json instead of memory
-                // Datasource datasource = InMemoryDatasource.getInstance();
+        // Setup datasources
 
-                Datasource datasource = JsonDatasource.getInstance();
+        // Uncomment this next line to use json instead of memory
+        // Datasource datasource = InMemoryDatasource.getInstance();
 
-                // Setup repositories
-                OpportunityRepository opportunityRepository = OpportunityRepository.getInstance(datasource);
-                AccountRepository accountRepository = AccountRepository.getInstance(datasource);
-                LeadRepository leadRepository = LeadRepository.getInstance(datasource);
+        Datasource datasource = JsonDatasource.getInstance();
 
-                // Setup services
-                OpportunityService opportunityService = OpportunityService.getInstance(opportunityRepository);
-                ContactRepository contactRepository = ContactRepository.getInstance(datasource);
-                LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository,
-                        opportunityRepository);
+        // Setup repositories
+        OpportunityRepository opportunityRepository = OpportunityRepository.getInstance(datasource);
+        AccountRepository accountRepository = AccountRepository.getInstance(datasource);
+        LeadRepository leadRepository = LeadRepository.getInstance(datasource);
 
-                // Setup UI
-                Menu menu = new Menu(leadService, opportunityService);
+        // Setup services
+        OpportunityService opportunityService = OpportunityService.getInstance(opportunityRepository);
+        ContactRepository contactRepository = ContactRepository.getInstance(datasource);
+        LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository,
+                opportunityRepository);
 
-                // Start UI
-                menu.main();
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+        // Setup UI
+        Menu menu = new Menu(leadService, opportunityService);
 
-        });
-
+        // Start UI
+        menu.main();
     }
 
 }
