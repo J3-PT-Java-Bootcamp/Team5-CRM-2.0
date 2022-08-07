@@ -19,7 +19,7 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -42,6 +42,13 @@ public class Contact {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+
+    public Contact(String name, String phoneNumber, String email, Account account) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.account = account;
     }
 
 

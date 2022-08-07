@@ -21,7 +21,7 @@ public class Opportunity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "decision_maker_id")
@@ -51,6 +51,13 @@ public class Opportunity {
         this.status = status;
         this.product = product;
         this.quantity = quantity;
+    }
+
+    public Opportunity(Status status, Product product, int quantity, Contact decisionMaker, Account account) {
+        this.status = status;
+        this.product = product;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
     }
 
     //* Equals, hashcode and toString

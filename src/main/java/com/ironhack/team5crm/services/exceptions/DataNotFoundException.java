@@ -1,6 +1,8 @@
-package com.ironhack.team5crm.data.exceptions;
+package com.ironhack.team5crm.services.exceptions;
 
-public class DataNotFoundException extends DataException{
+import com.ironhack.team5crm.data.exceptions.DataException;
+
+public class DataNotFoundException extends DataException {
 
     public DataNotFoundException() {}
 

@@ -1,24 +1,10 @@
 package com.ironhack.team5crm.data;
 
 import com.ironhack.team5crm.data.datasources.Datasource;
+import com.ironhack.team5crm.domain.Contact;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public class ContactRepository {
-
-    private static ContactRepository instance;
-    private final Datasource datasource;
-
-    private ContactRepository(Datasource datasource) {
-        this.datasource = datasource;
-    }
-
-    public static ContactRepository getInstance(Datasource datasource) {
-        if (instance == null) {
-            instance = new ContactRepository(datasource);
-        }
-        return instance;
-    }
-
-    public int getMaxContactId() {
-        return datasource.getMaxContactId();
-    }
+@Repository
+public interface ContactRepository extends JpaRepository<Contact, Integer> {
 }
