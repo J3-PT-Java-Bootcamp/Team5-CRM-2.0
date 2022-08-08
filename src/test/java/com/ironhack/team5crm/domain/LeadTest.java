@@ -1,28 +1,48 @@
 package com.ironhack.team5crm.domain;
 
+import com.ironhack.team5crm.models.SalesRep;
+import com.ironhack.team5crm.repositories.LeadRepository;
+import com.ironhack.team5crm.repositories.SalesRepRepository;
 import org.junit.jupiter.api.*;
 
 import com.ironhack.team5crm.models.Lead;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+@SpringBootTest
 class LeadTest {
 
     private List<Lead> leads;
+
+    private SalesRep salesRep;
     private Lead lead;
+
+    @Autowired
+    private LeadRepository leadRepository;
+
+    @Autowired
+    private SalesRepRepository salesRepRepository;
 
     @DisplayName("Adding instances of Leads ")
     @BeforeEach
     void setUp() {
+        salesRep = new SalesRep("John Doe");
+        salesRepRepository.save(salesRep);
         leads = List.of(
-                new Lead(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com",
-                        "The world like representation"),
-                new Lead(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", "The box man"),
-                new Lead(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com", "Coffes and tvs"));
+                new Lead( "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com", "The world like representation", salesRep),
+                new Lead( "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", "The box man", salesRep),
+                new Lead( "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com", "Coffes and tvs", salesRep));
+
+        leadRepository.saveAll(leads);
+
     }
 
     @AfterEach
     void tearDown() {
+        leadRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test
@@ -30,8 +50,7 @@ class LeadTest {
     void getId() {
         lead = leads.get(0);
         Assertions.assertNotNull(lead);
-        var idTest = 1;
-        Assertions.assertEquals(idTest, lead.getId());
+        Assertions.assertNotNull(lead.getId());
     }
 
     @Test

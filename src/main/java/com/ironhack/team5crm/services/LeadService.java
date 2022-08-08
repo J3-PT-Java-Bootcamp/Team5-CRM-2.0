@@ -1,9 +1,6 @@
 package com.ironhack.team5crm.services;
 
-import com.ironhack.team5crm.models.Account;
-import com.ironhack.team5crm.models.Contact;
-import com.ironhack.team5crm.models.Lead;
-import com.ironhack.team5crm.models.Opportunity;
+import com.ironhack.team5crm.models.*;
 import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
@@ -34,8 +31,8 @@ public class LeadService {
     @Autowired
     OpportunityRepository opportunityRepository;
 
-    public Lead newLead(String name, String phone, String email, String company) {
-        Lead newLead = new Lead(name, phone, email, company);
+    public Lead newLead(String name, String phone, String email, String company, SalesRep assignedSalesRep) {
+        Lead newLead = new Lead(name, phone, email, company, assignedSalesRep);
 
         return leadRepository.save(newLead);
     }
@@ -56,7 +53,7 @@ public class LeadService {
             contactToSave = contactRepository.save(contactToSave);
             var contactList = List.of(contactToSave);
             var oppToSave = new Opportunity(
-                    Status.OPEN, product, productQuantity, contactToSave, null);
+                    Status.OPEN, product, productQuantity, contactToSave, null, leadFound.getSalesRep());
             oppToSave = opportunityRepository.save(oppToSave);
             var opportunityList = List.of(oppToSave);
             var accountToSave = new Account(industry, employees, city, country, contactList, opportunityList);

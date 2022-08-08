@@ -1,13 +1,10 @@
 package com.ironhack.team5crm.domain;
 
+import com.ironhack.team5crm.models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.ironhack.team5crm.models.Account;
-import com.ironhack.team5crm.models.Contact;
-import com.ironhack.team5crm.models.Lead;
-import com.ironhack.team5crm.models.Opportunity;
 import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
@@ -19,6 +16,7 @@ import java.util.List;
  */
 class DomainToStringTests {
 
+    SalesRep testSalesRep;
     Lead testLead;
     List<Contact> testContacts;
     List<Opportunity> testOpportunities;
@@ -30,17 +28,19 @@ class DomainToStringTests {
     @DisplayName("Starting the object for the test")
     void setUp() {
 
-        testLead = new Lead(10, "John Anyone", "555 55 55", "john@email.com", "Hello World Comp.");
+        testSalesRep = new SalesRep("John Doe");
+
+        testLead = new Lead("John Anyone", "555 55 55", "john@email.com", "Hello World Comp.", testSalesRep);
 
         testContacts = List.of(
-                new Contact(12, "Eva Mendez", "555 44 44", "eva@comp.com"),
-                new Contact(13, "Pedro El Escamoso", "555 44 48", "pedro@comp.com"),
-                new Contact(14, "Johny Johnzales", "555 32 60", "johny@comp.com"));
+                new Contact( "Eva Mendez", "555 44 44", "eva@comp.com", null),
+                new Contact( "Pedro El Escamoso", "555 44 48", "pedro@comp.com", null),
+                new Contact( "Johny Johnzales", "555 32 60", "johny@comp.com", null));
 
         testOpportunities = List.of(
-                new Opportunity(20, testContacts.get(0), Status.OPEN, Product.HYBRID, 20),
-                new Opportunity(21, testContacts.get(1), Status.OPEN, Product.HYBRID, 20),
-                new Opportunity(22, testContacts.get(2), Status.OPEN, Product.HYBRID, 20));
+                new Opportunity(20, testContacts.get(0), Status.OPEN, Product.HYBRID, 20, null, testSalesRep),
+                new Opportunity(21, testContacts.get(1), Status.OPEN, Product.HYBRID, 20, null, testSalesRep),
+                new Opportunity(22, testContacts.get(2), Status.OPEN, Product.HYBRID, 20, null, testSalesRep));
 
         testAccount = new Account(100, Industry.ECOMMERCE, 250, "Barcelona", "Spain", testContacts, testOpportunities);
     }

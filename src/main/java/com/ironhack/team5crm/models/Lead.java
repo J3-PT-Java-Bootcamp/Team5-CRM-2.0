@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Lead {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -33,14 +33,19 @@ public class Lead {
     @Column(name = "company_name")
     private String companyName;
 
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_id")
+    private SalesRep salesRep;
+
     // * CONSTRUCTORS
     // **********************************************
 
-    public Lead(String name, String phoneNumber, String email, String companyName) {
+    public Lead(String name, String phoneNumber, String email, String companyName, SalesRep salesRep) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.companyName = companyName;
+        this.salesRep = salesRep;
     }
 
     // * Equals, hashcode and toString
@@ -66,6 +71,7 @@ public class Lead {
                 "Name: " + name + " | " +
                 "Phone Number: " + phoneNumber + " | " +
                 "e-mail: " + email + " | " +
-                "Company Name: " + companyName + "\n";
+                "Company Name: " + companyName + "\n" +
+                "Sales Rep: " + salesRep.getName() + "\n";
     }
 }

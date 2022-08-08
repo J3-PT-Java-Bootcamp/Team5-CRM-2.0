@@ -1,15 +1,13 @@
 package com.ironhack.team5crm.services;
 
+import com.ironhack.team5crm.models.SalesRep;
+import com.ironhack.team5crm.repositories.*;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.models.Lead;
 import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.models.exceptions.Team5CrmException;
-import com.ironhack.team5crm.repositories.AccountRepository;
-import com.ironhack.team5crm.repositories.ContactRepository;
-import com.ironhack.team5crm.repositories.LeadRepository;
-import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,8 +31,12 @@ class LeadServiceTest {
     AccountRepository accountRepo;
 
     @Autowired
+    SalesRepRepository salesRepRepository;
+
+    @Autowired
     LeadService leadService;
 
+    SalesRep salesRep;
     Lead lead1;
     Lead lead2;
 
@@ -52,9 +54,11 @@ class LeadServiceTest {
 
     @Test
     void test_newLead() {
-        var lead = new Lead("test", "666666666", "test@gmail.com", "company");
+        var salesRep = new SalesRep("test");
+        salesRep = salesRepRepository.save(salesRep);
+        var lead = new Lead("test", "666666666", "test@gmail.com", "company", salesRep);
         var leadCreated = leadService.newLead(lead.getName(), lead.getPhoneNumber(), lead.getEmail(),
-                lead.getCompanyName());
+                lead.getCompanyName(), salesRep);
         assertEquals(lead.getName(), leadCreated.getName());
         assertEquals(lead.getPhoneNumber(), leadCreated.getPhoneNumber());
         assertEquals(lead.getEmail(), leadCreated.getEmail());
@@ -145,7 +149,9 @@ class LeadServiceTest {
     }
 
     private void addLeadsToDatasource() {
-        lead1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1");
-        lead2 = leadService.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2");
+        var salesRep = new SalesRep("test");
+        salesRep = salesRepRepository.save(salesRep);
+        lead1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1", salesRep);
+        lead2 = leadService.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2", salesRep);
     }
 }

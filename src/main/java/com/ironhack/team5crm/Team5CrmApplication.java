@@ -1,5 +1,6 @@
 package com.ironhack.team5crm;
 
+import com.ironhack.team5crm.ui.Login;
 import com.ironhack.team5crm.ui.Menu;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -22,7 +23,7 @@ public class Team5CrmApplication {
         EventQueue.invokeLater(() -> {
 
             try {
-                var ex = ctx.getBean(Menu.class);
+                var ex = ctx.getBean(Login.class);
                 ex.main();
             } catch (Exception e) {
                 System.out.println(e);
