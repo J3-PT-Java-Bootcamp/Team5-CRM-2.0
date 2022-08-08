@@ -28,11 +28,14 @@ public class LeadRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        leadRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
         leadRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test

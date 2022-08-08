@@ -24,6 +24,7 @@ public class AccountRepositoryTest {
 
   @AfterEach
   void tearDown() {
+    accountRepository.deleteAll();
   }
 
   @Test

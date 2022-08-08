@@ -16,6 +16,8 @@ public class ContactRepositoryTest {
 
   @BeforeEach
   void setUp() {
+    contactRepository.deleteAll();
+    accountRepository.deleteAll();
   }
 
   @AfterEach

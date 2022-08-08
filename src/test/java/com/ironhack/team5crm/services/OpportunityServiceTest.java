@@ -35,10 +35,13 @@ class OpportunityServiceTest {
     @BeforeEach
     void setUp() {
         opportunityRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
+        opportunityRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test

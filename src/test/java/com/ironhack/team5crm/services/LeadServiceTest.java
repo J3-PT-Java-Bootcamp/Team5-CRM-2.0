@@ -46,10 +46,16 @@ class LeadServiceTest {
         opportunityRepository.deleteAll();
         contactRepository.deleteAll();
         accountRepo.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
+        leadRepo.deleteAll();
+        opportunityRepository.deleteAll();
+        contactRepository.deleteAll();
+        accountRepo.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test
