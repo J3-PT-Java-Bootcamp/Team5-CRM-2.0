@@ -1,13 +1,15 @@
-package com.ironhack.team5crm.domain;
+package com.ironhack.team5crm.models;
 
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
+
 import java.util.Objects;
 
 @Entity
@@ -42,8 +44,8 @@ public class Opportunity {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    //* CONSTRUCTORS
-    //**********************************************
+    // * CONSTRUCTORS
+    // **********************************************
 
     public Opportunity(int id, Contact decisionMaker, Status status, Product product, int quantity) {
         this.id = id;
@@ -60,12 +62,14 @@ public class Opportunity {
         this.decisionMaker = decisionMaker;
     }
 
-    //* Equals, hashcode and toString
-    //**********************************************
+    // * Equals, hashcode and toString
+    // **********************************************
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Opportunity that = (Opportunity) o;
         return id == that.id;
     }
@@ -76,11 +80,11 @@ public class Opportunity {
     }
 
     @Override
-    public String toString(){
-        return "📘 Opportunity with ID "+ id + ":\n" +
+    public String toString() {
+        return "📘 Opportunity with ID " + id + ":\n" +
                 "-------------------------------:\n" +
-                "🗣 Decision Maker is " + decisionMaker.getName() +" (Contact ID: "+decisionMaker.getId() + ")\n" +
-                "📞: "+decisionMaker.getPhoneNumber()+ "  |  📧: " +decisionMaker.getEmail()+ "\n" +
-                "PRODUCT: "+ product +" | QUANTITY: " + quantity + " | STATUS: " + status + "\n";
+                "🗣 Decision Maker is " + decisionMaker.getName() + " (Contact ID: " + decisionMaker.getId() + ")\n" +
+                "📞: " + decisionMaker.getPhoneNumber() + "  |  📧: " + decisionMaker.getEmail() + "\n" +
+                "PRODUCT: " + product + " | QUANTITY: " + quantity + " | STATUS: " + status + "\n";
     }
 }

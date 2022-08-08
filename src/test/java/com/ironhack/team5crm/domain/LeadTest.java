@@ -2,6 +2,8 @@ package com.ironhack.team5crm.domain;
 
 import org.junit.jupiter.api.*;
 
+import com.ironhack.team5crm.models.Lead;
+
 import java.util.List;
 
 class LeadTest {

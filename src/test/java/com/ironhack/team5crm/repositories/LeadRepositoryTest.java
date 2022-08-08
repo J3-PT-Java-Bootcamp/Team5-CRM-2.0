@@ -1,13 +1,12 @@
 package com.ironhack.team5crm.repositories;
 
-import com.ironhack.team5crm.data.LeadRepository;
-import com.ironhack.team5crm.domain.Lead;
-import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.ironhack.team5crm.models.Lead;
 
 import static org.junit.jupiter.api.Assertions.*;
 

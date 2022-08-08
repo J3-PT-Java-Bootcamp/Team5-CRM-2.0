@@ -1,8 +1,11 @@
 package com.ironhack.team5crm.domain;
 
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
 import org.junit.jupiter.api.*;
+
+import com.ironhack.team5crm.models.Contact;
+import com.ironhack.team5crm.models.Opportunity;
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
 
 import java.util.List;
 

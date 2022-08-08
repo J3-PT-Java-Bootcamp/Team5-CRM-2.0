@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.domain;
+package com.ironhack.team5crm.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,9 +33,8 @@ public class Lead {
     @Column(name = "company_name")
     private String companyName;
 
-
-    //* CONSTRUCTORS
-    //**********************************************
+    // * CONSTRUCTORS
+    // **********************************************
 
     public Lead(String name, String phoneNumber, String email, String companyName) {
         this.name = name;
@@ -44,13 +43,14 @@ public class Lead {
         this.companyName = companyName;
     }
 
-
-    //* Equals, hashcode and toString
-    //**********************************************
+    // * Equals, hashcode and toString
+    // **********************************************
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Lead lead = (Lead) o;
         return id == lead.id;
     }
@@ -62,7 +62,7 @@ public class Lead {
 
     @Override
     public String toString() {
-        return "🔹 Lead with ID "+ id + ": \n" +
+        return "🔹 Lead with ID " + id + ": \n" +
                 "Name: " + name + " | " +
                 "Phone Number: " + phoneNumber + " | " +
                 "e-mail: " + email + " | " +

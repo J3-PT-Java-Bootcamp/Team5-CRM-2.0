@@ -1,8 +1,8 @@
 package com.ironhack.team5crm.services;
 
-import com.ironhack.team5crm.data.OpportunityRepository;
-import com.ironhack.team5crm.domain.Opportunity;
-import com.ironhack.team5crm.domain.enums.Status;
+import com.ironhack.team5crm.models.Opportunity;
+import com.ironhack.team5crm.models.enums.Status;
+import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,12 @@ public class OpportunityService {
     @Autowired
     private OpportunityRepository opportunityRepository;
 
-    //* METHODS
-    //**********************************************
+    // * METHODS
+    // **********************************************
 
     /**
-     * shows all Opportunities stored in the database or gives information if there are no Opportunities in the Database
+     * shows all Opportunities stored in the database or gives information if there
+     * are no Opportunities in the Database
      */
     public List<Opportunity> getAllOpportunities() throws EmptyException {
         var opportunities = opportunityRepository.findAll();
@@ -32,7 +33,8 @@ public class OpportunityService {
     }
 
     /**
-     * shows requested opportunity by ID or gives information if the Opportunity doesn't exist in the Database
+     * shows requested opportunity by ID or gives information if the Opportunity
+     * doesn't exist in the Database
      */
     public Opportunity lookUpOpportunity(int id) throws DataNotFoundException, EmptyException {
         if (opportunityRepository.findAll().size() == 0) {
@@ -47,8 +49,8 @@ public class OpportunityService {
         }
     }
 
-    //* METHODS TO CHANGE THE OPPORTUNITIES STATUS
-    //**********************************************
+    // * METHODS TO CHANGE THE OPPORTUNITIES STATUS
+    // **********************************************
 
     public Opportunity updateOpportunityStatus(int id, Status status) throws DataNotFoundException {
         var oppToBeFound = opportunityRepository.findById(id);

@@ -1,16 +1,16 @@
 package com.ironhack.team5crm.services;
 
-import com.ironhack.team5crm.data.AccountRepository;
-import com.ironhack.team5crm.data.ContactRepository;
-import com.ironhack.team5crm.data.LeadRepository;
-import com.ironhack.team5crm.data.OpportunityRepository;
-import com.ironhack.team5crm.domain.Account;
-import com.ironhack.team5crm.domain.Contact;
-import com.ironhack.team5crm.domain.Lead;
-import com.ironhack.team5crm.domain.Opportunity;
-import com.ironhack.team5crm.domain.enums.Industry;
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
+import com.ironhack.team5crm.models.Account;
+import com.ironhack.team5crm.models.Contact;
+import com.ironhack.team5crm.models.Lead;
+import com.ironhack.team5crm.models.Opportunity;
+import com.ironhack.team5crm.models.enums.Industry;
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
+import com.ironhack.team5crm.repositories.AccountRepository;
+import com.ironhack.team5crm.repositories.ContactRepository;
+import com.ironhack.team5crm.repositories.LeadRepository;
+import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import lombok.NoArgsConstructor;
@@ -47,7 +47,7 @@ public class LeadService {
      * @param leadId
      */
     public Account convert(int leadId, Product product, int productQuantity, Industry industry, int employees,
-                           String city, String country) throws DataNotFoundException {
+            String city, String country) throws DataNotFoundException {
         var lead = leadRepository.findById(leadId);
         if (lead.isPresent()) {
             var leadFound = lead.get();
@@ -62,7 +62,8 @@ public class LeadService {
             var accountToSave = new Account(industry, employees, city, country, contactList, opportunityList);
             var accountCreated = accountRepository.save(accountToSave);
 
-            // TODO: this should not be needed to set ids on these entities, it should be done when saving the account with the lists inside it
+            // TODO: this should not be needed to set ids on these entities, it should be
+            // done when saving the account with the lists inside it
             contactToSave.setAccount(accountCreated);
             oppToSave.setAccount(accountCreated);
             accountCreated = accountRepository.save(accountCreated);

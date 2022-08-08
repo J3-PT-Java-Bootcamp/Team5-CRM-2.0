@@ -2,10 +2,10 @@ package com.ironhack.team5crm.ui;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
-import com.ironhack.team5crm.domain.Lead;
-import com.ironhack.team5crm.domain.enums.Industry;
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
+import com.ironhack.team5crm.models.Lead;
+import com.ironhack.team5crm.models.enums.Industry;
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.services.LeadService;
 import com.ironhack.team5crm.services.OpportunityService;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
@@ -25,10 +25,10 @@ import java.util.List;
 public class Menu implements ConsoleOperations {
 
     @Autowired
-    private  LeadService leadService;
+    private LeadService leadService;
 
     @Autowired
-    private  OpportunityService opportunityService;
+    private OpportunityService opportunityService;
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
     public void main() throws WrongInputException, AbortedException {
@@ -39,8 +39,8 @@ public class Menu implements ConsoleOperations {
 
         do {
             var mainMenu = """
-                    🤖💬 Welcome to    
-                    <html>  <h1> <b> Team 5 CRM </b> </h1> 
+                    🤖💬 Welcome to
+                    <html>  <h1> <b> Team 5 CRM </b> </h1>
 
                     Available Operations:
                     =====================
@@ -97,8 +97,7 @@ public class Menu implements ConsoleOperations {
                 JOptionPane.showMessageDialog(null, "Data not found", "Not Found", 2);
             } catch (AbortedException a) {
                 JOptionPane.showMessageDialog(null, "Convert aborted", "Aborted", 2);
-        }
-
+            }
 
         } while (!input.equals("exit"));
     }
@@ -220,8 +219,8 @@ public class Menu implements ConsoleOperations {
     private void showLeads() {
         try {
             StringBuffer output = new StringBuffer();
-            output.append("Following Leads where found in the database: \n" );
-            output.append("************************************************\n\n" );
+            output.append("Following Leads where found in the database: \n");
+            output.append("************************************************\n\n");
 
             var leads = leadService.getAllLeads();
             for (var lead : leads) {
@@ -230,12 +229,12 @@ public class Menu implements ConsoleOperations {
             JTextArea textArea = new JTextArea(String.valueOf(output));
 
             JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize( new Dimension( 500, 500 ) );
+            scrollPane.setPreferredSize(new Dimension(500, 500));
 
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
 
-            JOptionPane.showMessageDialog(null, scrollPane, "Leads in Database", 1,teamIcon);
+            JOptionPane.showMessageDialog(null, scrollPane, "Leads in Database", 1, teamIcon);
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No Leads in Database!", "Not Found", 2);
         }
@@ -244,8 +243,8 @@ public class Menu implements ConsoleOperations {
     private void showOpportunities() {
         try {
             StringBuffer output = new StringBuffer();
-            output.append("Following Opportunities where found in the database: \n" );
-            output.append("************************************************\n\n" );
+            output.append("Following Opportunities where found in the database: \n");
+            output.append("************************************************\n\n");
 
             var opps = opportunityService.getAllOpportunities();
             for (var opp : opps) {
@@ -254,12 +253,12 @@ public class Menu implements ConsoleOperations {
             JTextArea textArea = new JTextArea(String.valueOf(output));
 
             JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize( new Dimension( 500, 500 ) );
+            scrollPane.setPreferredSize(new Dimension(500, 500));
 
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
 
-            JOptionPane.showMessageDialog(null, scrollPane, "Opportunities in Database", 1,teamIcon);
+            JOptionPane.showMessageDialog(null, scrollPane, "Opportunities in Database", 1, teamIcon);
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No Opportunities in the Database!", "Not Found", 2);
         }
@@ -304,7 +303,7 @@ public class Menu implements ConsoleOperations {
                 List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
                 Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
                         (String) values.get(3));
-                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead,"Lead Added", 1);
+                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead, "Lead Added", 1);
             }
             default -> throw new WrongInputException();
         }
