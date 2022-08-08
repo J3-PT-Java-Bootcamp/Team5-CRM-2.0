@@ -1,13 +1,12 @@
 package com.ironhack.team5crm.domain;
 
-import org.junit.jupiter.api.*;
-
 import com.ironhack.team5crm.models.Account;
 import com.ironhack.team5crm.models.Contact;
 import com.ironhack.team5crm.models.Opportunity;
 import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -21,14 +20,14 @@ public class AccountTest {
     void setUp() {
 
         contacts = List.of(
-                new Contact(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com"),
-                new Contact(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com"),
-                new Contact(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com"));
+                new Contact( "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com", null),
+                new Contact( "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", null),
+                new Contact( "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com", null));
 
         List<Opportunity> opportunities = List.of(
-                new Opportunity(1, contacts.get(0), Status.OPEN, Product.HYBRID, 5),
-                new Opportunity(2, contacts.get(1), Status.CLOSED_LOST, Product.FLATBED, 9),
-                new Opportunity(3, contacts.get(2), Status.CLOSED_WON, Product.BOX, 15));
+                new Opportunity(Status.OPEN, Product.HYBRID, 5, contacts.get(0), null, null),
+                new Opportunity(Status.CLOSED_LOST, Product.FLATBED, 9, contacts.get(1), null, null),
+                new Opportunity(Status.CLOSED_WON, Product.BOX, 15, contacts.get(2), null, null));
 
         account = List.of(
                 new Account(1, Industry.ECOMMERCE, 741, "Barcelona", "Spain", contacts, opportunities),
@@ -164,11 +163,11 @@ public class AccountTest {
     @DisplayName("Setting the values in Quantity")
     void setOpportunityList() {
         var testing = List.of(
-                new Opportunity(8, contacts.get(0), Status.OPEN, Product.HYBRID, 5),
-                new Opportunity(99, contacts.get(1), Status.CLOSED_WON, Product.HYBRID, 9999));
+                new Opportunity( Status.OPEN, Product.HYBRID, 5, contacts.get(0), null, null),
+                new Opportunity( Status.CLOSED_WON, Product.HYBRID, 9999, contacts.get(1), null, null));
         account.get(0).setOpportunityList(testing);
 
-        Assertions.assertEquals(99, account.get(0).getOpportunityList().get(1).getId());
+        Assertions.assertEquals(9999, account.get(0).getOpportunityList().get(1).getQuantity());
     }
 
 }

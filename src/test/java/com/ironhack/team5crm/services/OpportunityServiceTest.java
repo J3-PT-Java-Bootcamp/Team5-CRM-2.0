@@ -1,10 +1,12 @@
 package com.ironhack.team5crm.services;
 
 import com.ironhack.team5crm.models.Opportunity;
+import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.models.exceptions.Team5CrmException;
 import com.ironhack.team5crm.repositories.OpportunityRepository;
+import com.ironhack.team5crm.repositories.SalesRepRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import org.junit.jupiter.api.AfterEach;
@@ -22,6 +24,9 @@ class OpportunityServiceTest {
     OpportunityRepository opportunityRepository;
 
     @Autowired
+    SalesRepRepository salesRepRepository;
+
+    @Autowired
     OpportunityService opportunityService;
 
     Opportunity opp1;
@@ -30,10 +35,13 @@ class OpportunityServiceTest {
     @BeforeEach
     void setUp() {
         opportunityRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
+        opportunityRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test
@@ -99,17 +107,21 @@ class OpportunityServiceTest {
     }
 
     private void addOpportunitiesToDatasource() {
+
+        var salesRep = new SalesRep("John Doe");
+        salesRepRepository.save(salesRep);
+
         var product = Product.HYBRID;
         var prodQty = 5;
 
-        opp1 = new Opportunity(Status.OPEN, product, prodQty, null, null);
+        opp1 = new Opportunity(Status.OPEN, product, prodQty, null, null, salesRep);
 
         opportunityRepository.save(opp1);
 
         product = Product.BOX;
         prodQty = 7;
 
-        opp2 = new Opportunity(Status.OPEN, product, prodQty, null, null);
+        opp2 = new Opportunity(Status.OPEN, product, prodQty, null, null, salesRep);
 
         opportunityRepository.save(opp2);
     }

@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -36,12 +36,6 @@ public class Contact {
 
     // * CONSTRUCTOR
     // **********************************************
-    public Contact(int id, String name, String phoneNumber, String email) {
-        this.id = id;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
 
     public Contact(String name, String phoneNumber, String email, Account account) {
         this.name = name;

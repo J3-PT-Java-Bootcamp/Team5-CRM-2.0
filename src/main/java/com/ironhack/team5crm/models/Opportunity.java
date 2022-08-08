@@ -21,7 +21,7 @@ import java.util.Objects;
 public class Opportunity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -44,22 +44,19 @@ public class Opportunity {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_id")
+    private SalesRep salesRep;
+
     // * CONSTRUCTORS
     // **********************************************
 
-    public Opportunity(int id, Contact decisionMaker, Status status, Product product, int quantity) {
-        this.id = id;
-        this.decisionMaker = decisionMaker;
-        this.status = status;
-        this.product = product;
-        this.quantity = quantity;
-    }
-
-    public Opportunity(Status status, Product product, int quantity, Contact decisionMaker, Account account) {
+    public Opportunity(Status status, Product product, int quantity, Contact decisionMaker, Account account, SalesRep salesRep) {
         this.status = status;
         this.product = product;
         this.quantity = quantity;
         this.decisionMaker = decisionMaker;
+        this.salesRep = salesRep;
     }
 
     // * Equals, hashcode and toString
@@ -85,6 +82,7 @@ public class Opportunity {
                 "-------------------------------:\n" +
                 "🗣 Decision Maker is " + decisionMaker.getName() + " (Contact ID: " + decisionMaker.getId() + ")\n" +
                 "📞: " + decisionMaker.getPhoneNumber() + "  |  📧: " + decisionMaker.getEmail() + "\n" +
-                "PRODUCT: " + product + " | QUANTITY: " + quantity + " | STATUS: " + status + "\n";
+                "PRODUCT: " + product + " | QUANTITY: " + quantity + " | STATUS: " + status + "\n" +
+                "Sales Rep: " + salesRep.getName() + "\n";
     }
 }

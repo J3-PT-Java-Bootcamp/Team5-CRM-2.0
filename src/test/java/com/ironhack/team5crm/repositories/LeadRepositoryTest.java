@@ -1,14 +1,15 @@
 package com.ironhack.team5crm.repositories;
 
+import com.ironhack.team5crm.models.Lead;
+import com.ironhack.team5crm.models.SalesRep;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.ironhack.team5crm.models.Lead;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class LeadRepositoryTest {
@@ -16,6 +17,10 @@ public class LeadRepositoryTest {
     @Autowired
     LeadRepository leadRepository;
 
+    @Autowired
+    SalesRepRepository salesRepRepository;
+
+    SalesRep salesRep;
     Lead lead1;
     Lead lead2;
     Lead lead1Saved;
@@ -23,11 +28,14 @@ public class LeadRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        leadRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
         leadRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test
@@ -45,7 +53,7 @@ public class LeadRepositoryTest {
 
     @Test
     void test_saveLead() {
-        var lead = new Lead("lead 1", "111111111", "lead1@gmail.com", "company 1");
+        var lead = new Lead("lead 1", "111111111", "lead1@gmail.com", "company 1", salesRep);
         var leadSaved = leadRepository.save(lead);
         assertEquals(lead.getId(), leadSaved.getId());
         assertEquals(lead.getName(), leadSaved.getName());
@@ -90,9 +98,11 @@ public class LeadRepositoryTest {
     }
 
     private void addLeadsToDatasource() {
-        lead1 = new Lead("lead 1", "111111111", "lead1@gmail.com", "company 1");
+        salesRep = new SalesRep("John Doe");
+        salesRepRepository.save(salesRep);
+                lead1 = new Lead("lead 1", "111111111", "lead1@gmail.com", "company 1", salesRep);
         lead1Saved = leadRepository.save(lead1);
-        lead2 = new Lead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2");
+        lead2 = new Lead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2", salesRep);
         lead2Saved = leadRepository.save(lead2);
     }
 

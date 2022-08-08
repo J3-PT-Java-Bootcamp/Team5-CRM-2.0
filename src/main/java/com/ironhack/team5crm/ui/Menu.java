@@ -1,6 +1,8 @@
 package com.ironhack.team5crm.ui;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.ironhack.team5crm.models.SalesRep;
+import com.ironhack.team5crm.services.SalesRepService;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.models.Lead;
 import com.ironhack.team5crm.models.enums.Industry;
@@ -29,9 +31,17 @@ public class Menu implements ConsoleOperations {
 
     @Autowired
     private OpportunityService opportunityService;
+
+    @Autowired
+    private SalesRepService salesRepService;
+
+    private SalesRep salesRepLoggedIn;
+
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
-    public void main() throws WrongInputException, AbortedException {
+    public void main(SalesRep salesRep) throws WrongInputException, AbortedException {
+
+        salesRepLoggedIn = salesRep;
 
         FlatLightLaf.setup();
 
@@ -39,7 +49,7 @@ public class Menu implements ConsoleOperations {
 
         do {
             var mainMenu = """
-                    🤖💬 Welcome to
+                    🤖💬 Welcome %s to
                     <html>  <h1> <b> Team 5 CRM </b> </h1>
 
                     Available Operations:
@@ -62,6 +72,14 @@ public class Menu implements ConsoleOperations {
                     <html> <b> [ close-lost id ] </b> -> sets the opportunity status to CLOSE / LOST
 
                     <html> <b> [ close-won id ] </b> -> sets the opportunity status to CLOSE / WON
+                    
+                    ====================
+                    
+                    ADMIN SECTION
+                    
+                    <html> <b> [ new sales-rep ] </b> -> creates a new sales rep
+                    
+                    ====================
 
                     <html> <b> [ exit ] </b>  - to Exit CRM
                     ====================
@@ -71,7 +89,7 @@ public class Menu implements ConsoleOperations {
                     ====================
 
                     Write your COMMAND:
-                    """;
+                    """.formatted(salesRepLoggedIn.getName());
             input = (String) JOptionPane.showInputDialog(null, mainMenu, "Team 5 - CRM", 3, teamIcon, null, null);
 
             var inputSplit = input.toLowerCase().split(" ");
@@ -302,11 +320,20 @@ public class Menu implements ConsoleOperations {
             case ConsoleOperationEntities.LEAD -> {
                 List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
                 Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
-                        (String) values.get(3));
-                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead, "Lead Added", 1);
+                        (String) values.get(3), salesRepLoggedIn);
+                JOptionPane.showMessageDialog(null, "Lead successfully added: \n" + lead, "Lead Added", 1);
+            }
+            case ConsoleOperationEntities.SALES_REP -> {
+                newSalesRep();
             }
             default -> throw new WrongInputException();
         }
+    }
+
+    public void newSalesRep() throws WrongInputException {
+        List<Object> values = getValues("Name :");
+        SalesRep salesRep = salesRepService.newSalesRep((String) values.get(0));
+        JOptionPane.showMessageDialog(null, "SalesRep successfully created: \n" + salesRep, "SalesRep Added", 1);
     }
 
     // OTHER MENUS METHODS
