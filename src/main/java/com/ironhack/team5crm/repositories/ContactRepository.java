@@ -1,9 +1,9 @@
-package com.ironhack.team5crm.data;
+package com.ironhack.team5crm.repositories;
 
-import com.ironhack.team5crm.data.datasources.Datasource;
-import com.ironhack.team5crm.domain.Contact;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.ironhack.team5crm.models.Contact;
 
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Integer> {

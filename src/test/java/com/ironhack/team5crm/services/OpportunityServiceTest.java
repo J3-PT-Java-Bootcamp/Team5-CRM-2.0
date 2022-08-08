@@ -1,10 +1,10 @@
 package com.ironhack.team5crm.services;
 
-import com.ironhack.team5crm.data.OpportunityRepository;
-import com.ironhack.team5crm.domain.Opportunity;
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
-import com.ironhack.team5crm.domain.exceptions.Team5CrmException;
+import com.ironhack.team5crm.models.Opportunity;
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
+import com.ironhack.team5crm.models.exceptions.Team5CrmException;
+import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import org.junit.jupiter.api.AfterEach;

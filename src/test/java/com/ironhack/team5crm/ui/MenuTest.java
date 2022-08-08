@@ -1,15 +1,8 @@
 package com.ironhack.team5crm.ui;
 
-import com.ironhack.team5crm.data.ContactRepository;
-import com.ironhack.team5crm.data.LeadRepository;
-import com.ironhack.team5crm.data.OpportunityRepository;
-import com.ironhack.team5crm.data.datasources.Datasource;
-import com.ironhack.team5crm.data.datasources.impl.JsonDatasource;
-import com.ironhack.team5crm.domain.enums.Industry;
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
-import com.ironhack.team5crm.services.LeadService;
-import com.ironhack.team5crm.services.OpportunityService;
+import com.ironhack.team5crm.models.enums.Industry;
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +26,7 @@ class MenuTest {
 
     @Test
     void getStatus_open() throws AbortedException {
-        //select open on the menu
+        // select open on the menu
 
         var testStatus = menu.getStatus();
         System.out.println(testStatus);
@@ -74,8 +67,7 @@ class MenuTest {
         List<Product> testList = List.of(
                 Product.HYBRID,
                 Product.FLATBED,
-                Product.BOX
-        );
+                Product.BOX);
         boolean inTheList = false;
 
         var testProduct = menu.getProduct();
@@ -95,8 +87,7 @@ class MenuTest {
                 Industry.ECOMMERCE,
                 Industry.MANUFACTURING,
                 Industry.MEDICAL,
-                Industry.OTHER
-        );
+                Industry.OTHER);
         boolean inTheList = false;
 
         var testIndustry = menu.getIndustry();

@@ -1,8 +1,6 @@
 package com.ironhack.team5crm.ui.exceptions;
 
-import com.ironhack.team5crm.domain.exceptions.Team5CrmException;
-
-public class AbortedException extends Team5CrmException {
+public class AbortedException extends UiException {
 
   public AbortedException() {
   }

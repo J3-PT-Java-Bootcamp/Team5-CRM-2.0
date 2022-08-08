@@ -1,6 +1,6 @@
 package com.ironhack.team5crm.services.exceptions;
 
-import com.ironhack.team5crm.domain.exceptions.Team5CrmException;
+import com.ironhack.team5crm.models.exceptions.Team5CrmException;
 
 public class ServiceException extends Team5CrmException {
 

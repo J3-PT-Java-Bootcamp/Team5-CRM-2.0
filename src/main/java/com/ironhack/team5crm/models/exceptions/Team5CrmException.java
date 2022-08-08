@@ -1,6 +1,6 @@
-package com.ironhack.team5crm.domain.exceptions;
+package com.ironhack.team5crm.models.exceptions;
 
-public class Team5CrmException extends Exception{
+public class Team5CrmException extends Exception {
 
     public Team5CrmException() {
     }
