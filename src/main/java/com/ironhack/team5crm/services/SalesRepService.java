@@ -3,6 +3,8 @@ package com.ironhack.team5crm.services;
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.repositories.SalesRepRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
+import com.ironhack.team5crm.services.exceptions.EmptyException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,19 @@ public class SalesRepService {
 
     public SalesRep findSalesRepById(int id) throws DataNotFoundException {
         var salesRepFound = salesRepRepository.findById(id);
-        if(salesRepFound.isEmpty()){
+        if (salesRepFound.isEmpty()) {
             throw new DataNotFoundException();
-        }else{
+        } else {
             return salesRepFound.get();
+        }
+    }
+
+    public List<SalesRep> getAllSalesRep() throws EmptyException {
+        var salesReps = salesRepRepository.findAll();
+        if (salesReps.isEmpty()) {
+            throw new EmptyException();
+        } else {
+            return salesReps;
         }
     }
 

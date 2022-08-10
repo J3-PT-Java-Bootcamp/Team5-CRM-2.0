@@ -72,13 +72,15 @@ public class Menu implements ConsoleOperations {
                     <html> <b> [ close-lost id ] </b> -> sets the opportunity status to CLOSE / LOST
 
                     <html> <b> [ close-won id ] </b> -> sets the opportunity status to CLOSE / WON
-                    
+
                     ====================
-                    
+
                     ADMIN SECTION
-                    
-                    <html> <b> [ new sales-rep ] </b> -> creates a new sales rep
-                    
+
+                    <html> <b> [ new salesrep ] </b> -> creates a new sales rep
+
+                    <html> <b> [ show salesrep ] </b> -> creates a new sales rep
+
                     ====================
 
                     <html> <b> [ exit ] </b>  - to Exit CRM
@@ -227,6 +229,7 @@ public class Menu implements ConsoleOperations {
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEADS -> showLeads();
             case ConsoleOperationEntities.OPPORTUNITIES -> showOpportunities();
+            case ConsoleOperationEntities.SALES_REP -> showSalesRep();
             default -> throw new WrongInputException();
         }
     }
@@ -279,6 +282,30 @@ public class Menu implements ConsoleOperations {
             JOptionPane.showMessageDialog(null, scrollPane, "Opportunities in Database", 1, teamIcon);
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No Opportunities in the Database!", "Not Found", 2);
+        }
+    }
+
+    private void showSalesRep() {
+        try {
+            StringBuffer output = new StringBuffer();
+            output.append("Following SalesReps where found in the database: \n");
+            output.append("************************************************\n\n");
+
+            var salesReps = salesRepService.getAllSalesRep();
+            for (var salesrep : salesReps) {
+                output.append(salesrep.toString()).append("\n");
+            }
+            JTextArea textArea = new JTextArea(String.valueOf(output));
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(500, 500));
+
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+
+            JOptionPane.showMessageDialog(null, scrollPane, "SalesReps in Database", 1, teamIcon);
+        } catch (EmptyException e) {
+            JOptionPane.showMessageDialog(null, "No SalesReps in the Database!", "Not Found", 2);
         }
     }
 
