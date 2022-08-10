@@ -1,66 +1,51 @@
 package com.ironhack.team5crm.repositories;
 
-import com.ironhack.team5crm.data.AccountRepository;
-import com.ironhack.team5crm.data.datasources.Datasource;
-import com.ironhack.team5crm.data.datasources.impl.InMemoryDatasource;
-import com.ironhack.team5crm.domain.Account;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.ironhack.team5crm.models.Account;
+import com.ironhack.team5crm.models.enums.Industry;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class AccountRepositoryTest {
 
-  Datasource datasource;
+  @Autowired
   AccountRepository accountRepository;
 
   @BeforeEach
   void setUp() {
-    datasource = InMemoryDatasource.getInstance();
-    accountRepository = AccountRepository.getInstance(datasource);
+    accountRepository.deleteAll();
   }
 
   @AfterEach
   void tearDown() {
-    accountRepository.deleteAllAccounts();
-  }
-
-  @Test
-  void test_getInstance() {
-    var datasource = InMemoryDatasource.getInstance();
-    assertEquals(accountRepository, AccountRepository.getInstance(datasource));
-  }
-
-  @Test
-  void test_getMaxAccountId() {
-    var initId = accountRepository.getMaxAccountId();
-    var accCreated = accountRepository
-        .saveAccount(new Account(accountRepository.getMaxAccountId(), null, 0, null, null, null, null));
-    var afterId = accountRepository.getMaxAccountId();
-
-    assertEquals(initId, accCreated.getId());
-    assertNotEquals(initId, afterId);
-    assertEquals(initId + 1, afterId);
+    accountRepository.deleteAll();
   }
 
   @Test
   void test_saveAccount() {
-    var acc = new Account(accountRepository.getMaxAccountId(), null, 0, null, null, null, null);
+    var acc = new Account(Industry.MANUFACTURING, 50, "BCN", "Spain", null, null);
     var accCreated = accountRepository
-        .saveAccount(acc);
-    assertEquals(acc.getId(), accCreated.getId());
+        .save(acc);
+    var accFound = accountRepository.findById(accCreated.getId());
+    assertTrue(accFound.isPresent());
+    assertEquals(accFound.get().getId(), accCreated.getId());
   }
 
   @Test
   void test_deleteAllAccounts() {
-    var acc = new Account(accountRepository.getMaxAccountId(), null, 0, null, null, null, null);
+    var acc = new Account(Industry.MANUFACTURING, 50, "BCN", "Spain", null, null);
     accountRepository
-        .saveAccount(acc);
-    var accounts = datasource.getAllAccounts();
+        .save(acc);
+    var accounts = accountRepository.findAll();
     assertEquals(1, accounts.size());
-    accountRepository.deleteAllAccounts();
-    accounts = datasource.getAllAccounts();
+    accountRepository.deleteAll();
+    accounts = accountRepository.findAll();
     assertEquals(0, accounts.size());
   }
 

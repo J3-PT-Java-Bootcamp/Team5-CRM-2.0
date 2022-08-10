@@ -1,33 +1,32 @@
 package com.ironhack.team5crm.services;
 
-import com.ironhack.team5crm.data.AccountRepository;
-import com.ironhack.team5crm.data.OpportunityRepository;
-import com.ironhack.team5crm.data.datasources.Datasource;
-import com.ironhack.team5crm.data.datasources.impl.InMemoryDatasource;
-import com.ironhack.team5crm.data.exceptions.DataNotFoundException;
-import com.ironhack.team5crm.domain.Account;
-import com.ironhack.team5crm.domain.Opportunity;
-import com.ironhack.team5crm.domain.enums.Industry;
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
-import com.ironhack.team5crm.domain.exceptions.Team5CrmException;
+import com.ironhack.team5crm.models.Opportunity;
+import com.ironhack.team5crm.models.SalesRep;
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
+import com.ironhack.team5crm.models.exceptions.Team5CrmException;
+import com.ironhack.team5crm.repositories.OpportunityRepository;
+import com.ironhack.team5crm.repositories.SalesRepRepository;
+import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- *
- */
+@SpringBootTest
 class OpportunityServiceTest {
 
-    AccountRepository accountRepository;
-    Datasource datasource;
+    @Autowired
     OpportunityRepository opportunityRepository;
+
+    @Autowired
+    SalesRepRepository salesRepRepository;
+
+    @Autowired
     OpportunityService opportunityService;
 
     Opportunity opp1;
@@ -35,22 +34,14 @@ class OpportunityServiceTest {
 
     @BeforeEach
     void setUp() {
-        datasource = InMemoryDatasource.getInstance();
-        accountRepository = AccountRepository.getInstance(datasource);
-        opportunityRepository = OpportunityRepository.getInstance(datasource);
-        opportunityService = OpportunityService.getInstance(opportunityRepository);
+        opportunityRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
-        accountRepository.deleteAllAccounts();
-    }
-
-    @Test
-    void test_getInstance() {
-        var datasource = InMemoryDatasource.getInstance();
-        var opportunityRepository = OpportunityRepository.getInstance(datasource);
-        assertEquals(opportunityService, OpportunityService.getInstance(opportunityRepository));
+        opportunityRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test
@@ -116,31 +107,22 @@ class OpportunityServiceTest {
     }
 
     private void addOpportunitiesToDatasource() {
+
+        var salesRep = new SalesRep("John Doe");
+        salesRepRepository.save(salesRep);
+
         var product = Product.HYBRID;
         var prodQty = 5;
 
-        opp1 = new Opportunity(opportunityRepository.getMaxOpportunityId(), null, Status.OPEN, product, prodQty);
+        opp1 = new Opportunity(Status.OPEN, product, prodQty, null, null, salesRep);
 
-        var industry = Industry.MANUFACTURING;
-        var emp = 60;
-        var city = "BCN";
-        var country = "Spain";
-        var account1 = new Account(accountRepository.getMaxAccountId(), industry, emp, city, country, null,
-                List.of(opp1));
-        accountRepository.saveAccount(account1);
+        opportunityRepository.save(opp1);
 
         product = Product.BOX;
         prodQty = 7;
 
-        opp2 = new Opportunity(opportunityRepository.getMaxOpportunityId(), null, Status.OPEN, product, prodQty);
+        opp2 = new Opportunity(Status.OPEN, product, prodQty, null, null, salesRep);
 
-        industry = Industry.PRODUCE;
-        emp = 90;
-        city = "MAD";
-        country = "Spain";
-
-        var account2 = new Account(accountRepository.getMaxAccountId(), industry, emp, city, country, null,
-                List.of(opp2));
-        accountRepository.saveAccount(account2);
+        opportunityRepository.save(opp2);
     }
 }

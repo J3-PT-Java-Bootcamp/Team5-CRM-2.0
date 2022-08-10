@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.domain;
+package com.ironhack.team5crm.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,9 +17,9 @@ import java.util.Objects;
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -34,23 +34,25 @@ public class Contact {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    // * CONSTRUCTOR
+    // **********************************************
 
-    //* CONSTRUCTOR
-    //**********************************************
-    public Contact(int id, String name, String phoneNumber, String email) {
-        this.id = id;
+    public Contact(String name, String phoneNumber, String email, Account account) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.account = account;
     }
 
-
-    //* Equals, hashcode and toString
-    //**********************************************
+    // * Equals, hashcode and toString
+    // **********************************************
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        if (!super.equals(object))
+            return false;
         Contact contact = (Contact) object;
         return id == contact.id;
     }
@@ -63,7 +65,7 @@ public class Contact {
     public String toString() {
         return "👤 Contact with ID " + id + ": \n" +
                 "Name: " + name + "\n" +
-                "Phone: " + phoneNumber +  "\n" +
+                "Phone: " + phoneNumber + "\n" +
                 "e-mail: " + email + "\n";
     }
 }

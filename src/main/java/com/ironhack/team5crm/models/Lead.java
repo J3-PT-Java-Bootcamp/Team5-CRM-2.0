@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.domain;
+package com.ironhack.team5crm.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,9 +17,9 @@ import java.util.Objects;
 public class Lead {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -33,24 +33,29 @@ public class Lead {
     @Column(name = "company_name")
     private String companyName;
 
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_id")
+    private SalesRep salesRep;
 
-    //* CONSTRUCTORS
-    //**********************************************
+    // * CONSTRUCTORS
+    // **********************************************
 
-    public Lead(String name, String phoneNumber, String email, String companyName) {
+    public Lead(String name, String phoneNumber, String email, String companyName, SalesRep salesRep) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.companyName = companyName;
+        this.salesRep = salesRep;
     }
 
-
-    //* Equals, hashcode and toString
-    //**********************************************
+    // * Equals, hashcode and toString
+    // **********************************************
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Lead lead = (Lead) o;
         return id == lead.id;
     }
@@ -62,10 +67,11 @@ public class Lead {
 
     @Override
     public String toString() {
-        return "🔹 Lead with ID "+ id + ": \n" +
+        return "🔹 Lead with ID " + id + ": \n" +
                 "Name: " + name + " | " +
                 "Phone Number: " + phoneNumber + " | " +
                 "e-mail: " + email + " | " +
-                "Company Name: " + companyName + "\n";
+                "Company Name: " + companyName + "\n" +
+                "Sales Rep: " + salesRep.getName() + "\n";
     }
 }

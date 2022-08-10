@@ -35,3 +35,6 @@ build/
 
 ### Runtime Generated Files ###
 files/
+
+### MacOs ###
+.DS_Store

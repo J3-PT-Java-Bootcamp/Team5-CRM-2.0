@@ -1,25 +1,37 @@
 package com.ironhack.team5crm.domain;
 
+import com.ironhack.team5crm.repositories.ContactRepository;
 import org.junit.jupiter.api.*;
+
+import com.ironhack.team5crm.models.Contact;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+@SpringBootTest
 class ContactTest {
 
     private List<Contact> contacts;
     private Contact testContact;
 
+    @Autowired
+    ContactRepository contactRepository;
+
     @DisplayName("Adding instances of Contacts ")
     @BeforeEach
     void setUp() {
         contacts = List.of(
-                new Contact(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com"),
-                new Contact(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com"),
-                new Contact(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com"));
+                new Contact( "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com", null),
+                new Contact( "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", null),
+                new Contact( "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com", null));
+
+        contactRepository.saveAll(contacts);
     }
 
     @AfterEach
     void tearDown() {
+        contactRepository.deleteAll();
     }
 
     @Test
@@ -27,8 +39,7 @@ class ContactTest {
     void getId() {
         testContact = contacts.get(0);
         Assertions.assertNotNull(testContact);
-        var idTest = 1;
-        Assertions.assertEquals(idTest, testContact.getId());
+        Assertions.assertNotNull( testContact.getId());
     }
 
     @Test

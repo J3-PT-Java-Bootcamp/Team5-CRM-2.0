@@ -1,32 +1,49 @@
 package com.ironhack.team5crm.domain;
 
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
+import com.ironhack.team5crm.models.Contact;
+import com.ironhack.team5crm.models.Opportunity;
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
+import com.ironhack.team5crm.repositories.ContactRepository;
+import com.ironhack.team5crm.repositories.OpportunityRepository;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+@SpringBootTest
 class OpportunityTest {
 
     private List<Opportunity> opportunities;
     private Opportunity testing;
 
+    @Autowired
+    ContactRepository contactRepository;
+    @Autowired
+    OpportunityRepository opportunityRepository;
+
     @DisplayName("Setting the start values for instance")
     @BeforeEach
     void setUp() {
         List<Contact> contacts = List.of(
-                new Contact(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com"),
-                new Contact(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com"),
-                new Contact(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com"));
+                new Contact( "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com", null),
+                new Contact( "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", null),
+                new Contact( "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com", null));
         opportunities = List.of(
-                new Opportunity(1, contacts.get(0), Status.OPEN, Product.HYBRID, 5),
-                new Opportunity(2, contacts.get(1), Status.CLOSED_LOST, Product.FLATBED, 9),
-                new Opportunity(3, contacts.get(2), Status.CLOSED_WON, Product.BOX, 15));
+                new Opportunity(Status.OPEN, Product.HYBRID, 5, contacts.get(0), null, null),
+                new Opportunity(Status.CLOSED_LOST, Product.FLATBED, 9, contacts.get(1), null, null),
+                new Opportunity(Status.CLOSED_WON, Product.BOX, 15, contacts.get(2), null, null));
+
+        contactRepository.saveAll(contacts);
+        opportunityRepository.saveAll(opportunities);
 
     }
 
     @AfterEach
     void tearDown() {
+        opportunityRepository.deleteAll();
+        contactRepository.deleteAll();
     }
 
     @Test
@@ -34,8 +51,7 @@ class OpportunityTest {
     void getId() {
         testing = opportunities.get(1);
         Assertions.assertNotNull(testing);
-        var auxId = 2;
-        Assertions.assertEquals(auxId, testing.getId());
+        Assertions.assertNotNull(testing.getId());
     }
 
     @Test

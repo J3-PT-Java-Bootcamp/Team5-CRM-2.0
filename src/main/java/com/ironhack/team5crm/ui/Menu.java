@@ -1,39 +1,56 @@
 package com.ironhack.team5crm.ui;
 
-import com.ironhack.team5crm.data.exceptions.DataNotFoundException;
-import com.ironhack.team5crm.domain.Lead;
-import com.ironhack.team5crm.domain.enums.Industry;
-import com.ironhack.team5crm.domain.enums.Product;
-import com.ironhack.team5crm.domain.enums.Status;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.ironhack.team5crm.models.SalesRep;
+import com.ironhack.team5crm.services.SalesRepService;
+import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
+import com.ironhack.team5crm.models.Lead;
+import com.ironhack.team5crm.models.enums.Industry;
+import com.ironhack.team5crm.models.enums.Product;
+import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.services.LeadService;
 import com.ironhack.team5crm.services.OpportunityService;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@NoArgsConstructor
 public class Menu implements ConsoleOperations {
 
-    private final LeadService leadService;
-    private final OpportunityService opportunityService;
+    @Autowired
+    private LeadService leadService;
+
+    @Autowired
+    private OpportunityService opportunityService;
+
+    @Autowired
+    private SalesRepService salesRepService;
+
+    private SalesRep salesRepLoggedIn;
+
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
-    public Menu(LeadService leadService, OpportunityService opportunityService) {
-        this.leadService = leadService;
-        this.opportunityService = opportunityService;
-    }
+    public void main(SalesRep salesRep) throws WrongInputException, AbortedException {
 
-    public void main() throws WrongInputException, AbortedException {
+        salesRepLoggedIn = salesRep;
+
+        FlatLightLaf.setup();
+
         String input;
 
         do {
             var mainMenu = """
-                    🤖💬 Welcome to    
-                    <html>  <h1> <b> Team 5 CRM </b> </h1> 
+                    🤖💬 Welcome %s to
+                    <html>  <h1> <b> Team 5 CRM </b> </h1>
 
                     Available Operations:
                     =====================
@@ -55,6 +72,14 @@ public class Menu implements ConsoleOperations {
                     <html> <b> [ close-lost id ] </b> -> sets the opportunity status to CLOSE / LOST
 
                     <html> <b> [ close-won id ] </b> -> sets the opportunity status to CLOSE / WON
+                    
+                    ====================
+                    
+                    ADMIN SECTION
+                    
+                    <html> <b> [ new sales-rep ] </b> -> creates a new sales rep
+                    
+                    ====================
 
                     <html> <b> [ exit ] </b>  - to Exit CRM
                     ====================
@@ -64,7 +89,7 @@ public class Menu implements ConsoleOperations {
                     ====================
 
                     Write your COMMAND:
-                    """;
+                    """.formatted(salesRepLoggedIn.getName());
             input = (String) JOptionPane.showInputDialog(null, mainMenu, "Team 5 - CRM", 3, teamIcon, null, null);
 
             var inputSplit = input.toLowerCase().split(" ");
@@ -90,8 +115,7 @@ public class Menu implements ConsoleOperations {
                 JOptionPane.showMessageDialog(null, "Data not found", "Not Found", 2);
             } catch (AbortedException a) {
                 JOptionPane.showMessageDialog(null, "Convert aborted", "Aborted", 2);
-        }
-
+            }
 
         } while (!input.equals("exit"));
     }
@@ -213,8 +237,8 @@ public class Menu implements ConsoleOperations {
     private void showLeads() {
         try {
             StringBuffer output = new StringBuffer();
-            output.append("Following Leads where found in the database: \n" );
-            output.append("************************************************\n\n" );
+            output.append("Following Leads where found in the database: \n");
+            output.append("************************************************\n\n");
 
             var leads = leadService.getAllLeads();
             for (var lead : leads) {
@@ -223,12 +247,12 @@ public class Menu implements ConsoleOperations {
             JTextArea textArea = new JTextArea(String.valueOf(output));
 
             JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize( new Dimension( 500, 500 ) );
+            scrollPane.setPreferredSize(new Dimension(500, 500));
 
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
 
-            JOptionPane.showMessageDialog(null, scrollPane, "Leads in Database", 1,teamIcon);
+            JOptionPane.showMessageDialog(null, scrollPane, "Leads in Database", 1, teamIcon);
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No Leads in Database!", "Not Found", 2);
         }
@@ -237,8 +261,8 @@ public class Menu implements ConsoleOperations {
     private void showOpportunities() {
         try {
             StringBuffer output = new StringBuffer();
-            output.append("Following Opportunities where found in the database: \n" );
-            output.append("************************************************\n\n" );
+            output.append("Following Opportunities where found in the database: \n");
+            output.append("************************************************\n\n");
 
             var opps = opportunityService.getAllOpportunities();
             for (var opp : opps) {
@@ -247,12 +271,12 @@ public class Menu implements ConsoleOperations {
             JTextArea textArea = new JTextArea(String.valueOf(output));
 
             JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize( new Dimension( 500, 500 ) );
+            scrollPane.setPreferredSize(new Dimension(500, 500));
 
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
 
-            JOptionPane.showMessageDialog(null, scrollPane, "Opportunities in Database", 1,teamIcon);
+            JOptionPane.showMessageDialog(null, scrollPane, "Opportunities in Database", 1, teamIcon);
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No Opportunities in the Database!", "Not Found", 2);
         }
@@ -296,11 +320,20 @@ public class Menu implements ConsoleOperations {
             case ConsoleOperationEntities.LEAD -> {
                 List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
                 Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
-                        (String) values.get(3));
-                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead,"Lead Added", 1);
+                        (String) values.get(3), salesRepLoggedIn);
+                JOptionPane.showMessageDialog(null, "Lead successfully added: \n" + lead, "Lead Added", 1);
+            }
+            case ConsoleOperationEntities.SALES_REP -> {
+                newSalesRep();
             }
             default -> throw new WrongInputException();
         }
+    }
+
+    public void newSalesRep() throws WrongInputException {
+        List<Object> values = getValues("Name :");
+        SalesRep salesRep = salesRepService.newSalesRep((String) values.get(0));
+        JOptionPane.showMessageDialog(null, "SalesRep successfully created: \n" + salesRep, "SalesRep Added", 1);
     }
 
     // OTHER MENUS METHODS

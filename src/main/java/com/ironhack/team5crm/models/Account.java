@@ -1,10 +1,13 @@
-package com.ironhack.team5crm.domain;
+package com.ironhack.team5crm.models;
 
-import com.ironhack.team5crm.domain.enums.Industry;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import com.ironhack.team5crm.models.enums.Industry;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,9 +22,9 @@ import java.util.Objects;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "industry")
@@ -36,15 +39,18 @@ public class Account {
     @Column(name = "country")
     private String country;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.MERGE)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Contact> contactList;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.MERGE)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Opportunity> opportunityList;
 
     // * CONSTRUCTOR
     // **********************************************
-    public Account(Industry industry, int employeesCount, String city, String country, List<Contact> contactList, List<Opportunity> opportunityList) {
+    public Account(Industry industry, int employeesCount, String city, String country, List<Contact> contactList,
+            List<Opportunity> opportunityList) {
         this.industry = industry;
         this.employeesCount = employeesCount;
         this.city = city;
@@ -56,9 +62,12 @@ public class Account {
     // * Equals, hashcode and toString
     // **********************************************
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        if (!super.equals(object))
+            return false;
         Account account = (Account) object;
         return id == account.id;
     }
