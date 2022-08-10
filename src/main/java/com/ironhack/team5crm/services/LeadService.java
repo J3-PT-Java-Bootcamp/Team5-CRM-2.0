@@ -43,32 +43,28 @@ public class LeadService {
      *
      * @param leadId
      */
-    public Account convert(int leadId, Product product, int productQuantity, Industry industry, int employees,
-            String city, String country) throws DataNotFoundException {
-        var lead = leadRepository.findById(leadId);
-        if (lead.isPresent()) {
-            var leadFound = lead.get();
-            var contactToSave = new Contact(leadFound.getName(), leadFound.getPhoneNumber(),
-                    leadFound.getEmail(), null);
-            contactToSave = contactRepository.save(contactToSave);
-            var contactList = List.of(contactToSave);
-            var oppToSave = new Opportunity(
-                    Status.OPEN, product, productQuantity, contactToSave, null, leadFound.getSalesRep());
-            oppToSave = opportunityRepository.save(oppToSave);
-            var opportunityList = List.of(oppToSave);
-            var accountToSave = new Account(industry, employees, city, country, contactList, opportunityList);
-            var accountCreated = accountRepository.save(accountToSave);
+    public Account convert(Lead lead, Product product, int productQuantity, Account account) {
+        var contactToSave = new Contact(lead.getName(), lead.getPhoneNumber(),
+                lead.getEmail(), null);
+        contactToSave = contactRepository.save(contactToSave);
+        var oppToSave = new Opportunity(
+                Status.OPEN, product, productQuantity, contactToSave, null, lead.getSalesRep());
+        oppToSave = opportunityRepository.save(oppToSave);
 
-            // TODO: this should not be needed to set ids on these entities, it should be
-            // done when saving the account with the lists inside it
-            contactToSave.setAccount(accountCreated);
-            oppToSave.setAccount(accountCreated);
-            accountCreated = accountRepository.save(accountCreated);
-            leadRepository.deleteById(leadId);
-            return accountCreated;
-        } else {
-            throw new DataNotFoundException();
-        }
+        account.getContactList().add(contactToSave);
+        account.getOpportunityList().add(oppToSave);
+
+        account = accountRepository.save(account);
+
+        // TODO: this should not be needed to set ids on these entities, it should be
+        // done when saving the account with the lists inside it
+        contactToSave.setAccount(account);
+        contactRepository.save(contactToSave);
+        oppToSave.setAccount(account);
+        opportunityRepository.save(oppToSave);
+
+        leadRepository.deleteById(lead.getId());
+        return account;
     }
 
     /**

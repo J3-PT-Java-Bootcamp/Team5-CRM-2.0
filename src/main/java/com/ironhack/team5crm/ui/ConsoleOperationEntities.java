@@ -5,5 +5,6 @@ public interface ConsoleOperationEntities {
     String LEADS = "leads";
     String OPPORTUNITY = "opportunity";
     String OPPORTUNITIES = "opportunities";
+    String ACCOUNTS = "accounts";
     String SALES_REP = "salesrep";
 }
