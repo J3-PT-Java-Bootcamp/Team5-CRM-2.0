@@ -24,39 +24,48 @@ public class Login {
 
     public void main() throws AbortedException, WrongInputException {
 
-        if(salesRepService.findAllSalesRep().isEmpty()) {
+        if (salesRepService.findAllSalesRep().isEmpty()) {
             JOptionPane.showMessageDialog(null, """
                     Welcome To Team5's CRM initial setup
                     We hope you are having a nice day!
-                                    
+
                     Before you can start to work on your leads and opportunities
                     we need to create a SalesRep
-                                    
+
                     Thanks!
                     """);
             menu.newSalesRep();
             main();
-        }else {
+        } else {
 
-            var salesRepID = JOptionPane.showInputDialog(null, """
-                            Welcome To Team5's CRM
-                            We hope you are having a nice day!
-                                            
-                            Before you can start to work on your leads and opportunities
-                            we must ask you to log in with your SalesRep id.
-                                            
-                            Thanks!
-                             
-                            """, "Team5's CRM", JOptionPane.QUESTION_MESSAGE, teamIcon, null,
-                    null);
+            SalesRep salesRepLoggedIn = null;
 
-            try {
-                SalesRep salesRepLoggedIn = salesRepService.findSalesRepById(Integer.parseInt(salesRepID.toString()));
-                menu.main(salesRepLoggedIn);
-            } catch (DataNotFoundException e) {
-                JOptionPane.showMessageDialog(null, "SalesRep not found");
-            }
+            do {
+                try {
+                    salesRepLoggedIn = loginSalesRep();
+                } catch (DataNotFoundException | NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "SalesRep not found");
+                }
+            } while (salesRepLoggedIn == null);
+
+            menu.main(salesRepLoggedIn);
         }
 
+    }
+
+    private SalesRep loginSalesRep() throws DataNotFoundException, NumberFormatException {
+        var salesRepID = JOptionPane.showInputDialog(null, """
+                Welcome To Team5's CRM
+                We hope you are having a nice day!
+
+                Before you can start to work on your leads and opportunities
+                we must ask you to log in with your SalesRep id.
+
+                Thanks!
+
+                """, "Team5's CRM", JOptionPane.QUESTION_MESSAGE, teamIcon, null,
+                null);
+
+        return salesRepService.findSalesRepById(Integer.parseInt(salesRepID.toString()));
     }
 }

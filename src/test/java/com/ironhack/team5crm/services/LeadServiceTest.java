@@ -3,6 +3,7 @@ package com.ironhack.team5crm.services;
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.repositories.*;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
+import com.ironhack.team5crm.models.Account;
 import com.ironhack.team5crm.models.Lead;
 import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
@@ -81,31 +82,40 @@ class LeadServiceTest {
         var city = "BCN";
         var country = "Spain";
 
-        Team5CrmException exception = null;
-        try {
-            var account = leadService.convert(this.lead1.getId(), product, prodQty, industry, emp, city, country);
-            assertNotNull(account.getId());
-            assertNotNull(account.getContactList().get(0).getId());
-            var oppCreated = account.getOpportunityList().get(0);
-            assertNotNull(oppCreated);
-            assertNotNull(oppCreated.getId());
-            assertNotNull(oppCreated.getDecisionMaker());
-            assertNotNull(oppCreated.getDecisionMaker().getId());
-            assertEquals(this.lead1.getName(), oppCreated.getDecisionMaker().getName());
-            assertEquals(this.lead1.getPhoneNumber(), oppCreated.getDecisionMaker().getPhoneNumber());
-            assertEquals(this.lead1.getEmail(), oppCreated.getDecisionMaker().getEmail());
-            assertEquals(account.getContactList().get(0), oppCreated.getDecisionMaker());
-            assertEquals(product, oppCreated.getProduct());
-            assertEquals(prodQty, oppCreated.getQuantity());
-            assertEquals(Status.OPEN, oppCreated.getStatus());
-            assertEquals(industry, account.getIndustry());
-            assertEquals(emp, account.getEmployeesCount());
-            assertEquals(city, account.getCity());
-            assertEquals(country, account.getCountry());
-        } catch (DataNotFoundException e) {
-            exception = e;
-        }
-        assertNull(exception);
+        var preFabAccount = new Account(industry, emp, city, country);
+        var account = leadService.convert(this.lead1, product, prodQty, preFabAccount);
+
+        // test account is saved
+        assertNotNull(account.getId());
+        assertFalse(account.getContactList().isEmpty());
+        assertFalse(account.getOpportunityList().isEmpty());
+        assertEquals(industry, account.getIndustry());
+        assertEquals(emp, account.getEmployeesCount());
+        assertEquals(city, account.getCity());
+        assertEquals(country, account.getCountry());
+
+        // test opportunity is created as expected and added to the account
+        var oppCreated = account.getOpportunityList().get(0);
+        assertNotNull(oppCreated);
+        assertNotNull(oppCreated.getId());
+        assertNotNull(oppCreated.getDecisionMaker());
+        assertNotNull(oppCreated.getDecisionMaker().getId());
+        assertEquals(this.lead1.getName(), oppCreated.getDecisionMaker().getName());
+        assertEquals(this.lead1.getPhoneNumber(), oppCreated.getDecisionMaker().getPhoneNumber());
+        assertEquals(this.lead1.getEmail(), oppCreated.getDecisionMaker().getEmail());
+        assertEquals(oppCreated.getAccount().getId(), account.getId());
+        assertEquals(account.getContactList().get(0), oppCreated.getDecisionMaker());
+        assertEquals(product, oppCreated.getProduct());
+        assertEquals(prodQty, oppCreated.getQuantity());
+        assertEquals(Status.OPEN, oppCreated.getStatus());
+
+        // test contact is created as expected and added to the account
+        var contactCreated = account.getContactList().get(0);
+        assertNotNull(contactCreated);
+        assertEquals(this.lead1.getName(), contactCreated.getName());
+        assertEquals(this.lead1.getPhoneNumber(), contactCreated.getPhoneNumber());
+        assertEquals(this.lead1.getEmail(), contactCreated.getEmail());
+        assertEquals(contactCreated.getAccount().getId(), account.getId());
     }
 
     @Test

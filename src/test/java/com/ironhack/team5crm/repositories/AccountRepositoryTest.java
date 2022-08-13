@@ -29,7 +29,7 @@ public class AccountRepositoryTest {
 
   @Test
   void test_saveAccount() {
-    var acc = new Account(Industry.MANUFACTURING, 50, "BCN", "Spain", null, null);
+    var acc = new Account(Industry.MANUFACTURING, 50, "BCN", "Spain");
     var accCreated = accountRepository
         .save(acc);
     var accFound = accountRepository.findById(accCreated.getId());
@@ -39,7 +39,7 @@ public class AccountRepositoryTest {
 
   @Test
   void test_deleteAllAccounts() {
-    var acc = new Account(Industry.MANUFACTURING, 50, "BCN", "Spain", null, null);
+    var acc = new Account(Industry.MANUFACTURING, 50, "BCN", "Spain");
     accountRepository
         .save(acc);
     var accounts = accountRepository.findAll();

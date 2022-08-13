@@ -10,6 +10,8 @@ import org.hibernate.annotations.LazyCollectionOption;
 import com.ironhack.team5crm.models.enums.Industry;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,14 +51,13 @@ public class Account {
 
     // * CONSTRUCTOR
     // **********************************************
-    public Account(Industry industry, int employeesCount, String city, String country, List<Contact> contactList,
-            List<Opportunity> opportunityList) {
+    public Account(Industry industry, int employeesCount, String city, String country) {
         this.industry = industry;
         this.employeesCount = employeesCount;
         this.city = city;
         this.country = country;
-        this.contactList = contactList;
-        this.opportunityList = opportunityList;
+        this.contactList = new ArrayList<Contact>();
+        this.opportunityList = new ArrayList<Opportunity>();
     }
 
     // * Equals, hashcode and toString

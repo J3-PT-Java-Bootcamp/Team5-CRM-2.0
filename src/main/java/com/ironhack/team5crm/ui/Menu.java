@@ -4,10 +4,12 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.services.SalesRepService;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
+import com.ironhack.team5crm.models.Account;
 import com.ironhack.team5crm.models.Lead;
 import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
+import com.ironhack.team5crm.services.AccountService;
 import com.ironhack.team5crm.services.LeadService;
 import com.ironhack.team5crm.services.OpportunityService;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
@@ -31,6 +33,9 @@ public class Menu implements ConsoleOperations {
 
     @Autowired
     private OpportunityService opportunityService;
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     private SalesRepService salesRepService;
@@ -72,13 +77,17 @@ public class Menu implements ConsoleOperations {
                     <html> <b> [ close-lost id ] </b> -> sets the opportunity status to CLOSE / LOST
 
                     <html> <b> [ close-won id ] </b> -> sets the opportunity status to CLOSE / WON
-                    
+
+                    <html> <b> [ show acounts ] </b> -> show all available accounts
+
                     ====================
-                    
+
                     ADMIN SECTION
-                    
-                    <html> <b> [ new sales-rep ] </b> -> creates a new sales rep
-                    
+
+                    <html> <b> [ new salesrep ] </b> -> creates a new sales rep
+
+                    <html> <b> [ show salesrep ] </b> -> creates a new sales rep
+
                     ====================
 
                     <html> <b> [ exit ] </b>  - to Exit CRM
@@ -227,6 +236,8 @@ public class Menu implements ConsoleOperations {
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEADS -> showLeads();
             case ConsoleOperationEntities.OPPORTUNITIES -> showOpportunities();
+            case ConsoleOperationEntities.ACCOUNTS -> showAccounts();
+            case ConsoleOperationEntities.SALES_REP -> showSalesRep();
             default -> throw new WrongInputException();
         }
     }
@@ -282,6 +293,54 @@ public class Menu implements ConsoleOperations {
         }
     }
 
+    private void showAccounts() {
+        try {
+            StringBuffer output = new StringBuffer();
+            output.append("Following Accounts where found in the database: \n");
+            output.append("************************************************\n\n");
+
+            var accounts = accountService.getAllAccounts();
+            for (var account : accounts) {
+                output.append(account.toString()).append("\n");
+            }
+            JTextArea textArea = new JTextArea(String.valueOf(output));
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(500, 500));
+
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+
+            JOptionPane.showMessageDialog(null, scrollPane, "Accounts in Database", 1, teamIcon);
+        } catch (EmptyException e) {
+            JOptionPane.showMessageDialog(null, "No Accounts in the Database!", "Not Found", 2);
+        }
+    }
+
+    private void showSalesRep() {
+        try {
+            StringBuffer output = new StringBuffer();
+            output.append("Following SalesReps where found in the database: \n");
+            output.append("************************************************\n\n");
+
+            var salesReps = salesRepService.getAllSalesRep();
+            for (var salesrep : salesReps) {
+                output.append(salesrep.toString()).append("\n");
+            }
+            JTextArea textArea = new JTextArea(String.valueOf(output));
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(500, 500));
+
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+
+            JOptionPane.showMessageDialog(null, scrollPane, "SalesReps in Database", 1, teamIcon);
+        } catch (EmptyException e) {
+            JOptionPane.showMessageDialog(null, "No SalesReps in the Database!", "Not Found", 2);
+        }
+    }
+
     // CONVERT MENUS
     // **********************************************************
     private void convertMenu(String[] inputSplit) throws WrongInputException, AbortedException {
@@ -290,17 +349,47 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
         try {
-            var leadFound = leadService.lookUpLead(id);
+            // checks that the lead id is valid, if not throws DataNotFoundException
+            Lead leadFound = leadService.lookUpLead(id);
 
-            var product = getProduct();
-            int productQty = Integer.parseInt((String) getValues("Quantity?").get(0));
-            var industry = getIndustry();
-            int employees = Integer.parseInt((String) getValues("Number of employees?").get(0));
-            String city = (String) getValues("City?").get(0);
-            String country = (String) getValues("Country?").get(0);
-            leadService.convert(leadFound.getId(), product, productQty, industry, employees, city, country);
+            // asks if user wants to associate this lead conversion to an existing account
+            int associateToAccount = JOptionPane.showConfirmDialog(null,
+                    "Do you want to associate this lead conversion to an existing account?",
+                    "Associate to an existing account", JOptionPane.YES_NO_OPTION);
 
-            JOptionPane.showMessageDialog(null, "Lead Succesfully converted");
+            try {
+                Account leadsAccount = null;
+
+                // if user wants to associate to an existing account, we ask for its id
+                if (associateToAccount == 0) {
+                    int accountId = Integer.parseInt((String) getValues("Input the Account ID").get(0));
+
+                    // checks that the account id is valid, if not throws DataNotFoundException
+                    leadsAccount = accountService.lookUpAccount(accountId);
+                }
+
+                // asks for the opportunity details
+                var product = getProduct();
+                int productQty = Integer.parseInt((String) getValues("Quantity?").get(0));
+
+                // if the user wanted to create a new account, asks for its details
+                if (leadsAccount == null) {
+                    var industry = getIndustry();
+                    int employees = Integer.parseInt((String) getValues("Number of employees?").get(0));
+                    String city = (String) getValues("City?").get(0);
+                    String country = (String) getValues("Country?").get(0);
+                    leadsAccount = new Account(industry, employees, city, country);
+                }
+
+                // sends the data to be converted
+                leadService.convert(leadFound, product, productQty, leadsAccount);
+
+                JOptionPane.showMessageDialog(null, "Lead Succesfully converted");
+
+            } catch (EmptyException | DataNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "The Account with ID " + id + " was not found in the database!",
+                        "Not Found", 2);
+            }
 
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No leads in Database!", "Not Found", 2);
