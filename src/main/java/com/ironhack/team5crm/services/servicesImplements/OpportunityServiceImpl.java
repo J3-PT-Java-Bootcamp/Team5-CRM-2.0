@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.services;
+package com.ironhack.team5crm.services.servicesImplements;
 
 import com.ironhack.team5crm.models.Opportunity;
 import com.ironhack.team5crm.models.enums.Status;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class OpportunityService {
+public class OpportunityServiceImpl {
 
     @Autowired
     private OpportunityRepository opportunityRepository;

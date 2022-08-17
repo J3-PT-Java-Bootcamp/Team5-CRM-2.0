@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.services;
+package com.ironhack.team5crm.services.servicesImplements;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 
 @Service
-public class AccountService {
+public class AccountServiceImple {
 
   @Autowired
   AccountRepository accountRepository;

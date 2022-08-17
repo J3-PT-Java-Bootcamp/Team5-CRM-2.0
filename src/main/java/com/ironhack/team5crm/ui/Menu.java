@@ -2,16 +2,16 @@ package com.ironhack.team5crm.ui;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.ironhack.team5crm.models.SalesRep;
-import com.ironhack.team5crm.services.SalesRepService;
+import com.ironhack.team5crm.services.servicesImplements.SalesRepServiceImple;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.models.Account;
 import com.ironhack.team5crm.models.Lead;
 import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
-import com.ironhack.team5crm.services.AccountService;
-import com.ironhack.team5crm.services.LeadService;
-import com.ironhack.team5crm.services.OpportunityService;
+import com.ironhack.team5crm.services.servicesImplements.AccountServiceImple;
+import com.ironhack.team5crm.services.servicesImplements.LeadServiceImple;
+import com.ironhack.team5crm.services.servicesImplements.OpportunityServiceImpl;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
@@ -29,16 +29,16 @@ import java.util.List;
 public class Menu implements ConsoleOperations {
 
     @Autowired
-    private LeadService leadService;
+    private LeadServiceImple leadServiceImple;
 
     @Autowired
-    private OpportunityService opportunityService;
+    private OpportunityServiceImpl opportunityServiceImpl;
 
     @Autowired
-    private AccountService accountService;
+    private AccountServiceImple accountService;
 
     @Autowired
-    private SalesRepService salesRepService;
+    private SalesRepServiceImple salesRepServiceImple;
 
     private SalesRep salesRepLoggedIn;
 
@@ -141,7 +141,7 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        var opportunity = opportunityService.updateOpportunityStatus(id, Status.OPEN);
+        var opportunity = opportunityServiceImpl.updateOpportunityStatus(id, Status.OPEN);
         JOptionPane.showMessageDialog(null, "✏️ Opportunity Status is now 'OPEN': \n" + opportunity, "Status Update",
                 1);
     }
@@ -155,7 +155,7 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        var opportunity = opportunityService.updateOpportunityStatus(id, Status.CLOSED_LOST);
+        var opportunity = opportunityServiceImpl.updateOpportunityStatus(id, Status.CLOSED_LOST);
         JOptionPane.showMessageDialog(null, "🆑 Opportunity Status is now 'CLOSE_LOST': \n" + opportunity,
                 "Status Update", 1);
     }
@@ -169,7 +169,7 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        var opportunity = opportunityService.updateOpportunityStatus(id, Status.CLOSED_WON);
+        var opportunity = opportunityServiceImpl.updateOpportunityStatus(id, Status.CLOSED_WON);
         JOptionPane.showMessageDialog(null, "✅ Opportunity Status is now 'CLOSE_WON': \n" + opportunity,
                 "Status Update", 1);
     }
@@ -199,7 +199,7 @@ public class Menu implements ConsoleOperations {
      */
     private void lookUpOpportunity(int id) {
         try {
-            JOptionPane.showMessageDialog(null, opportunityService.lookUpOpportunity(id), "Opportunities " + id, 1);
+            JOptionPane.showMessageDialog(null, opportunityServiceImpl.lookUpOpportunity(id), "Opportunities " + id, 1);
         } catch (DataNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Opportunity with ID " + id + " was not found in the Database!",
                     "Not Found", 2);
@@ -213,7 +213,7 @@ public class Menu implements ConsoleOperations {
      */
     private void lookUpLead(int id) {
         try {
-            JOptionPane.showMessageDialog(null, leadService.lookUpLead(id), "Lead " + id, 1);
+            JOptionPane.showMessageDialog(null, leadServiceImple.lookUpLead(id), "Lead " + id, 1);
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No leads in Database!", "Not Found", 2);
         } catch (DataNotFoundException e) {
@@ -251,7 +251,7 @@ public class Menu implements ConsoleOperations {
             output.append("Following Leads where found in the database: \n");
             output.append("************************************************\n\n");
 
-            var leads = leadService.getAllLeads();
+            var leads = leadServiceImple.getAllLeads();
             for (var lead : leads) {
                 output.append(lead).append("\n");
             }
@@ -275,7 +275,7 @@ public class Menu implements ConsoleOperations {
             output.append("Following Opportunities where found in the database: \n");
             output.append("************************************************\n\n");
 
-            var opps = opportunityService.getAllOpportunities();
+            var opps = opportunityServiceImpl.getAllOpportunities();
             for (var opp : opps) {
                 output.append(opp.toString()).append("\n");
             }
@@ -323,7 +323,7 @@ public class Menu implements ConsoleOperations {
             output.append("Following SalesReps where found in the database: \n");
             output.append("************************************************\n\n");
 
-            var salesReps = salesRepService.getAllSalesRep();
+            var salesReps = salesRepServiceImple.getAllSalesRep();
             for (var salesrep : salesReps) {
                 output.append(salesrep.toString()).append("\n");
             }
@@ -350,7 +350,7 @@ public class Menu implements ConsoleOperations {
         int id = Integer.parseInt(inputSplit[1]);
         try {
             // checks that the lead id is valid, if not throws DataNotFoundException
-            Lead leadFound = leadService.lookUpLead(id);
+            Lead leadFound = leadServiceImple.lookUpLead(id);
 
             // asks if user wants to associate this lead conversion to an existing account
             int associateToAccount = JOptionPane.showConfirmDialog(null,
@@ -382,7 +382,7 @@ public class Menu implements ConsoleOperations {
                 }
 
                 // sends the data to be converted
-                leadService.convert(leadFound, product, productQty, leadsAccount);
+                leadServiceImple.convert(leadFound, product, productQty, leadsAccount);
 
                 JOptionPane.showMessageDialog(null, "Lead Succesfully converted");
 
@@ -408,22 +408,22 @@ public class Menu implements ConsoleOperations {
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEAD -> {
                 List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
-                Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
+                Lead lead = leadServiceImple.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
                         (String) values.get(3), salesRepLoggedIn);
                 JOptionPane.showMessageDialog(null, "Lead successfully added: \n" + lead, "Lead Added", 1);
             }
             case ConsoleOperationEntities.SALES_REP -> {
-                newSalesRep();
+               // newSalesRep();
             }
             default -> throw new WrongInputException();
         }
     }
 
-    public void newSalesRep() throws WrongInputException {
+    /*public void newSalesRep() throws WrongInputException {
         List<Object> values = getValues("Name :");
-        SalesRep salesRep = salesRepService.newSalesRep((String) values.get(0));
+        SalesRep salesRep = salesRepServiceImple.newSalesRep((String) values.get(0));
         JOptionPane.showMessageDialog(null, "SalesRep successfully created: \n" + salesRep, "SalesRep Added", 1);
-    }
+    }*/
 
     // OTHER MENUS METHODS
     // **********************************************************

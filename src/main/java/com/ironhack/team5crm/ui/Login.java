@@ -1,7 +1,7 @@
 package com.ironhack.team5crm.ui;
 
 import com.ironhack.team5crm.models.SalesRep;
-import com.ironhack.team5crm.services.SalesRepService;
+import com.ironhack.team5crm.services.servicesImplements.SalesRepServiceImple;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
@@ -17,14 +17,14 @@ public class Login {
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
     @Autowired
-    SalesRepService salesRepService;
+    SalesRepServiceImple salesRepServiceImple;
 
     @Autowired
     Menu menu;
 
     public void main() throws AbortedException, WrongInputException {
 
-        if (salesRepService.findAllSalesRep().isEmpty()) {
+        if (salesRepServiceImple.findAllSalesRep().isEmpty()) {
             JOptionPane.showMessageDialog(null, """
                     Welcome To Team5's CRM initial setup
                     We hope you are having a nice day!
@@ -34,7 +34,7 @@ public class Login {
 
                     Thanks!
                     """);
-            menu.newSalesRep();
+            //menu.newSalesRep();
             main();
         } else {
 
@@ -66,6 +66,6 @@ public class Login {
                 """, "Team5's CRM", JOptionPane.QUESTION_MESSAGE, teamIcon, null,
                 null);
 
-        return salesRepService.findSalesRepById(Integer.parseInt(salesRepID.toString()));
+        return salesRepServiceImple.findSalesRepById(Integer.parseInt(salesRepID.toString()));
     }
 }

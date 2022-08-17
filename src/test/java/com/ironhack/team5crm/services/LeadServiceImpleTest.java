@@ -10,6 +10,7 @@ import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.models.exceptions.Team5CrmException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
+import com.ironhack.team5crm.services.servicesImplements.LeadServiceImple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class LeadServiceTest {
+class LeadServiceImpleTest {
 
     @Autowired
     LeadRepository leadRepo;
@@ -35,7 +36,7 @@ class LeadServiceTest {
     SalesRepRepository salesRepRepository;
 
     @Autowired
-    LeadService leadService;
+    LeadServiceImple leadServiceImple;
 
     SalesRep salesRep;
     Lead lead1;
@@ -64,7 +65,7 @@ class LeadServiceTest {
         var salesRep = new SalesRep("test");
         salesRep = salesRepRepository.save(salesRep);
         var lead = new Lead("test", "666666666", "test@gmail.com", "company", salesRep);
-        var leadCreated = leadService.newLead(lead.getName(), lead.getPhoneNumber(), lead.getEmail(),
+        var leadCreated = leadServiceImple.newLead(lead.getName(), lead.getPhoneNumber(), lead.getEmail(),
                 lead.getCompanyName(), salesRep);
         assertEquals(lead.getName(), leadCreated.getName());
         assertEquals(lead.getPhoneNumber(), leadCreated.getPhoneNumber());
@@ -83,7 +84,7 @@ class LeadServiceTest {
         var country = "Spain";
 
         var preFabAccount = new Account(industry, emp, city, country);
-        var account = leadService.convert(this.lead1, product, prodQty, preFabAccount);
+        var account = leadServiceImple.convert(this.lead1, product, prodQty, preFabAccount);
 
         // test account is saved
         assertNotNull(account.getId());
@@ -124,7 +125,7 @@ class LeadServiceTest {
 
         Team5CrmException exception = null;
         try {
-            var leads = leadService.getAllLeads();
+            var leads = leadServiceImple.getAllLeads();
             assertEquals(2, leads.size());
         } catch (EmptyException e) {
             exception = e;
@@ -135,7 +136,7 @@ class LeadServiceTest {
 
     @Test
     void test_getAllLeads_shouldThrowIfNoLeadsAdded() {
-        assertThrowsExactly(EmptyException.class, () -> leadService.getAllLeads());
+        assertThrowsExactly(EmptyException.class, () -> leadServiceImple.getAllLeads());
     }
 
     @Test
@@ -145,7 +146,7 @@ class LeadServiceTest {
 
         Team5CrmException exception = null;
         try {
-            var leadFound = leadService.lookUpLead(this.lead2.getId());
+            var leadFound = leadServiceImple.lookUpLead(this.lead2.getId());
             assertEquals(this.lead2.getId(), leadFound.getId());
             assertEquals(this.lead2.getName(), leadFound.getName());
             assertEquals(this.lead2.getPhoneNumber(), leadFound.getPhoneNumber());
@@ -161,13 +162,13 @@ class LeadServiceTest {
 
     @Test
     void test_lookUpLead_shouldThrowIfNoLeadsAdded() {
-        assertThrowsExactly(EmptyException.class, () -> leadService.lookUpLead(5));
+        assertThrowsExactly(EmptyException.class, () -> leadServiceImple.lookUpLead(5));
     }
 
     private void addLeadsToDatasource() {
         var salesRep = new SalesRep("test");
         salesRep = salesRepRepository.save(salesRep);
-        lead1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1", salesRep);
-        lead2 = leadService.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2", salesRep);
+        lead1 = leadServiceImple.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1", salesRep);
+        lead2 = leadServiceImple.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2", salesRep);
     }
 }
