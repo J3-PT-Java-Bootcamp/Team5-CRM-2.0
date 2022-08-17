@@ -1,29 +1,35 @@
-package com.ironhack.team5crm.services;
+package com.ironhack.team5crm.services.servicesImplements;
 
+import com.ironhack.team5crm.models.Lead;
+import com.ironhack.team5crm.models.Opportunity;
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.repositories.SalesRepRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 
+import com.ironhack.team5crm.services.servicesInterfaces.SalesRepService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SalesRepService {
+public class SalesRepServiceImple implements SalesRepService {
 
     @Autowired
     SalesRepRepository salesRepRepository;
 
-    public SalesRep newSalesRep(String name) {
-        return salesRepRepository.save(new SalesRep(name));
+    @Override
+    public SalesRep newSalesRep(SalesRep newSalesRep) {
+        return salesRepRepository.save(newSalesRep);
     }
 
+    @Override
     public List<SalesRep> findAllSalesRep() {
         return salesRepRepository.findAll();
     }
 
+    @Override
     public SalesRep findSalesRepById(int id) throws DataNotFoundException {
         var salesRepFound = salesRepRepository.findById(id);
         if (salesRepFound.isEmpty()) {
@@ -33,6 +39,7 @@ public class SalesRepService {
         }
     }
 
+    @Override
     public List<SalesRep> getAllSalesRep() throws EmptyException {
         var salesReps = salesRepRepository.findAll();
         if (salesReps.isEmpty()) {
@@ -41,5 +48,34 @@ public class SalesRepService {
             return salesReps;
         }
     }
+
+    //************************************* new methods
+
+
+
+    @Override
+    public List<Lead> leadersBySalesRep() {
+        return null;
+    }
+
+    @Override
+    public List<Opportunity> opportunityBySalesRep() {
+        return null;
+    }
+
+    @Override
+    public List<Opportunity> closeWonBySalesRep() {
+        return null;
+    }
+
+    public void deleteSalesRep(int id) {
+        salesRepRepository.deleteById(id);
+    }
+
+    @Override
+    public SalesRep update(SalesRep newSalesRep) {
+        return null;
+    }
+
 
 }

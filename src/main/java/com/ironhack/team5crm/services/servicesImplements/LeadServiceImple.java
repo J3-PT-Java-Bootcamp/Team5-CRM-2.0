@@ -1,7 +1,6 @@
-package com.ironhack.team5crm.services;
+package com.ironhack.team5crm.services.servicesImplements;
 
 import com.ironhack.team5crm.models.*;
-import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.repositories.AccountRepository;
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Service
 @NoArgsConstructor
-public class LeadService {
+public class LeadServiceImple {
 
     @Autowired
     private LeadRepository leadRepository;
