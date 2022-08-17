@@ -12,6 +12,6 @@ import java.util.List;
 public interface SalesRepRepository extends JpaRepository<SalesRep, Integer> {
 
     //native query
-    @Query(value = "SELECT * FROM leads A, sales_reps B WHERE A.sales_rep_id = B.id", nativeQuery = true)
-    List <Lead> findLeadsBySalesRep();
+    @Query(value = "SELECT B.id, B.name, A.name 'Lead Name', A.company_name, A.email, A.phone_number FROM leads A, sales_reps B WHERE A.sales_rep_id = B.id", nativeQuery = true)
+    List <Object[]> findLeadsBySalesRep();
 }

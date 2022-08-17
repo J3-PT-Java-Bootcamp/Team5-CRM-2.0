@@ -26,4 +26,12 @@ public class SalesRepController {
     public List<SalesRep> total(){
         return salesRepService.findAllSalesRep();
     }
+
+
+    //“Report Lead by SalesRep”. The CRM displays the total number of Leads owned by each SalesRep:
+    @GetMapping("/leads")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public List<Object[]> getLeads(){
+        return salesRepService.leadersBySalesRep();
+    }
 }

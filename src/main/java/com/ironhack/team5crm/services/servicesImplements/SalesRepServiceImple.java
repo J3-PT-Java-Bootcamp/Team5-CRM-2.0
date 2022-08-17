@@ -1,6 +1,5 @@
 package com.ironhack.team5crm.services.servicesImplements;
 
-import com.ironhack.team5crm.models.Lead;
 import com.ironhack.team5crm.models.Opportunity;
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.repositories.SalesRepRepository;
@@ -54,8 +53,9 @@ public class SalesRepServiceImple implements SalesRepService {
 
 
     @Override
-    public List<Lead> leadersBySalesRep() {
-        return null;
+    public List<Object[]> leadersBySalesRep() {
+
+        return salesRepRepository.findLeadsBySalesRep();
     }
 
     @Override

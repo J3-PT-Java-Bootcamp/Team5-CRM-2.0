@@ -1,6 +1,5 @@
 package com.ironhack.team5crm.services.servicesInterfaces;
 
-import com.ironhack.team5crm.models.Lead;
 import com.ironhack.team5crm.models.Opportunity;
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
@@ -11,7 +10,7 @@ import java.util.List;
 public interface SalesRepService {
 
     //she types “Report Lead by SalesRep”.
-    List <Lead> leadersBySalesRep();
+    List<Object[]> leadersBySalesRep();
 
     //“Report Opportunity by SalesRep”, only a count or could be print all list?
     List <Opportunity> opportunityBySalesRep();
