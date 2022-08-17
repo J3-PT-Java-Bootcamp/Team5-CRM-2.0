@@ -413,17 +413,17 @@ public class Menu implements ConsoleOperations {
                 JOptionPane.showMessageDialog(null, "Lead successfully added: \n" + lead, "Lead Added", 1);
             }
             case ConsoleOperationEntities.SALES_REP -> {
-                newSalesRep();
+               // newSalesRep();
             }
             default -> throw new WrongInputException();
         }
     }
 
-    public void newSalesRep() throws WrongInputException {
+    /*public void newSalesRep() throws WrongInputException {
         List<Object> values = getValues("Name :");
         SalesRep salesRep = salesRepServiceImple.newSalesRep((String) values.get(0));
         JOptionPane.showMessageDialog(null, "SalesRep successfully created: \n" + salesRep, "SalesRep Added", 1);
-    }
+    }*/
 
     // OTHER MENUS METHODS
     // **********************************************************

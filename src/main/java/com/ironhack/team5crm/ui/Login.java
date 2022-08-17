@@ -34,7 +34,7 @@ public class Login {
 
                     Thanks!
                     """);
-            menu.newSalesRep();
+            //menu.newSalesRep();
             main();
         } else {
 
