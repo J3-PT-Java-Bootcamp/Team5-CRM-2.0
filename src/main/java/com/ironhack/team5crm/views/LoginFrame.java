@@ -2,12 +2,7 @@ package com.ironhack.team5crm.views;
 
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.services.servicesImplements.SalesRepServiceImple;
-import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.ui.Menu;
-import com.ironhack.team5crm.ui.exceptions.AbortedException;
-import com.ironhack.team5crm.ui.exceptions.WrongInputException;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -18,125 +13,70 @@ import java.awt.event.ActionListener;
 @Component
 public class LoginFrame extends JFrame implements ActionListener {
 
-    static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
-
     private SalesRepServiceImple salesRepServiceImple;
-    private com.ironhack.team5crm.ui.Menu menu;
     private SalesRep salesRep;
-
-    //JAVAX ATTRIBUTES
-    private JLabel labelTitle, presentation;
-    private JButton create, exit;
+    private AdminFrame adminFrame;
+    private JButton register, exit;
+    private JLabel name, title;
+    private JTextField nameField;
 
 
     public LoginFrame(){
 
         //**** JPANE : PART TEXT LABEL
-        labelTitle = new JLabel("Administrator");
-        labelTitle.setBounds(150, 20, 380, 30);
-        labelTitle.setFont(new Font("Courier", Font.BOLD, 25));
+        title = new JLabel("Register");
+        title.setBounds(95, 20, 200, 30);
+        title.setFont(new Font("Courier", Font.BOLD, 20));
 
-        presentation = new JLabel();
-        presentation.setText("<html>Welcome To Team5's CRM initial setup</br>" +
-                "                We hope you are having a nice day!<br>" +
-                "<br>" +
-                "                Before you can start to work on your leads and opportunities<br>" +
-                "                we need to create a SalesRep<br>" +
-                "<br>" +
-                "                Thanks!</html>");
-        presentation.setBounds(70,5,300,330);
-        presentation.setFont(new Font("Courier", Font.PLAIN, 16));
+        name = new JLabel();
+        name.setText("Name");
+        name.setFont(new Font("Courier", Font.PLAIN, 16));
+        name.setBounds(30, 60, 80, 30);
 
-        //**** JPANE : PART buttons
+        //**** JPANE : PART TEXT FIELD
+        nameField = new JTextField();
+        nameField.setText("");
+        nameField.setBounds(80, 70, 150, 20);
 
-        create = new JButton("Create");
-        exit = new JButton("Exit");
+        //**** JPANE : PART BUTTONS
+        register = new JButton();
+        register.setText("Register");
+        register.setBounds(50, 110, 90, 20);
+        exit = new JButton();
+        exit.setText("Register");
+        exit.setBounds(150, 110, 90, 20);
 
-        create.setBounds(125, 280, 80, 25);
-        exit.setBounds(230, 280, 80, 25);
+        //**** JPANE : PART, CALL THE LISTENERS
+        register.addActionListener(this);
+        exit.addActionListener(this);
 
-
-        //**** JPANE : PART ADDING OBJECTS TO PANEL
-
-        getContentPane().add(labelTitle);
-        getContentPane().add(presentation);
-        getContentPane().add(create);
+        //**** JPANE : ADD OBJECTS
+        getContentPane().add(title);
+        getContentPane().add(name);
+        getContentPane().add(nameField);
+        getContentPane().add(register);
         getContentPane().add(exit);
 
-        //**** JPANE : PART CUSTOM SIZE
-
-        setSize(450, 370);
+        //**** JPANE : PART, FIXED THE SIZE
+        setSize(300, 200);
         setTitle("From 5 to 3 CRM");
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(null);
+
     }
-    public void setdirector(SalesRepServiceImple salesRepServiceImple, Menu menu, SalesRep salesRep) {
-        this.salesRepServiceImple = salesRepServiceImple;
-        this.menu = menu;
-        this.salesRep = salesRep;
+
+    public void setDirector(AdminFrame adminFrame){
+        this.adminFrame = adminFrame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        switch (e.getActionCommand()){
-            case "exit" -> {
-                this.dispose();
-            }
-            //case "create" -> ;
+        //call to repos, controllers and services
+        switch (e.getActionCommand().toLowerCase()){
+            case "exit" -> dispose();
+            case "register" -> adminFrame.setVisible(true);
         }
-
+        dispose();
     }
-
-    //*************** Alejandro view
-
-    /*public void main() throws AbortedException, WrongInputException {
-
-
-        //if (salesRepServiceImple.findAllSalesRep() == null) {
-        JOptionPane.showMessageDialog(null, """
-                Welcome To Team5's CRM initial setup
-                We hope you are having a nice day!
-
-                Before you can start to work on your leads and opportunities
-                we need to create a SalesRep
-
-                Thanks!
-                """);
-            ///menu.newSalesRep();
-            //main();
-        //} else {
-
-            //salesRep = null;
-
-            do {
-                try {
-                    salesRep = loginSalesRep();
-                } catch (DataNotFoundException | NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "SalesRep not found");
-                }
-            } while (salesRep == null);
-
-            menu.main(salesRep);
-        }
-
-        //}
-
-    private SalesRep loginSalesRep() throws DataNotFoundException {
-        var salesRepID = JOptionPane.showInputDialog(null, """
-                Welcome To Team5's CRM
-                We hope you are having a nice day!
-
-                Before you can start to work on your leads and opportunities
-                we must ask you to log in with your SalesRep id.
-
-                Thanks!
-
-                """, "Team5's CRM", JOptionPane.QUESTION_MESSAGE, teamIcon, null,
-                null);
-
-        return salesRepServiceImple.findSalesRepById(Integer.parseInt(salesRepID.toString()));
-    }*/
-
 }

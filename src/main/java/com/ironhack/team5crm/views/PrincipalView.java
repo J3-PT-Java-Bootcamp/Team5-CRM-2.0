@@ -17,7 +17,7 @@ public class PrincipalView extends JFrame implements ActionListener {
     @Autowired
     private SalesRepController salesRepController;
 
-    private LoginFrame login;
+    private RegisterFrame login;
     private Menu menu;
 
     @Autowired
@@ -59,7 +59,7 @@ public class PrincipalView extends JFrame implements ActionListener {
     }
 
     //declaring start values for controllers
-    public  void setDirector(Menu menu, LoginFrame login, SalesRep salesRep){
+    public  void setDirector(Menu menu, RegisterFrame login, SalesRep salesRep){
         this.menu = menu;
         this.login = login;
         this.salesRep = salesRep;
@@ -69,11 +69,11 @@ public class PrincipalView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        switch (e.getActionCommand()){
-            case "Admin" -> {
+        switch (e.getActionCommand().toLowerCase()){
+            case "admin" -> {
                 login.setVisible(true);
             }
-            case "Sales" -> {
+            case "sales" -> {
                 try {
                     menu.main(salesRep);
                 } catch (WrongInputException | AbortedException ex) {

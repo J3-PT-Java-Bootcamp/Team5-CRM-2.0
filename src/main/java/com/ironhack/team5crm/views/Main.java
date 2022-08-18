@@ -41,10 +41,17 @@ public class Main {
     @Autowired
     SalesRepController salesRepController;
 
+    //***VIEWS
     @Autowired
-    LoginFrame login;
+    RegisterFrame login;
     @Autowired
     Menu menu;
+
+    @Autowired
+    AdminFrame adminFrame;
+
+    @Autowired
+    LoginFrame loginFrame;
 
     public static void main(String g []) throws AbortedException, WrongInputException {
         Main test = new Main();
@@ -57,24 +64,27 @@ public class Main {
         accountServiceImple = new AccountServiceImple();
         leadServiceImple = new LeadServiceImple();
         opportunityService = new OpportunityServiceImpl();
-        //salesRepServiceImple = new SalesRepServiceImple();
+        salesRepServiceImple = new SalesRepServiceImple();
         principalView = new PrincipalView();
         accountController = new AccountController();
         leadController = new LeadController();
         opportunityController = new OpportunityController();
         salesRepController = new SalesRepController();
 
-        login = new LoginFrame();
+        //*** VIEWS
+        login = new RegisterFrame();
         menu = new Menu();
         empty = new SalesRep();
+        loginFrame = new LoginFrame();
+        adminFrame = new AdminFrame();
 
-
-        //start relationships;
+        //start relationships with the 'setDirector' nethods;
 
         principalView.setDirector(menu, login, empty);
 
-        login.setdirector(salesRepServiceImple, menu, empty);
-        //menu.main(empty);
+        login.setdirector(loginFrame);
+        loginFrame.setDirector(adminFrame);
+
 
         principalView.setVisible(true);
 
