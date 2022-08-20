@@ -25,6 +25,7 @@ public class SalesRepServiceImple implements SalesRepService {
 
     @Override
     public List<SalesRep> findAllSalesRep() {
+
         return salesRepRepository.findAll();
     }
 
