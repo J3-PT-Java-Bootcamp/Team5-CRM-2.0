@@ -1,7 +1,6 @@
 package com.ironhack.team5crm;
 
 import com.ironhack.team5crm.ui.Login;
-import com.ironhack.team5crm.ui.Menu;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;

@@ -1,7 +1,8 @@
 package com.ironhack.team5crm.views;
 
-import com.ironhack.team5crm.services.SalesRepServiceImpl;
+import com.ironhack.team5crm.services.OpportunityServiceImple;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
+import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,29 +13,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Component
-public class SalesRepReportView extends JFrame implements ActionListener {
+public class ProductReportView extends JFrame implements ActionListener, Operations {
     @Autowired
-    SalesRepServiceImpl salesRepServiceImpl;
+    private OpportunityServiceImple opportunityServiceImple;
 
     private JLabel title, text;
     private JTextField field;
     private JButton exit, search;
 
-    public SalesRepReportView(){
+    public ProductReportView(){
 
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p style = 'color : red;'>Reports By SalesRep<p></html>");
+        title = new JLabel("<html><p style = 'color : red;'>Reports By Product<p></html>");
         title.setBounds(200, 20, 400, 30);
         title.setFont(new Font("Courier New", 1, 25));
 
         text = new JLabel();
         text.setText(
                 "<html><h2>List of commands</h2></br>" +
-                        "<p><b>[Report Lead by SalesRep]</b> -> A count of Leads by SalesRep. <p>" +
-                        "<p><b>[Report Opportunity by SalesRep]</b> -> A count of all Opportunities by SalesRep. <p>" +
-                        "<p><b>[Report CLOSED-WON by SalesRep]</b> -> A count of all CLOSED_WON Opportunities by SalesRep. <p>" +
-                        "<p><b>[Report CLOSED-LOST by SalesRep]</b> -> A count of all CLOSED_LOST Opportunities by SalesRep. <p>" +
-                        "<p><b>[Report OPEN by SalesRep]</b> -> A count of all OPEN Opportunities by SalesRep. </p></html>"
+                        "<p><b>[Report Opportunity by the product]</b> -> A count of all Opportunities by the product . <p>" +
+                        "<p><b>[Report CLOSED-WON by the product]</b> -> A count of all CLOSED_WON Opportunities by the product. <p>" +
+                        "<p><b>[Report CLOSED-LOST by the product]</b> -> A count of all CLOSED-LOST Opportunities by the product. <p>" +
+                        "<p><b>[Report OPEN by the product]</b> -> A count of all OPEN Opportunities by the product. <p></html>"
         );
         text.setBounds(30, -40, 650, 450);
         text.setFont(new Font("Courier New", Font.PLAIN, 12));
@@ -67,9 +67,7 @@ public class SalesRepReportView extends JFrame implements ActionListener {
         getContentPane().add(search);
 
         //**** JPANE : PART CUSTOM SIZE
-
         cleanUp();
-
         setSize(700, 500);
         setTitle("From 5 to 3 CRM");
         setLocationRelativeTo(null);
@@ -77,6 +75,7 @@ public class SalesRepReportView extends JFrame implements ActionListener {
         getContentPane().setLayout(null);
     }
 
+    //this method just clean the JText in every use
     public void cleanUp(){
         field.setText("");
     }
@@ -87,19 +86,35 @@ public class SalesRepReportView extends JFrame implements ActionListener {
 
         switch (e.getActionCommand().toLowerCase()){
             case "exit" -> dispose();
-            case "search" -> checkTheText(field.getText());
+            case "search" -> {
+                String cad = new String(field.getText());
+                checkTheText(cad);
+            }
         }
+        cleanUp();
         dispose();
     }
 
 
-    public void checkTheText(String any) throws  EmptyException {
-        switch (any.toLowerCase()) {
-            case "report lead by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterLeadsBySales());
-            case "report opportunity by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesBySalesRep());
-            case "report close-won by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByCloseWon());
-            case "report close-lost by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByCloseLost());
-            case "report open by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByOpen());
+    public void checkTheText(String any) throws EmptyException, WrongInputException {
+        //cleanUp();
+        JOptionPane.showMessageDialog(null, any.length());
+        var extension = any.toLowerCase().split(" ");
+
+        if(extension.length <= 5){
+            throw new WrongInputException();
         }
+
+        String product = extension[8];
+
+        switch (any.toLowerCase()) {
+            case OPPORTUNITY -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByProduct(product));
+            case "report close-won by the product" -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByOpen());
+            case "report close-lost by the product" -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCloseLost());
+            case "report open by the product" -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCloseWon());
+            default -> JOptionPane.showMessageDialog(null, "only a valid option, check your sintax");
+        }
+        dispose();
     }
 }
+

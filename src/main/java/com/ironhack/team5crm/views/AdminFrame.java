@@ -64,13 +64,19 @@ public class AdminFrame extends JFrame implements ActionListener {
 
 
         //**** JPANE : SETTING THE SIZE
-
+        //CALL TO CLEANUP METHOD
+        cleanUp();
         setSize(450, 400);
         setTitle("From 5 to 3 CRM");
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(null);
 
+    }
+
+    //this method just clean the JText in every use
+    public void cleanUp(){
+        textField.setText("");
     }
 
     @Override
