@@ -66,10 +66,6 @@ public class AdminSection extends JFrame implements ActionListener {
 
     }
 
-    public void setDirector(SalesRep salesRep) {
-        this.salesRep = salesRep;
-    }
-
 
     // **** actions in buttons
     @Override
