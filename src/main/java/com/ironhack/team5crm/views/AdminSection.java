@@ -17,6 +17,9 @@ public class AdminSection extends JFrame implements ActionListener {
     @Autowired
     AdminFrame adminFrame;
 
+    @Autowired
+    ReportingChoicesFrame reportingChoicesFrame;
+
     private SalesRep salesRep;
 
     private JButton dashboardButton; // -- check the dashborard by every options
@@ -75,7 +78,7 @@ public class AdminSection extends JFrame implements ActionListener {
         switch (e.getActionCommand().toLowerCase()) {
             case "edit" -> adminFrame.setVisible(true);
             case "exit" -> dispose();
-            case "reports" -> dispose();
+            case "reports" -> reportingChoicesFrame.setVisible(true);
             default -> JOptionPane.showMessageDialog(null, "Just a valid option, please");
         }
     }
