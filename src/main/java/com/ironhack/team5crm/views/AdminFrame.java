@@ -1,6 +1,6 @@
 package com.ironhack.team5crm.views;
 
-import com.ironhack.team5crm.services.SalesRepService;
+import com.ironhack.team5crm.services.SalesRepServiceImpl;
 import com.ironhack.team5crm.ui.Menu;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 public class AdminFrame extends JFrame implements ActionListener {
 
     @Autowired
-    SalesRepService salesRepService;
+    SalesRepServiceImpl salesRepServiceImpl;
 
     @Autowired
     private Menu menu;
@@ -86,7 +86,7 @@ public class AdminFrame extends JFrame implements ActionListener {
                         throw new RuntimeException(ex);
                     }
                 } else if (textField.getText().equalsIgnoreCase("show salesrep")) {
-                    JOptionPane.showMessageDialog(null, salesRepService.findAllSalesRep());
+                    JOptionPane.showMessageDialog(null, salesRepServiceImpl.findAllSalesRep());
                 } else {
                     JOptionPane.showMessageDialog(null, "Please, check the rigth options");
                 }

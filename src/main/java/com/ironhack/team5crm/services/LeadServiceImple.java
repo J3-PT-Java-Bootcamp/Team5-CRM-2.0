@@ -1,7 +1,6 @@
 package com.ironhack.team5crm.services;
 
 import com.ironhack.team5crm.models.*;
-import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.repositories.AccountRepository;
@@ -10,6 +9,7 @@ import com.ironhack.team5crm.repositories.LeadRepository;
 import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
+import com.ironhack.team5crm.services.interfaceService.LeadService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @NoArgsConstructor
-public class LeadService {
+public class LeadServiceImple implements LeadService {
 
     @Autowired
     private LeadRepository leadRepository;
@@ -82,7 +82,7 @@ public class LeadService {
     /**
      * Method that shows the requested Lead by ID
      */
-    public Lead lookUpLead(int id) throws EmptyException, DataNotFoundException {
+    public Lead lookUpLead(int id) throws DataNotFoundException, EmptyException {
         if (leadRepository.findAll().size() != 0) {
             var lead = leadRepository.findById(id);
             if (lead.isPresent()) {

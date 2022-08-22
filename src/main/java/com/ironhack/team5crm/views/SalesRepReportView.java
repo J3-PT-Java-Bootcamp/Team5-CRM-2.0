@@ -1,6 +1,7 @@
 package com.ironhack.team5crm.views;
 
-import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
+import com.ironhack.team5crm.services.SalesRepServiceImpl;
+import com.ironhack.team5crm.services.exceptions.EmptyException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,8 +13,8 @@ import java.awt.event.ActionListener;
 
 @Component
 public class SalesRepReportView extends JFrame implements ActionListener {
-    //@Autowired
-    //SalesRepController controSales;
+    @Autowired
+    SalesRepServiceImpl salesRepServiceImpl;
 
     private JLabel title, text;
     private JTextField field;
@@ -93,16 +94,10 @@ public class SalesRepReportView extends JFrame implements ActionListener {
     }
 
 
-    public void checkTheText(String any) throws DataNotFoundException {//throws WrongInputException
-        // String[] textF = any.toLowerCase().split(" ");
-        // if (textF.length <= 3) {
-        // throw new WrongInputException();
-        // } else {
-        //Arrays.toString(textF)
+    public void checkTheText(String any) throws  EmptyException {
         switch (any.toLowerCase()) {
-            case "report lead by salesrep" -> {//controSales.getLeads()
-                //var x = controSales.getLeads().size();
-                //JOptionPane.showMessageDialog(null,imple.leadersBySalesRep());
+            case "report lead by salesrep" -> {
+                JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterLeadsBySales());
             }
             case "report opportunity by salesrep" -> dispose();
             case "report close-won by salesrep" -> dispose();

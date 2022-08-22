@@ -5,13 +5,14 @@ import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
+import com.ironhack.team5crm.services.interfaceService.OpportunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class OpportunityService {
+public class OpportunityServiceImple implements OpportunityService {
 
     @Autowired
     private OpportunityRepository opportunityRepository;
@@ -36,7 +37,7 @@ public class OpportunityService {
      * shows requested opportunity by ID or gives information if the Opportunity
      * doesn't exist in the Database
      */
-    public Opportunity lookUpOpportunity(int id) throws DataNotFoundException, EmptyException {
+    public Opportunity lookUpOpportunity(int id) throws EmptyException, DataNotFoundException {
         if (opportunityRepository.findAll().size() == 0) {
             throw new EmptyException();
         } else {
