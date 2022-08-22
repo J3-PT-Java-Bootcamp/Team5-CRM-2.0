@@ -1,5 +1,6 @@
 package com.ironhack.team5crm.views;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -9,6 +10,9 @@ import java.awt.event.ActionListener;
 
 @Component
 public class ReportingChoicesFrame extends JFrame implements ActionListener {
+
+    @Autowired
+    SalesRepReportView salesRepReportView;
 
     private JLabel text, title;
     private JComboBox options;
@@ -64,10 +68,10 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
         if(e.getActionCommand().equalsIgnoreCase("exit") ){
             dispose();
         } else if (e.getActionCommand().equalsIgnoreCase("select")) {
-            /*var aux = options.getSelectedItem().toString();
+            var aux = options.getSelectedItem().toString();
             switch (aux.toLowerCase()){
-                case "salesrep" -> salesRepFrame.setVisible(true);
-            }*/
+                case "salesrep" -> salesRepReportView.setVisible(true);
+            }
             dispose();
         }
         dispose();
