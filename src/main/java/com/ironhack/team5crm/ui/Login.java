@@ -5,6 +5,7 @@ import com.ironhack.team5crm.services.SalesRepService;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
+import com.ironhack.team5crm.views.PrincipalView;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,11 @@ public class Login {
     @Autowired
     Menu menu;
 
+    //new addings
+    @Autowired
+    PrincipalView startView;
+
+
     public void main() throws AbortedException, WrongInputException {
 
         if (salesRepService.findAllSalesRep().isEmpty()) {
@@ -35,7 +41,8 @@ public class Login {
                     Thanks!
                     """);
             menu.newSalesRep();
-            main();
+            //main();
+            //**new view
         } else {
 
             SalesRep salesRepLoggedIn = null;
@@ -48,7 +55,10 @@ public class Login {
                 }
             } while (salesRepLoggedIn == null);
 
-            menu.main(salesRepLoggedIn);
+            //menu.main(salesRepLoggedIn);
+            //****new method
+            startView.setDirector(salesRepLoggedIn);
+            startView.setVisible(true);
         }
 
     }
@@ -68,4 +78,8 @@ public class Login {
 
         return salesRepService.findSalesRepById(Integer.parseInt(salesRepID.toString()));
     }
+
+
+    //new method for send the salesrep
+
 }
