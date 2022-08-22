@@ -12,41 +12,47 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Component
-public class PrincipalView extends JFrame implements ActionListener {
+public class AdminSection extends JFrame implements ActionListener {
 
     @Autowired
-    private Menu menu;
-
-    @Autowired
-    AdminSection adminSection;
+    AdminFrame adminFrame;
 
     private SalesRep salesRep;
 
-    private JButton adminButton; // -- check the admind options
-    private JButton salesButton; // check the sales option, last project
+    private JButton dashboardButton; // -- check the dashborard by every options
+    private JButton adminOptionButton; // check the options for new additions available / new sales rep and show all sales
+
+    private JButton exit;
 
     //**** Contructor for start every controller
-    public PrincipalView() {
+    public AdminSection() {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // ADMIN BUTTON VALUES
-        adminButton = new JButton();
-        adminButton.setBounds(66, 75, 154, 25);
-        adminButton.setText("Admin"); // *** check for a better name
+        dashboardButton = new JButton();
+        dashboardButton.setBounds(40, 75, 100, 25);
+        dashboardButton.setText("Reports"); // *** check for a better name
 
         // SALES BUTTON VALUES
-        salesButton = new JButton();
-        salesButton.setBounds(240, 75, 154, 25);
-        salesButton.setText("Sales");
+        adminOptionButton = new JButton();
+        adminOptionButton.setBounds(160, 75, 100, 25);
+        adminOptionButton.setText("Edit");
+
+        // EXIT BUTTON VALUES
+        exit = new JButton();
+        exit.setBounds(280, 75, 100, 25);
+        exit.setText("Exit");
 
         // add the action for every button
-        adminButton.addActionListener(this);
-        salesButton.addActionListener(this);
+        dashboardButton.addActionListener(this);
+        adminOptionButton.addActionListener(this);
+        exit.addActionListener(this);
 
         //TAKING THE BUTTONS ON PANECONTAINER
-        getContentPane().add(adminButton);
-        getContentPane().add(salesButton);
+        getContentPane().add(dashboardButton);
+        getContentPane().add(adminOptionButton);
+        getContentPane().add(exit);
 
         //ADDING CUSTOM VALUES TO FRAME
         setSize(450, 350);
@@ -67,17 +73,11 @@ public class PrincipalView extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand().toLowerCase()) {
-            case "admin" -> {
-                adminSection.setVisible(true);
-            }
-            case "sales" -> {
-                try {
-                    menu.main(salesRep);//its ok
-                } catch (WrongInputException | AbortedException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
+            case "edit" -> adminFrame.setVisible(true);
+            case "exit" -> dispose();
+            case "reports" -> dispose();
             default -> JOptionPane.showMessageDialog(null, "Just a valid option, please");
         }
     }
 }
+

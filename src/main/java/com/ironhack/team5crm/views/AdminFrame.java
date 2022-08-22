@@ -1,6 +1,8 @@
 package com.ironhack.team5crm.views;
 
 import com.ironhack.team5crm.services.SalesRepService;
+import com.ironhack.team5crm.ui.Menu;
+import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,9 @@ public class AdminFrame extends JFrame implements ActionListener {
 
     @Autowired
     SalesRepService salesRepService;
+
+    @Autowired
+    private Menu menu;
     private JLabel text;
     private JTextField textField;
     private JButton search, exit;
@@ -73,7 +78,18 @@ public class AdminFrame extends JFrame implements ActionListener {
         switch (e.getActionCommand().toLowerCase()) {
             case "exit" -> dispose();
             case "search" -> {// this gonna call to the main methods
-                JOptionPane.showMessageDialog(null, salesRepService.findAllSalesRep());
+
+                if(textField.getText().equalsIgnoreCase("new salesrep")){
+                    try {
+                        menu.newSalesRep();
+                    } catch (WrongInputException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else if (textField.getText().equalsIgnoreCase("show salesrep")) {
+                    JOptionPane.showMessageDialog(null, salesRepService.findAllSalesRep());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please, check the rigth options");
+                }
             }
         }
         dispose();
