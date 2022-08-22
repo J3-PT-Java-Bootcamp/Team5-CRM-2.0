@@ -93,7 +93,7 @@ public class SalesRepServiceImpl implements SalesRepService {
     //A count of all CLOSED_LOST Opportunities by SalesRe
     @Override
     public Map<Object, Object> counterOpportunitiesByCloseLost() throws EmptyException {
-        List <Object[]> salesRep = salesRepRepository.opportunitiesByCloseWon();
+        List <Object[]> salesRep = salesRepRepository.opportunitiesByCloseLost();
         Map <Object, Object> count = new HashMap<>();
         if ((salesRep.isEmpty())){
             throw new EmptyException();
@@ -108,7 +108,7 @@ public class SalesRepServiceImpl implements SalesRepService {
     //A count of all OPEN Opportunities by SalesRep
     @Override
     public Map<Object, Object> counterOpportunitiesByOpen() throws EmptyException {
-        List <Object[]> salesRep = salesRepRepository.opportunitiesByCloseWon();
+        List <Object[]> salesRep = salesRepRepository.opportunitiesByOpen();
         Map <Object, Object> count = new HashMap<>();
         if ((salesRep.isEmpty())){
             throw new EmptyException();
