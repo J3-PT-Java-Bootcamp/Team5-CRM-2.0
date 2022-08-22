@@ -82,13 +82,7 @@ public class SalesRepReportView extends JFrame implements ActionListener {
 
         switch (e.getActionCommand().toLowerCase()){
             case "exit" -> dispose();
-            case "search" -> {
-                //try {
-                checkTheText(field.getText());
-                // } catch (WrongInputException ex) {
-                //  throw new RuntimeException(ex);
-                //}
-            }
+            case "search" -> checkTheText(field.getText());
         }
         dispose();
     }
@@ -96,14 +90,11 @@ public class SalesRepReportView extends JFrame implements ActionListener {
 
     public void checkTheText(String any) throws  EmptyException {
         switch (any.toLowerCase()) {
-            case "report lead by salesrep" -> {
-                JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterLeadsBySales());
-            }
-            case "report opportunity by salesrep" -> dispose();
-            case "report close-won by salesrep" -> dispose();
-            case "report close-lost by salesrep" -> dispose();
-            case "report open by salesrep" -> dispose();
+            case "report lead by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterLeadsBySales());
+            case "report opportunity by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesBySalesRep());
+            case "report close-won by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByCloseWon());
+            case "report close-lost by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByCloseLost());
+            case "report open by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByOpen());
         }
     }
-    // }
 }

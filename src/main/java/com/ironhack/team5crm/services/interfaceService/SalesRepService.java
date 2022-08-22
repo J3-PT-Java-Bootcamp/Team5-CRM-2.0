@@ -16,6 +16,16 @@ public interface SalesRepService {
 
     List<SalesRep> getAllSalesRep() throws EmptyException;
 
+    //CUSTOM QUERYS FOR DASHBOARDS
+
     Map<Object, Object> counterLeadsBySales() throws EmptyException;
+
+    Map <Object, Object> counterOpportunitiesBySalesRep() throws EmptyException;
+
+    Map <Object, Object> counterOpportunitiesByCloseWon() throws EmptyException;
+
+    Map <Object, Object> counterOpportunitiesByCloseLost() throws EmptyException;
+
+    Map <Object, Object> counterOpportunitiesByOpen() throws EmptyException;
 
 }

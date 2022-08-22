@@ -60,5 +60,65 @@ public class SalesRepServiceImpl implements SalesRepService {
         return values;
     }
 
+    //A count of all Opportunities by SalesRep
+    @Override
+    public Map<Object, Object> counterOpportunitiesBySalesRep() throws EmptyException {
+        List <Object[]> salesRep = salesRepRepository.opportunitiesBySalesRep();
+        Map <Object, Object> count = new HashMap<>();
+        if ((salesRep.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < salesRep.size(); i++){
+                count.put(salesRep.get(i)[0], salesRep.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
+    //A count of all CLOSED_WON Opportunities by SalesRep
+    @Override
+    public Map<Object, Object> counterOpportunitiesByCloseWon() throws EmptyException {
+        List <Object[]> salesRep = salesRepRepository.opportunitiesByCloseWon();
+        Map <Object, Object> count = new HashMap<>();
+        if ((salesRep.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < salesRep.size(); i++){
+                count.put(salesRep.get(i)[0], salesRep.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
+    //A count of all CLOSED_LOST Opportunities by SalesRe
+    @Override
+    public Map<Object, Object> counterOpportunitiesByCloseLost() throws EmptyException {
+        List <Object[]> salesRep = salesRepRepository.opportunitiesByCloseWon();
+        Map <Object, Object> count = new HashMap<>();
+        if ((salesRep.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < salesRep.size(); i++){
+                count.put(salesRep.get(i)[0], salesRep.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
+    //A count of all OPEN Opportunities by SalesRep
+    @Override
+    public Map<Object, Object> counterOpportunitiesByOpen() throws EmptyException {
+        List <Object[]> salesRep = salesRepRepository.opportunitiesByCloseWon();
+        Map <Object, Object> count = new HashMap<>();
+        if ((salesRep.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < salesRep.size(); i++){
+                count.put(salesRep.get(i)[0], salesRep.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
 
 }
