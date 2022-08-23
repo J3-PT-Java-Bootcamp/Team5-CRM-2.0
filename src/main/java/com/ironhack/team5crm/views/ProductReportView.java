@@ -87,8 +87,8 @@ public class ProductReportView extends JFrame implements ActionListener, Operati
         switch (e.getActionCommand().toLowerCase()){
             case "exit" -> dispose();
             case "search" -> {
-                String cad = new String(field.getText());
-                checkTheText(cad);
+                //String cad = new String(field.getText());
+                checkTheText(field.getText());
             }
         }
         cleanUp();
@@ -97,24 +97,34 @@ public class ProductReportView extends JFrame implements ActionListener, Operati
 
 
     public void checkTheText(String any) throws EmptyException, WrongInputException {
-        //cleanUp();
-        JOptionPane.showMessageDialog(null, any.length());
+        cleanUp();
         var extension = any.toLowerCase().split(" ");
-
-        if(extension.length <= 5){
+        //CALL TO THE EXCEPTION FOR CHECK THE EXTENSION
+        if(extension.length <= 3){
             throw new WrongInputException();
         }
 
-        String product = extension[8];
+        //CALL TO METHOD FOR CHECK THE SPECIFIC SINTAX
+        String toVerified = String.valueOf(verifiedInput(extension));
+        String product = extension[4];
 
-        switch (any.toLowerCase()) {
+        switch (toVerified) {
             case OPPORTUNITY -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByProduct(product));
-            case "report close-won by the product" -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByOpen());
-            case "report close-lost by the product" -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCloseLost());
-            case "report open by the product" -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCloseWon());
+            case OPEN -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByOpen(product));
+            case CLOSE_LOST -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCloseLost(product));
+            case CLOSE_WON -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCloseWon(product));
             default -> JOptionPane.showMessageDialog(null, "only a valid option, check your sintax");
         }
         dispose();
+    }
+
+    //METHOD FOR CHECK THE SPECIFIC SINTAX
+    public StringBuilder verifiedInput(String [] estend){
+        StringBuilder getting = new StringBuilder();
+        for( int i = 0; i < estend.length - 1; i++){
+            getting.append(estend[i] + " ");
+        }
+        return getting;
     }
 }
 

@@ -19,26 +19,29 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
             "    GROUP BY product;",nativeQuery = true)
     List<Object[]> countByProduct(@Param("product") String product);
 
+
+    //******************************************************************
     //A count of all CLOSED_WON Opportunities by the product
+
     @Query(value = "SELECT product, COUNT(*)\n" +
             "    FROM opportunities\n" +
-            "    WHERE status LIKE 'close_won'\n" +
+            "    WHERE status LIKE 'close_won' AND product LIKE :product\n" +
             "    GROUP BY product;", nativeQuery = true)
-    List<Object[]> countByCloseWon();
+    List<Object[]> countByCloseWon(@Param("product") String product);
 
     //A count of all CLOSED_LOST Opportunities by the product
     @Query(value = "SELECT product, COUNT(*)\n" +
             "    FROM opportunities\n" +
-            "    WHERE status LIKE 'close_lost'\n" +
+            "    WHERE status LIKE 'close_lost' AND product LIKE :product\n" +
             "    GROUP BY product;", nativeQuery = true)
-    List<Object[]> countByCloseLost();
+    List<Object[]> countByCloseLost(@Param("product") String product);
 
     //A count of all OPEN Opportunities by the product
     @Query(value = "SELECT product, COUNT(*)\n" +
             "    FROM opportunities\n" +
-            "    WHERE status LIKE 'open'\n" +
+            "    WHERE status LIKE 'open' AND product LIKE :product\n" +
             "    GROUP BY product;", nativeQuery = true)
-    List<Object[]> countByOpen();
+    List<Object[]> countByOpen(@Param("product") String product);
 
 
     //************************  BY COUNTRY

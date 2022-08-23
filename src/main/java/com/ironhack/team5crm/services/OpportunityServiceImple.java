@@ -82,8 +82,8 @@ public class OpportunityServiceImple implements OpportunityService {
     }
 
     @Override
-    public Map<Object, Object> counterOpportunitiesByCloseWon() throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByCloseWon();
+    public Map<Object, Object> counterOpportunitiesByCloseWon(String products) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByCloseWon(products);
         Map <Object, Object> count = new HashMap<>();
         if ((product.isEmpty())){
             throw new EmptyException();
@@ -96,8 +96,8 @@ public class OpportunityServiceImple implements OpportunityService {
     }
 
     @Override
-    public Map<Object, Object> counterOpportunitiesByCloseLost() throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByCloseLost();
+    public Map<Object, Object> counterOpportunitiesByCloseLost(String products) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByCloseLost(products);
         Map <Object, Object> count = new HashMap<>();
         if ((product.isEmpty())){
             throw new EmptyException();
@@ -110,8 +110,8 @@ public class OpportunityServiceImple implements OpportunityService {
     }
 
     @Override
-    public Map<Object, Object> counterOpportunitiesByOpen() throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByOpen();
+    public Map<Object, Object> counterOpportunitiesByOpen(String products) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByOpen(products);
         Map <Object, Object> count = new HashMap<>();
         if ((product.isEmpty())){
             throw new EmptyException();

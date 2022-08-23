@@ -18,9 +18,9 @@ public interface OpportunityService {
 
     Map<Object, Object> counterOpportunitiesByProduct(String product) throws EmptyException;
 
-    Map<Object, Object> counterOpportunitiesByCloseWon() throws EmptyException;
+    Map<Object, Object> counterOpportunitiesByCloseWon(String product) throws EmptyException;
 
-    Map<Object, Object> counterOpportunitiesByCloseLost() throws EmptyException;
+    Map<Object, Object> counterOpportunitiesByCloseLost(String product) throws EmptyException;
 
-    Map<Object, Object> counterOpportunitiesByOpen() throws EmptyException;
+    Map<Object, Object> counterOpportunitiesByOpen(String product) throws EmptyException;
 }
