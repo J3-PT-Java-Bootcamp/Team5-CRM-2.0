@@ -68,6 +68,10 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
         }
     }
 
+    //***********************************************************************
+    // BY PRODUCTS
+    //***********************************************************************
+
     //A count of all Opportunities by the product
     @Override
     public Map<Object, Object> counterOpportunitiesByProduct(String product) throws EmptyException {
@@ -84,49 +88,55 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
     }
 
     @Override
-    public Map<Object, Object> counterOpportunitiesByCloseWon(String products) throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByCloseWon(products);
+    public Map<Object, Object> reportsByProducts(String stats, String products) throws EmptyException {
+
         Map <Object, Object> count = new HashMap<>();
-        if ((product.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < product.size(); i++){
-                count.put(product.get(i)[0], product.get(i)[1]);
+
+        switch (stats){
+            case OPEN -> {//A count of all OPEN Opportunities by the product
+
+                List <Object[]> product = opportunityRepository.countByStatusAndProduct(OPEN, products);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by the product
+
+                List <Object[]> product = opportunityRepository.countByStatusAndProduct(CLOSE_LOST_TABLES, products);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case CLOSE_WON -> { //A count of all CLOSED_WON Opportunities by the product
+
+                List <Object[]> product = opportunityRepository.countByStatusAndProduct(CLOSE_WON_TABLES, products);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
             }
         }
+
         return count;
     }
 
-    @Override
-    public Map<Object, Object> counterOpportunitiesByCloseLost(String products) throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByCloseLost(products);
-        Map <Object, Object> count = new HashMap<>();
-        if ((product.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < product.size(); i++){
-                count.put(product.get(i)[0], product.get(i)[1]);
-            }
-        }
-        return count;
-    }
-
-    @Override
-    public Map<Object, Object> counterOpportunitiesByOpen(String products) throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByOpen(products);
-        Map <Object, Object> count = new HashMap<>();
-        if ((product.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < product.size(); i++){
-                count.put(product.get(i)[0], product.get(i)[1]);
-            }
-        }
-        return count;
-    }
 
     //***********************************************************************
+    // BY COUNTRY
+    //***********************************************************************
     //A count of all Opportunities by country
+
     @Override
     public Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException {
         List <Object[]> product = opportunityRepository.countByCountry(country);
@@ -147,8 +157,9 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
         Map <Object, Object> count = new HashMap<>();
 
         switch (stats){
-            case CLOSE_WON -> {
-                List <Object[]> product = opportunityRepository.countByCountryCloseWon(countrys);
+            case CLOSE_WON -> {  //A count of all CLOSED_WON Opportunities by country
+
+                List <Object[]> product = opportunityRepository.countByCountryByStatus(CLOSE_WON_TABLES, countrys);
                 if ((product.isEmpty())){
                     throw new EmptyException();
                 }else {
@@ -157,8 +168,9 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
                     }
                 }
             }
-            case CLOSE_LOST -> {
-                List <Object[]> product = opportunityRepository.countByCountryCloseLost(countrys);
+            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by country
+
+                List <Object[]> product = opportunityRepository.countByCountryByStatus(CLOSE_LOST_TABLES, countrys);
                 if ((product.isEmpty())){
                     throw new EmptyException();
                 }else {
@@ -167,8 +179,9 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
                     }
                 }
             }
-            case OPEN -> {
-                List <Object[]> product = opportunityRepository.countByCountryOpen(countrys);
+            case OPEN -> { ////A count of all OPEN Opportunities by country
+
+                List <Object[]> product = opportunityRepository.countByCountryByStatus(OPEN, countrys);
                 if ((product.isEmpty())){
                     throw new EmptyException();
                 }else {
@@ -181,14 +194,15 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
 
         return count;
     }
+
 
     //***********************************************************************
-    /*/ BY COUNTRY
-
+    // BY City
+    //***********************************************************************
     //A count of all Opportunities by country
     @Override
-    public Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByCountry(country);
+    public Map<Object, Object> counterOpportunitiesByCity(String city) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByCity(city);
         Map <Object, Object> count = new HashMap<>();
         if ((product.isEmpty())){
             throw new EmptyException();
@@ -200,50 +214,48 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
         return count;
     }
 
-    //A count of all CLOSED_WON Opportunities by country
     @Override
-    public Map<Object, Object> counterCountryByCloseWon(String country) throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByCountryCloseWon(country);
+    public Map<Object, Object> reportByCity(String stats, String city) throws EmptyException {
+
         Map <Object, Object> count = new HashMap<>();
-        if ((product.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < product.size(); i++){
-                count.put(product.get(i)[0], product.get(i)[1]);
+
+        switch (stats){
+            case CLOSE_WON -> {  //A count of all CLOSED_WON Opportunities by city
+
+                List <Object[]> product = opportunityRepository.countByStatusAndCity(CLOSE_WON_TABLES, city);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by city
+
+                List <Object[]> product = opportunityRepository.countByStatusAndCity(CLOSE_LOST_TABLES, city);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case OPEN -> { ////A count of all OPEN Opportunities by city
+
+                List <Object[]> product = opportunityRepository.countByStatusAndCity(OPEN, city);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
             }
         }
+
         return count;
     }
-
-    //A count of all CLOSED_LOST Opportunities by country
-
-    @Override
-    public Map<Object, Object> counterCountryByCloseLost(String country) throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByCountryCloseLost(country);
-        Map <Object, Object> count = new HashMap<>();
-        if ((product.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < product.size(); i++){
-                count.put(product.get(i)[0], product.get(i)[1]);
-            }
-        }
-        return count;
-    }
-
-    //A count of all OPEN Opportunities by country
-    @Override
-    public Map<Object, Object> counterCountryByOpen(String country) throws EmptyException {
-        List <Object[]> product = opportunityRepository.countByCountryOpen(country);
-        Map <Object, Object> count = new HashMap<>();
-        if ((product.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < product.size(); i++){
-                count.put(product.get(i)[0], product.get(i)[1]);
-            }
-        }
-        return count;
-    }*/
 
 }

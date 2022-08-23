@@ -25,4 +25,9 @@ public interface ConsoleOperations {
     String MEDICAL = "Medical";
     String OTHER = "Other Industries";
 
+    // TABLES ENTITYS
+
+    String CLOSE_LOST_TABLES = "close_lost";
+    String CLOSE_WON_TABLES = "close_won";
+
 }

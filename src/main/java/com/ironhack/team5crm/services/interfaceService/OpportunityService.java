@@ -20,30 +20,21 @@ public interface OpportunityService {
     //BY PRODUCT
 
     Map<Object, Object> counterOpportunitiesByProduct(String product) throws EmptyException;
+    Map<Object, Object> reportsByProducts(String stats, String product) throws EmptyException;
 
-    Map<Object, Object> counterOpportunitiesByCloseWon(String product) throws EmptyException;
-
-    Map<Object, Object> counterOpportunitiesByCloseLost(String product) throws EmptyException;
-
-    Map<Object, Object> counterOpportunitiesByOpen(String product) throws EmptyException;
 
     //BY COUNTRY
-
-    /*
-    Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException;
-
-    Map<Object, Object> counterCountryByCloseWon(String country) throws EmptyException;
-
-    Map<Object, Object> counterCountryByCloseLost(String country) throws EmptyException;
-
-    Map<Object, Object> counterCountryByOpen(String country) throws EmptyException;*/
-
-    //******************
-
 
     //******************reportByCountry
 
     Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException;
     Map<Object, Object> reportByCountry(String stats, String country) throws EmptyException;
+
+    //BY CITY
+
+    //******************  reportBy CITY
+
+    Map<Object, Object> counterOpportunitiesByCity(String country) throws EmptyException;
+    Map<Object, Object> reportByCity(String stats, String country) throws EmptyException;
 
 }

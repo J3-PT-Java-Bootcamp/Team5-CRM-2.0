@@ -13,28 +13,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Component
-public class ProductReportView extends JFrame implements ActionListener, Operations {
+public class CityReportView extends JFrame implements ActionListener, Operations {
+
     @Autowired
-    private OpportunityServiceImple opportunityServiceImple;
+    OpportunityServiceImple opportunityServiceImple;
 
     private JLabel title, text;
     private JTextField field;
     private JButton exit, search;
 
-    public ProductReportView(){
+    public CityReportView(){
 
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p style = 'color : red;'>Reports By Product<p></html>");
+        title = new JLabel("<html><p style = 'color : red;'>Reports By City<p></html>");
         title.setBounds(200, 20, 400, 30);
         title.setFont(new Font("Courier New", 1, 25));
 
         text = new JLabel();
         text.setText(
                 "<html><h2>List of commands</h2></br>" +
-                        "<p><b>[Report Opportunity by the product]</b> -> A count of all Opportunities by the product . <p>" +
-                        "<p><b>[Report CLOSED-WON by the product]</b> -> A count of all CLOSED_WON Opportunities by the product. <p>" +
-                        "<p><b>[Report CLOSED-LOST by the product]</b> -> A count of all CLOSED-LOST Opportunities by the product. <p>" +
-                        "<p><b>[Report OPEN by the product]</b> -> A count of all OPEN Opportunities by the product. <p></html>"
+                        "<p><b>[Report Opportunity by city]</b> -> A count of all Opportunities by city. <p>" +
+                        "<p><b>[Report CLOSED-WON by city]</b> -> A count of all CLOSED_WON Opportunities by city. <p>" +
+                        "<p><b>[Report CLOSED-LOST by city]</b> -> A count of all CLOSED-LOST Opportunities by city. <p>" +
+                        "<p><b>[Report OPEN by city]</b> -> A count of all OPEN Opportunities by city. <p></html>"
         );
         text.setBounds(30, -40, 650, 450);
         text.setFont(new Font("Courier New", Font.PLAIN, 12));
@@ -106,11 +107,11 @@ public class ProductReportView extends JFrame implements ActionListener, Operati
         //CALL TO METHOD FOR CHECK THE SPECIFIC SINTAX
         String toVerified = String.valueOf(verifiedInput(extension));
         String stats = extension[1];
-        String product = extension[3];
+        String city = extension[3];
 
         switch (toVerified) {
-            case OPPORTUNITY -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByProduct(product));
-            case OPEN, CLOSE_LOST, CLOSE_WON -> JOptionPane.showMessageDialog(null, opportunityServiceImple.reportsByProducts(stats, product));
+            case OPPORTUNITY -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCity(city));
+            case OPEN, CLOSE_LOST, CLOSE_WON -> JOptionPane.showMessageDialog(null, opportunityServiceImple.reportByCity(stats, city));
             default -> JOptionPane.showMessageDialog(null, "only a valid option, check your sintax");
         }
         dispose();
@@ -125,4 +126,3 @@ public class ProductReportView extends JFrame implements ActionListener, Operati
         return getting;
     }
 }
-

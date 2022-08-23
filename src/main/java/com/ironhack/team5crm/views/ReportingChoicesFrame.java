@@ -18,6 +18,9 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
     private ProductReportView productReportView;
 
     @Autowired
+    CityReportView cityReportView;
+
+    @Autowired
     CountryReportView countryReportView;
 
     private JLabel text, title;
@@ -79,6 +82,7 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
                 case "salesrep" -> salesRepReportView.setVisible(true);
                 case "product" -> productReportView.setVisible(true);
                 case "country" -> countryReportView.setVisible(true);
+                case "city" -> cityReportView.setVisible(true);
 
             }
             dispose();
