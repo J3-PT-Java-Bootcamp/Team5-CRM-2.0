@@ -2,6 +2,7 @@ package com.ironhack.team5crm.views;
 
 import com.ironhack.team5crm.services.SalesRepServiceImpl;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
+import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 @Component
-public class SalesRepReportView extends JFrame implements ActionListener {
+public class SalesRepReportView extends JFrame implements ActionListener, Operations {
     @Autowired
     SalesRepServiceImpl salesRepServiceImpl;
 
@@ -93,13 +95,32 @@ public class SalesRepReportView extends JFrame implements ActionListener {
     }
 
 
-    public void checkTheText(String any) throws  EmptyException {
-        switch (any.toLowerCase()) {
-            case "report lead by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterLeadsBySales());
-            case "report opportunity by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesBySalesRep());
-            case "report close-won by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByCloseWon());
-            case "report close-lost by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByCloseLost());
-            case "report open by salesrep" -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByOpen());
+    public void checkTheText(String any) throws EmptyException, WrongInputException {
+        cleanUp();
+        var extension = any.toLowerCase().split(" ");
+        //CALL TO THE EXCEPTION FOR CHECK THE EXTENSION
+        if(extension.length <= 3){
+            throw new WrongInputException();
         }
+        //CALL TO METHOD FOR CHECK THE SPECIFIC SINTAX
+        String toVerified = String.valueOf(verifiedInput(extension));
+        String stats = extension[1];
+
+        switch (any.toLowerCase()) {
+            case LEAD_REP -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterLeadsBySales());
+            case OPP_REP -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesBySalesRep());
+            case CLOSE_REP, LOST_REP, OPEN_REP -> JOptionPane.showMessageDialog(null, salesRepServiceImpl.counterOpportunitiesByStatus(stats));
+        }
+
+        dispose();
+    }
+
+    //METHOD FOR CHECK THE SPECIFIC SINTAX
+    public StringBuilder verifiedInput(String [] estend){
+        StringBuilder getting = new StringBuilder();
+        for( int i = 0; i < estend.length - 1; i++){
+            getting.append(estend[i] + " ");
+        }
+        return getting;
     }
 }

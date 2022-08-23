@@ -6,6 +6,7 @@ import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 
 import com.ironhack.team5crm.services.interfaceService.SalesRepService;
+import com.ironhack.team5crm.ui.ConsoleOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class SalesRepServiceImpl implements SalesRepService {
+public class SalesRepServiceImpl implements SalesRepService, ConsoleOperations {
 
     @Autowired
     SalesRepRepository salesRepRepository;
@@ -75,50 +76,46 @@ public class SalesRepServiceImpl implements SalesRepService {
         return count;
     }
 
-    //A count of all CLOSED_WON Opportunities by SalesRep
     @Override
-    public Map<Object, Object> counterOpportunitiesByCloseWon() throws EmptyException {
-        List <Object[]> salesRep = salesRepRepository.opportunitiesByCloseWon();
+    public Map<Object, Object> counterOpportunitiesByStatus(String status) throws EmptyException {
         Map <Object, Object> count = new HashMap<>();
-        if ((salesRep.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < salesRep.size(); i++){
-                count.put(salesRep.get(i)[0], salesRep.get(i)[1]);
+
+        switch (status) {
+            case CLOSE_WON -> {   //A count of all CLOSED_WON Opportunities by SalesRep
+
+                List<Object[]> product = salesRepRepository.opportunitiesByStatus(CLOSE_WON_TABLES);
+                if ((product.isEmpty())) {
+                    throw new EmptyException();
+                } else {
+                    for (int i = 0; i < product.size(); i++) {
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by SalesRe
+
+                List<Object[]> product = salesRepRepository.opportunitiesByStatus(CLOSE_LOST_TABLES);
+                if ((product.isEmpty())) {
+                    throw new EmptyException();
+                } else {
+                    for (int i = 0; i < product.size(); i++) {
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case OPEN -> { //A count of all OPEN Opportunities by SalesRep
+
+                List<Object[]> product = salesRepRepository.opportunitiesByStatus(OPEN);
+                if ((product.isEmpty())) {
+                    throw new EmptyException();
+                } else {
+                    for (int i = 0; i < product.size(); i++) {
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
             }
         }
         return count;
     }
-
-    //A count of all CLOSED_LOST Opportunities by SalesRe
-    @Override
-    public Map<Object, Object> counterOpportunitiesByCloseLost() throws EmptyException {
-        List <Object[]> salesRep = salesRepRepository.opportunitiesByCloseLost();
-        Map <Object, Object> count = new HashMap<>();
-        if ((salesRep.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < salesRep.size(); i++){
-                count.put(salesRep.get(i)[0], salesRep.get(i)[1]);
-            }
-        }
-        return count;
-    }
-
-    //A count of all OPEN Opportunities by SalesRep
-    @Override
-    public Map<Object, Object> counterOpportunitiesByOpen() throws EmptyException {
-        List <Object[]> salesRep = salesRepRepository.opportunitiesByOpen();
-        Map <Object, Object> count = new HashMap<>();
-        if ((salesRep.isEmpty())){
-            throw new EmptyException();
-        }else {
-            for(int i = 0; i < salesRep.size(); i++){
-                count.put(salesRep.get(i)[0], salesRep.get(i)[1]);
-            }
-        }
-        return count;
-    }
-
 
 }

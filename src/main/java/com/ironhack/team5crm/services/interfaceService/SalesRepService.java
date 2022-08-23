@@ -22,11 +22,7 @@ public interface SalesRepService {
 
     Map <Object, Object> counterOpportunitiesBySalesRep() throws EmptyException;
 
-    Map <Object, Object> counterOpportunitiesByCloseWon() throws EmptyException;
-
-    Map <Object, Object> counterOpportunitiesByCloseLost() throws EmptyException;
-
-    Map <Object, Object> counterOpportunitiesByOpen() throws EmptyException;
+    Map <Object, Object> counterOpportunitiesByStatus(String status) throws EmptyException;
 
 
 }
