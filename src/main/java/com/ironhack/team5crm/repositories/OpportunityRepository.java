@@ -55,5 +55,31 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
     List<Object[]> countByCountry(@Param("country") String country);
 
     //A count of all CLOSED_WON Opportunities by country
+    @Query(value = "SELECT B.country, COUNT(A.status)\n" +
+            "    FROM opportunities A\n" +
+            "    JOIN accounts B on A.account_id = B.id\n" +
+            "    WHERE A.status LIKE 'CLOSE_WON' AND B.country LIKE :country\n" +
+            "    GROUP BY B.country, A.status;",nativeQuery = true)
+    List<Object[]> countByCountryCloseWon(@Param("country") String country);
+
+
+    //A count of all CLOSED_LOST Opportunities by country
+    @Query(value = "SELECT B.country, COUNT(A.status)\n" +
+            "    FROM opportunities A\n" +
+            "    JOIN accounts B on A.account_id = B.id\n" +
+            "    WHERE A.status LIKE 'CLOSE_LOST' AND B.country LIKE :country\n" +
+            "    GROUP BY B.country, A.status;",nativeQuery = true)
+    List<Object[]> countByCountryCloseLost(@Param("country") String country);
+
+
+
+    //A count of all OPEN Opportunities by country
+    @Query(value = "SELECT B.country, COUNT(A.status)\n" +
+            "    FROM opportunities A\n" +
+            "    JOIN accounts B on A.account_id = B.id\n" +
+            "    WHERE A.status LIKE 'open' AND B.country LIKE :country\n" +
+            "    GROUP BY B.country, A.status;",nativeQuery = true)
+    List<Object[]> countByCountryOpen(@Param("country") String country);
+
 
 }

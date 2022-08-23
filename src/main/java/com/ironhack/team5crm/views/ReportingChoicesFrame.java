@@ -17,6 +17,9 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
     @Autowired
     private ProductReportView productReportView;
 
+    @Autowired
+    CountryReportView countryReportView;
+
     private JLabel text, title;
     private JComboBox options;
     private JButton exit, select;
@@ -75,6 +78,8 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
             switch (aux.toLowerCase()){
                 case "salesrep" -> salesRepReportView.setVisible(true);
                 case "product" -> productReportView.setVisible(true);
+                case "country" -> countryReportView.setVisible(true);
+
             }
             dispose();
         }

@@ -6,6 +6,8 @@ import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.services.interfaceService.OpportunityService;
+import com.ironhack.team5crm.ui.ConsoleOperations;
+import com.ironhack.team5crm.views.Operations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class OpportunityServiceImple implements OpportunityService {
+public class OpportunityServiceImple implements OpportunityService, ConsoleOperations {
 
     @Autowired
     private OpportunityRepository opportunityRepository;
@@ -122,5 +124,126 @@ public class OpportunityServiceImple implements OpportunityService {
         }
         return count;
     }
+
+    //***********************************************************************
+    //A count of all Opportunities by country
+    @Override
+    public Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByCountry(country);
+        Map <Object, Object> count = new HashMap<>();
+        if ((product.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < product.size(); i++){
+                count.put(product.get(i)[0], product.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public Map<Object, Object> reportByCountry(String stats, String countrys) throws EmptyException {
+
+        Map <Object, Object> count = new HashMap<>();
+
+        switch (stats){
+            case CLOSE_WON -> {
+                List <Object[]> product = opportunityRepository.countByCountryCloseWon(countrys);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case CLOSE_LOST -> {
+                List <Object[]> product = opportunityRepository.countByCountryCloseLost(countrys);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case OPEN -> {
+                List <Object[]> product = opportunityRepository.countByCountryOpen(countrys);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    //***********************************************************************
+    /*/ BY COUNTRY
+
+    //A count of all Opportunities by country
+    @Override
+    public Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByCountry(country);
+        Map <Object, Object> count = new HashMap<>();
+        if ((product.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < product.size(); i++){
+                count.put(product.get(i)[0], product.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
+    //A count of all CLOSED_WON Opportunities by country
+    @Override
+    public Map<Object, Object> counterCountryByCloseWon(String country) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByCountryCloseWon(country);
+        Map <Object, Object> count = new HashMap<>();
+        if ((product.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < product.size(); i++){
+                count.put(product.get(i)[0], product.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
+    //A count of all CLOSED_LOST Opportunities by country
+
+    @Override
+    public Map<Object, Object> counterCountryByCloseLost(String country) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByCountryCloseLost(country);
+        Map <Object, Object> count = new HashMap<>();
+        if ((product.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < product.size(); i++){
+                count.put(product.get(i)[0], product.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
+    //A count of all OPEN Opportunities by country
+    @Override
+    public Map<Object, Object> counterCountryByOpen(String country) throws EmptyException {
+        List <Object[]> product = opportunityRepository.countByCountryOpen(country);
+        Map <Object, Object> count = new HashMap<>();
+        if ((product.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < product.size(); i++){
+                count.put(product.get(i)[0], product.get(i)[1]);
+            }
+        }
+        return count;
+    }*/
 
 }

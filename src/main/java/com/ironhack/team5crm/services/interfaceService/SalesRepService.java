@@ -28,4 +28,5 @@ public interface SalesRepService {
 
     Map <Object, Object> counterOpportunitiesByOpen() throws EmptyException;
 
+
 }

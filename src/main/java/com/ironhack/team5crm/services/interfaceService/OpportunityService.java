@@ -15,6 +15,9 @@ public interface OpportunityService {
     Opportunity updateOpportunityStatus(int id, Status status) throws DataNotFoundException;
 
     //***new report methods
+    //CUSTOM QUERYS FOR DASHBOARDS
+
+    //BY PRODUCT
 
     Map<Object, Object> counterOpportunitiesByProduct(String product) throws EmptyException;
 
@@ -23,4 +26,24 @@ public interface OpportunityService {
     Map<Object, Object> counterOpportunitiesByCloseLost(String product) throws EmptyException;
 
     Map<Object, Object> counterOpportunitiesByOpen(String product) throws EmptyException;
+
+    //BY COUNTRY
+
+    /*
+    Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException;
+
+    Map<Object, Object> counterCountryByCloseWon(String country) throws EmptyException;
+
+    Map<Object, Object> counterCountryByCloseLost(String country) throws EmptyException;
+
+    Map<Object, Object> counterCountryByOpen(String country) throws EmptyException;*/
+
+    //******************
+
+
+    //******************reportByCountry
+
+    Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException;
+    Map<Object, Object> reportByCountry(String stats, String country) throws EmptyException;
+
 }
