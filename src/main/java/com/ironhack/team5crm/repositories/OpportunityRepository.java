@@ -69,4 +69,24 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
                         "WHERE A.status LIKE :status AND  B.city LIKE :city\n" +
                         "GROUP BY B.city;", nativeQuery = true)
     List<Object[]> countByStatusAndCity(@Param("status") String status, @Param("city") String city);
+
+    //******************* BY INDUSTRY *************************
+
+    //A count of all Opportunities by the INDUSTRY
+
+    @Query(value = "SELECT B.industry, COUNT(*)\n" +
+                        "FROM opportunities A\n" +
+                        "JOIN accounts B on A.account_id = B.id\n" +
+                        "WHERE B.industry LIKE :industry\n" +
+                        "GROUP BY B.industry;", nativeQuery = true)
+    List<Object[]> countByIndustry(@Param("industry") String industry);
+
+    // -- A count of all STATUS  Opportunities by the INDUSTRY
+    @Query(value = "SELECT B.industry, COUNT(*)\n" +
+                        "FROM opportunities A\n" +
+                        "JOIN accounts B on A.account_id = B.id\n" +
+                        "WHERE A.status LIKE :status AND  B.industry LIKE :industry\n" +
+                        "GROUP BY B.industry;", nativeQuery = true)
+    List<Object[]> countByIndustryStatus(@Param("status") String status, @Param("industry") String industry);
+
 }
