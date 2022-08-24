@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 @Component
 public class ReportingChoicesFrame extends JFrame implements ActionListener {
 
+    // Autowired to frames
     @Autowired
     SalesRepReportView salesRepReportView;
 
@@ -22,6 +23,11 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
 
     @Autowired
     CountryReportView countryReportView;
+
+    @Autowired
+    IndustryFrameView industryFrameView;
+
+    //*********************** Attributes by frame
 
     private JLabel text, title;
     private JComboBox options;
@@ -83,6 +89,7 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
                 case "product" -> productReportView.setVisible(true);
                 case "country" -> countryReportView.setVisible(true);
                 case "city" -> cityReportView.setVisible(true);
+                case "industry" -> industryFrameView.setVisible(true);
 
             }
             dispose();

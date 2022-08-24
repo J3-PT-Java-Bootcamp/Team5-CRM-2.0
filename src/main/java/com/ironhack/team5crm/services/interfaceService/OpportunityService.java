@@ -37,4 +37,9 @@ public interface OpportunityService {
     Map<Object, Object> counterOpportunitiesByCity(String country) throws EmptyException;
     Map<Object, Object> reportByCity(String stats, String country) throws EmptyException;
 
+
+    //******************  reportBy INDUSTRY
+
+    Map<Object, Object> counterOpportunitiesByIndustry(String industry) throws EmptyException;
+    Map<Object, Object> reportByIndustry(String stats, String industry) throws EmptyException;
 }

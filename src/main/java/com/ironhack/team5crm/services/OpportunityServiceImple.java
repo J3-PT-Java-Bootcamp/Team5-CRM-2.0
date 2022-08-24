@@ -258,4 +258,63 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
         return count;
     }
 
+    @Override
+    public Map<Object, Object> counterOpportunitiesByIndustry(String industry) throws EmptyException {
+
+        List <Object[]> product = opportunityRepository.countByIndustry(industry);
+        Map <Object, Object> count = new HashMap<>();
+        if ((product.isEmpty())){
+            throw new EmptyException();
+        }else {
+            for(int i = 0; i < product.size(); i++){
+                count.put(product.get(i)[0], product.get(i)[1]);
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public Map<Object, Object> reportByIndustry(String stats, String industry) throws EmptyException {
+
+        Map <Object, Object> count = new HashMap<>();
+
+        switch (stats){
+            case CLOSE_WON -> {  //A count of all CLOSED_WON Opportunities by Industry
+
+                List <Object[]> product = opportunityRepository.countByIndustryStatus(CLOSE_WON_TABLES,  industry);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by industry
+
+                List <Object[]> product = opportunityRepository.countByIndustryStatus(CLOSE_LOST_TABLES,  industry);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+            case OPEN -> { ////A count of all OPEN Opportunities by industry
+
+                List <Object[]> product = opportunityRepository.countByIndustryStatus(OPEN,  industry);
+                if ((product.isEmpty())){
+                    throw new EmptyException();
+                }else {
+                    for(int i = 0; i < product.size(); i++){
+                        count.put(product.get(i)[0], product.get(i)[1]);
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
 }

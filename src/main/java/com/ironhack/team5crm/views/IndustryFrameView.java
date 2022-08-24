@@ -110,8 +110,8 @@ public class IndustryFrameView extends JFrame implements ActionListener, Operati
         String industry = extension[3];
 
         switch (toVerified) {
-            case OPPORTUNITY -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCity(industry));
-            case OPEN, CLOSE_LOST, CLOSE_WON -> JOptionPane.showMessageDialog(null, opportunityServiceImple.reportByCity(stats, industry));
+            case OPPORTUNITY -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByIndustry(industry));
+            case OPEN, CLOSE_LOST, CLOSE_WON -> JOptionPane.showMessageDialog(null, opportunityServiceImple.reportByIndustry(stats, industry));
             default -> JOptionPane.showMessageDialog(null, "only a valid option, check your sintax");
         }
         dispose();
