@@ -106,7 +106,6 @@ public class AccountByOppsReportView extends JFrame implements ActionListener, O
 
         //CALL TO METHOD FOR CHECK THE SPECIFIC SINTAX
         String toVerified = String.valueOf(verifiedInput(extension));
-        JOptionPane.showMessageDialog(null , toVerified);
         String stats = extension[0];
         String opps = extension[1];
 
