@@ -183,4 +183,11 @@ public class TeamPane extends JOptionPane {
         showMessageDialog(title, scrollPane,1);
     }
 
+    public int showConfirmDialog(String title, String message, int optionType, int messageType) {
+        return showConfirmDialog(null,message,title,optionType, messageType,teamIcon);
+    }
+
+    public int showConfirmDialog(String title, String message, int optionType) {
+        return showConfirmDialog(null,message,title,optionType, QUESTION_MESSAGE ,teamIcon);
+    }
 }
