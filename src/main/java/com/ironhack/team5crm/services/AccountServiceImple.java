@@ -1,7 +1,8 @@
-package com.ironhack.team5crm.services.servicesImplements;
+package com.ironhack.team5crm.services;
 
 import java.util.List;
 
+import com.ironhack.team5crm.services.interfaceService.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,8 @@ import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 
 @Service
-public class AccountServiceImple {
 
+public class AccountServiceImple implements AccountService {
   @Autowired
   AccountRepository accountRepository;
 

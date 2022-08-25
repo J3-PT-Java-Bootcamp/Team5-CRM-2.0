@@ -1,6 +1,6 @@
 package com.ironhack.team5crm;
 
-import com.ironhack.team5crm.views.RegisterFrame;
+import com.ironhack.team5crm.ui.Login;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -22,8 +22,8 @@ public class Team5CrmApplication {
         EventQueue.invokeLater(() -> {
 
             try {
-                var ex = ctx.getBean(RegisterFrame.class);
-                //ex.main();
+                var ex = ctx.getBean(Login.class);
+                ex.main();
             } catch (Exception e) {
                 System.out.println(e);
             }

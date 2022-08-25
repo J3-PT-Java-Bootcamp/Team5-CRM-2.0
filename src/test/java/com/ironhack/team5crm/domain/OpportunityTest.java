@@ -1,18 +1,21 @@
 package com.ironhack.team5crm.domain;
 
+import com.ironhack.team5crm.Team5CrmApplicationTests;
 import com.ironhack.team5crm.models.Contact;
 import com.ironhack.team5crm.models.Opportunity;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
+import com.ironhack.team5crm.repositories.AccountRepository;
 import com.ironhack.team5crm.repositories.ContactRepository;
 import com.ironhack.team5crm.repositories.OpportunityRepository;
+import com.ironhack.team5crm.repositories.SalesRepRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-@SpringBootTest
+@SpringBootTest(classes = Team5CrmApplicationTests.class)
 class OpportunityTest {
 
     private List<Opportunity> opportunities;
@@ -23,28 +26,36 @@ class OpportunityTest {
     @Autowired
     OpportunityRepository opportunityRepository;
 
+    @Autowired
+    SalesRepRepository salesRepRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
+
     @DisplayName("Setting the start values for instance")
     @BeforeEach
     void setUp() {
         List<Contact> contacts = List.of(
-                new Contact( "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com", null),
-                new Contact( "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", null),
-                new Contact( "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com", null));
-        opportunities = List.of(
-                new Opportunity(Status.OPEN, Product.HYBRID, 5, contacts.get(0), null, null),
-                new Opportunity(Status.CLOSED_LOST, Product.FLATBED, 9, contacts.get(1), null, null),
-                new Opportunity(Status.CLOSED_WON, Product.BOX, 15, contacts.get(2), null, null));
-
+                new Contact( "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com", accountRepository.findAll().get(1)),
+                new Contact( "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", accountRepository.findAll().get(2)),
+                new Contact( "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com", accountRepository.findAll().get(3)));
         contactRepository.saveAll(contacts);
+
+        opportunities = List.of(
+                new Opportunity(Status.OPEN, Product.HYBRID, 5, contacts.get(0), accountRepository.findAll().get(1), salesRepRepository.findAll().get(1)),
+                new Opportunity(Status.CLOSED_LOST, Product.FLATBED, 9, contacts.get(1), accountRepository.findAll().get(1), salesRepRepository.findAll().get(2)),
+                new Opportunity(Status.CLOSED_WON, Product.BOX, 15, contacts.get(2), accountRepository.findAll().get(2), salesRepRepository.findAll().get(2)));
+
+
         opportunityRepository.saveAll(opportunities);
 
     }
 
-    @AfterEach
+    /*@AfterEach
     void tearDown() {
         opportunityRepository.deleteAll();
         contactRepository.deleteAll();
-    }
+    }*/
 
     @Test
     @DisplayName("Check new object was added")
