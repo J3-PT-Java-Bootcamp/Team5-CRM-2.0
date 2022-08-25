@@ -10,7 +10,6 @@ import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.models.exceptions.Team5CrmException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
-import com.ironhack.team5crm.services.servicesImplements.LeadServiceImple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
