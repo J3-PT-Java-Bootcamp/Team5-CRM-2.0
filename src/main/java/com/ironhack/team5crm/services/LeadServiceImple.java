@@ -24,12 +24,11 @@ public class LeadServiceImple implements LeadService {
     private LeadRepository leadRepository;
     @Autowired
     private AccountRepository accountRepository;
-
     @Autowired
     ContactRepository contactRepository;
-
     @Autowired
     OpportunityRepository opportunityRepository;
+
 
     public Lead newLead(String name, String phone, String email, String company, SalesRep assignedSalesRep) {
         Lead newLead = new Lead(name, phone, email, company, assignedSalesRep);
@@ -37,23 +36,29 @@ public class LeadServiceImple implements LeadService {
         return leadRepository.save(newLead);
     }
 
+
     /**
-     * Method that converts a lead into an opportunity, a contact and both into an
-     * account
+     * Method that takes a lead and converts it into an opportunity and a contact and adds
+     * both into an account
      *
-     * @param leadId
+     * @param lead
+     * @param product
+     * @param productQuantity
+     * @param account
+     * @return
      */
     public Account convert(Lead lead, Product product, int productQuantity, Account account) {
-        var contactToSave = new Contact(lead.getName(), lead.getPhoneNumber(),
-                lead.getEmail(), null);
+        // Generates Contact from Lead
+        var contactToSave = new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), null);
         contactToSave = contactRepository.save(contactToSave);
-        var oppToSave = new Opportunity(
-                Status.OPEN, product, productQuantity, contactToSave, null, lead.getSalesRep());
+
+        // Generates Opportunity from Lead
+        var oppToSave = new Opportunity(Status.OPEN, product, productQuantity, contactToSave, null, lead.getSalesRep());
         oppToSave = opportunityRepository.save(oppToSave);
 
+        // Adds Contact and Opportunity to Account
         account.getContactList().add(contactToSave);
         account.getOpportunityList().add(oppToSave);
-
         account = accountRepository.save(account);
 
         // TODO: this should not be needed to set ids on these entities, it should be
@@ -64,13 +69,14 @@ public class LeadServiceImple implements LeadService {
         opportunityRepository.save(oppToSave);
 
         leadRepository.deleteById(lead.getId());
+
         return account;
     }
 
     /**
      * Method that shows all available Leads in the database
      */
-    public List<Lead> getAllLeads() throws EmptyException {
+    public List<Lead> getAll() throws EmptyException {
         var leads = leadRepository.findAll();
         if (leads.size() != 0) {
             return leads;
@@ -94,5 +100,4 @@ public class LeadServiceImple implements LeadService {
             throw new EmptyException();
         }
     }
-
 }

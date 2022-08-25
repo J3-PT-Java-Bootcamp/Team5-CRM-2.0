@@ -11,12 +11,15 @@ import java.util.List;
 @Repository
 public interface SalesRepRepository extends JpaRepository<SalesRep, Integer> {
 
-    //A count of Leads by SalesRep
+    /**
+     * A count of Leads by SalesRep
+     */
     @Query(value = "SELECT  A.id, A.name,COUNT(*)\n" +
                         "FROM sales_reps A\n" +
                         "JOIN leads l on A.id = l.sales_rep_id\n" +
                         "GROUP BY A.id, A.name;", nativeQuery = true)
     List <Object[]> countByLeads();
+
 
     @Query(value = "SELECT B.name,COUNT(*)\n" +
                         "FROM opportunities A\n" +

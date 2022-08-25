@@ -34,9 +34,9 @@ public class Contact {
     @JoinColumn(name = "account_id")
     private Account account;
 
+
     // * CONSTRUCTOR
     // **********************************************
-
     public Contact(String name, String phoneNumber, String email, Account account) {
         this.name = name;
         this.phoneNumber = phoneNumber;

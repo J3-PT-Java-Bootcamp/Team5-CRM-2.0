@@ -14,29 +14,28 @@ import com.ironhack.team5crm.services.exceptions.EmptyException;
 @Service
 public class AccountServiceImple implements AccountService {
 
-  @Autowired
-  AccountRepository accountRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
-  public List<Account> getAllAccounts() throws EmptyException {
-    var accounts = accountRepository.findAll();
-    if (accounts.isEmpty()) {
-      throw new EmptyException();
-    } else {
-      return accounts;
+    public List<Account> getAll() throws EmptyException {
+        var accounts = accountRepository.findAll();
+        if (accounts.isEmpty()) {
+            throw new EmptyException();
+        } else {
+            return accounts;
+        }
     }
-  }
 
-  public Account lookUpAccount(int id) throws EmptyException, DataNotFoundException {
-    if (accountRepository.findAll().size() != 0) {
-      var account = accountRepository.findById(id);
-      if (account.isPresent()) {
-        return account.get();
-      } else {
-        throw new DataNotFoundException();
-      }
-    } else {
-      throw new EmptyException();
+    public Account lookUpAccount(int id) throws EmptyException, DataNotFoundException {
+        if (accountRepository.findAll().size() != 0) {
+            var account = accountRepository.findById(id);
+            if (account.isPresent()) {
+                return account.get();
+            } else {
+                throw new DataNotFoundException();
+            }
+        } else {
+            throw new EmptyException();
+        }
     }
-  }
-
 }

@@ -7,4 +7,6 @@ import com.ironhack.team5crm.models.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
+
+
 }

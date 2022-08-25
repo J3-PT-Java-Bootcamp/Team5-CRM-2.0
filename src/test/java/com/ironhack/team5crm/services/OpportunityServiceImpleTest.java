@@ -50,7 +50,7 @@ class OpportunityServiceImpleTest {
 
         Team5CrmException exception = null;
         try {
-            var opportunities = opportunityServiceImple.getAllOpportunities();
+            var opportunities = opportunityServiceImple.getAll();
             assertEquals(2, opportunities.size());
         } catch (EmptyException e) {
             exception = e;
@@ -61,7 +61,7 @@ class OpportunityServiceImpleTest {
 
     @Test
     void test_getAllOpportunities_shouldThrowIfNoLeadsAdded() {
-        assertThrowsExactly(EmptyException.class, () -> opportunityServiceImple.getAllOpportunities());
+        assertThrowsExactly(EmptyException.class, () -> opportunityServiceImple.getAll());
     }
 
     @Test

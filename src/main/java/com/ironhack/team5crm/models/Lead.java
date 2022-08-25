@@ -39,7 +39,6 @@ public class Lead {
 
     // * CONSTRUCTORS
     // **********************************************
-
     public Lead(String name, String phoneNumber, String email, String companyName, SalesRep salesRep) {
         this.name = name;
         this.phoneNumber = phoneNumber;

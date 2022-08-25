@@ -3,8 +3,8 @@ package com.ironhack.team5crm.ui;
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.services.SalesRepServiceImpl;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
-import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
+import com.ironhack.team5crm.ui.panes.TeamPane;
 import com.ironhack.team5crm.views.PrincipalView;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,8 @@ import javax.swing.*;
 @Component
 @NoArgsConstructor
 public class Login {
-    static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
+
+    TeamPane teamPane = new TeamPane();
 
     @Autowired
     SalesRepServiceImpl salesRepServiceImpl;
@@ -23,26 +24,31 @@ public class Login {
     @Autowired
     Menu menu;
 
-    //new addings
     @Autowired
     PrincipalView startView;
 
+    String welcomeMessage =
+            """
+            Welcome To Team5's CRM initial setup
+            We hope you are having a nice day!
 
-    public void main() throws AbortedException, WrongInputException {
+            Before you can start to work on your leads and opportunities
+            we need to create a SalesRep
 
-        if (salesRepServiceImpl.findAllSalesRep().isEmpty()) {
-            JOptionPane.showMessageDialog(null, """
-                    Welcome To Team5's CRM initial setup
-                    We hope you are having a nice day!
+            Thanks!
+            """;
 
-                    Before you can start to work on your leads and opportunities
-                    we need to create a SalesRep
 
-                    Thanks!
-                    """);
+    public void main() throws WrongInputException {
+
+
+        if (salesRepServiceImpl.getAll().isEmpty()) {
+
+            teamPane.showMessageDialog("welcome", welcomeMessage,JOptionPane.INFORMATION_MESSAGE);
             menu.newSalesRep();
             //main();
             //**new view
+
         } else {
 
             SalesRep salesRepLoggedIn = null;
@@ -51,7 +57,7 @@ public class Login {
                 try {
                     salesRepLoggedIn = loginSalesRep();
                 } catch (DataNotFoundException | NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "SalesRep not found");
+                    teamPane.showMessageDialog("Not Found", "SalesRep not found",JOptionPane.ERROR_MESSAGE);
                 }
             } while (salesRepLoggedIn == null);
 
@@ -60,26 +66,18 @@ public class Login {
             startView.setDirector(salesRepLoggedIn);
             startView.setVisible(true);
         }
-
     }
 
     private SalesRep loginSalesRep() throws DataNotFoundException, NumberFormatException {
-        var salesRepID = JOptionPane.showInputDialog(null, """
-                Welcome To Team5's CRM
-                We hope you are having a nice day!
-
-                Before you can start to work on your leads and opportunities
-                we must ask you to log in with your SalesRep id.
-
-                Thanks!
-
-                """, "Team5's CRM", JOptionPane.QUESTION_MESSAGE, teamIcon, null,
-                null);
+        var salesRepID = teamPane.showInputDialog(
+                                        "Team5's CRM",
+                                        welcomeMessage,
+                                        JOptionPane.QUESTION_MESSAGE);
 
         return salesRepServiceImpl.findSalesRepById(Integer.parseInt(salesRepID.toString()));
     }
 
 
-    //new method for send the salesrep
+    //new method for send the SalesRep
 
 }

@@ -21,14 +21,15 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
     @Autowired
     private OpportunityRepository opportunityRepository;
 
-    // * METHODS
-    // **********************************************
 
+    //***********************************************************************
+    // * GENERAL METHODS
+    //***********************************************************************
     /**
      * shows all Opportunities stored in the database or gives information if there
      * are no Opportunities in the Database
      */
-    public List<Opportunity> getAllOpportunities() throws EmptyException {
+    public List<Opportunity> getAll() throws EmptyException {
         var opportunities = opportunityRepository.findAll();
         if (opportunities.isEmpty()) {
             throw new EmptyException();
@@ -53,10 +54,9 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
             }
         }
     }
-
+    //***********************************************************************
     // * METHODS TO CHANGE THE OPPORTUNITIES STATUS
-    // **********************************************
-
+    //***********************************************************************
     public Opportunity updateOpportunityStatus(int id, Status status) throws DataNotFoundException {
         var oppToBeFound = opportunityRepository.findById(id);
         if (oppToBeFound.isEmpty()) {
@@ -135,8 +135,8 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
     //***********************************************************************
     // BY COUNTRY
     //***********************************************************************
-    //A count of all Opportunities by country
 
+    //A count of all Opportunities by country
     @Override
     public Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException {
         List <Object[]> product = opportunityRepository.countByCountry(country);
@@ -199,6 +199,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
     //***********************************************************************
     // BY City
     //***********************************************************************
+
     //A count of all Opportunities by country
     @Override
     public Map<Object, Object> counterOpportunitiesByCity(String city) throws EmptyException {
@@ -316,5 +317,4 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
 
         return count;
     }
-
 }

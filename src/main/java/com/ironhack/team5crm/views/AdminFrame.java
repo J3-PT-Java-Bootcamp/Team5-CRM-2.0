@@ -92,7 +92,7 @@ public class AdminFrame extends JFrame implements ActionListener {
                         throw new RuntimeException(ex);
                     }
                 } else if (textField.getText().equalsIgnoreCase("show salesrep")) {
-                    JOptionPane.showMessageDialog(null, salesRepServiceImpl.findAllSalesRep());
+                    JOptionPane.showMessageDialog(null, salesRepServiceImpl.getAll());
                 } else {
                     JOptionPane.showMessageDialog(null, "Please, check the rigth options");
                 }

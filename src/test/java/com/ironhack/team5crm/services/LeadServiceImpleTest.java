@@ -124,7 +124,7 @@ class LeadServiceImpleTest {
 
         Team5CrmException exception = null;
         try {
-            var leads = leadServiceImple.getAllLeads();
+            var leads = leadServiceImple.getAll();
             assertEquals(2, leads.size());
         } catch (EmptyException e) {
             exception = e;
@@ -135,7 +135,7 @@ class LeadServiceImpleTest {
 
     @Test
     void test_getAllLeads_shouldThrowIfNoLeadsAdded() {
-        assertThrowsExactly(EmptyException.class, () -> leadServiceImple.getAllLeads());
+        assertThrowsExactly(EmptyException.class, () -> leadServiceImple.getAll());
     }
 
     @Test

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AccountService {
 
-    List<Account> getAllAccounts() throws EmptyException;
+    List<Account> getAll() throws EmptyException;
     Account lookUpAccount(int id) throws EmptyException, DataNotFoundException;
 
 }

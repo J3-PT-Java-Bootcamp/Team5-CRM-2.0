@@ -20,22 +20,22 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SalesRep {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", nullable = false)
-  private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-  @Column(name = "name")
-  private String name;
+    @Column(name = "name")
+    private String name;
 
-  public SalesRep(String name) {
-    this.name = name;
-  }
+    public SalesRep(String name) {
+      this.name = name;
+    }
 
-  @Override
-  public String toString() {
-    return "🧑🏻‍💼 SalesRep with ID " + id + ": \n" +
-            "Name: " + name + "\n";
-  }
+    @Override
+    public String toString() {
+      return "🧑🏻‍💼 SalesRep with ID " + id + ": \n" +
+              "Name: " + name + "\n";
+    }
 
 }
