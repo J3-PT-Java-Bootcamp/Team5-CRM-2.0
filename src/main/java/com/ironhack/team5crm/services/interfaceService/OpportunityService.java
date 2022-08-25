@@ -42,4 +42,9 @@ public interface OpportunityService {
 
     Map<Object, Object> counterOpportunitiesByIndustry(String industry) throws EmptyException;
     Map<Object, Object> reportByIndustry(String stats, String industry) throws EmptyException;
+
+    //******************  reportBy MEAN, MAX, MIN AND AVG
+
+    int statesByOpportunity(String status, String option);
+
 }

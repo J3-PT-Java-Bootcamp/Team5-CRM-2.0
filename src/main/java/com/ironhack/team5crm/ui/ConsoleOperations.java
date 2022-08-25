@@ -30,4 +30,13 @@ public interface ConsoleOperations {
     String CLOSE_LOST_TABLES = "close_lost";
     String CLOSE_WON_TABLES = "close_won";
 
+    String MEAN = "mean";
+    String MEDIAN = "median";
+    String MIN = "min";
+    String MAX = "max";
+
+    String EMPLOYEE_COUNT = "employeecount";
+    String QUANTITY = "quantity";
+    String OPPS = "opps";
+
 }

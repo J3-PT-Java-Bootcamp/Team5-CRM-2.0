@@ -89,4 +89,87 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
                         "GROUP BY B.industry;", nativeQuery = true)
     List<Object[]> countByIndustryStatus(@Param("status") String status, @Param("industry") String industry);
 
+
+    // mean, avg, max and min
+
+    @Query(value = "SELECT FLOOR(AVG(B.employee_count))\n" +
+                            "FROM opportunities A\n" +
+                            "JOIN accounts B on B.id = A.account_id", nativeQuery = true)
+    int meanByEmployeeCount();
+
+    //MEDIAN BY COUNTER EMPLOYEES IN OPPORTUNITY
+    @Query(value = "SELECT FLOOR(AVG(A1.employee_count)) AS MEDIAN\n" +
+                        "FROM (\n" +
+                            "SELECT B.employee_count, ROW_NUMBER()  OVER(ORDER BY employee_count) AS rower\n" +
+                                "FROM opportunities A\n" +
+                                "JOIN accounts B on B.id = A.account_id\n" +
+                        ") A1,\n" +
+                        "(SELECT COUNT(*) AS counter FROM accounts) A2\n" +
+                    "WHERE A1.rower IN\n" +
+                        "(FLOOR((A2.counter + 1) / 2),\n" +
+                        "FLOOR((A2.counter + 2) / 2));", nativeQuery = true)
+    int medianByEmployeeCount();
+
+    @Query(value = "SELECT MIN(B.employee_count)\n" +
+            "FROM opportunities A\n" +
+            "JOIN accounts B on B.id = A.account_id", nativeQuery = true)
+    int minByEmployeeCount();
+
+    @Query(value = "SELECT MAX(B.employee_count)\n" +
+            "FROM opportunities A\n" +
+            "JOIN accounts B on B.id = A.account_id", nativeQuery = true)
+    int maxByEmployeeCount();
+
+    // BY QUANTITY
+
+    @Query(value = "SELECT FLOOR(AVG(quantity))\n" +
+                        "FROM opportunities;\n", nativeQuery = true)
+    int meanByQuantityCount();
+
+    @Query(value = "SELECT FLOOR(AVG(A1.quantity))\n" +
+                        "FROM (\n" +
+                            "SELECT A.quantity, ROW_NUMBER()  OVER(ORDER BY quantity) AS rower\n" +
+                            "FROM opportunities A\n" +
+                           ") A1,\n" +
+                           "(SELECT COUNT(*) AS counter FROM opportunities) A2\n" +
+                        "WHERE A1.rower IN\n" +
+                        "(FLOOR((A2.counter + 1) / 2),\n" +
+                        "FLOOR((A2.counter + 2) / 2));", nativeQuery = true)
+    int medianByQuantityCount();
+
+    @Query(value = "SELECT MAX(quantity)\n" +
+                        "FROM opportunities;", nativeQuery = true)
+    int maxByQuantityCount();
+
+    @Query(value = "SELECT MIN(quantity)\n" +
+                        "FROM opportunities;", nativeQuery = true)
+    int minByQuantityCount();
+
+
+    // BY ACCOUNT
+
+    @Query(value = "SELECT FLOOR(AVG(account_id))\n" +
+                        "FROM opportunities;\n", nativeQuery = true)
+    int meanByAccountCount();
+
+    @Query(value = "SELECT FLOOR(AVG(A1.account_id)) AS MEDIAN\n" +
+                        "FROM (\n" +
+                                "SELECT A.account_id, ROW_NUMBER()  OVER(ORDER BY account_id) AS rower\n" +
+                                "FROM opportunities A\n" +
+                            ") A1,\n" +
+                            "(SELECT COUNT(*) AS counter FROM opportunities) A2\n" +
+                        "WHERE A1.rower IN\n" +
+                        "(FLOOR((A2.counter + 1) / 2),\n" +
+                        "FLOOR((A2.counter + 2) / 2));", nativeQuery = true)
+    int medianByAccountCount();
+
+
+    @Query(value = "SELECT MAX(account_id)\n" +
+                        "FROM opportunities;", nativeQuery = true)
+    int maxByAccountCount();
+
+    @Query(value = "SELECT MIN(account_id)\n" +
+                        "FROM opportunities;", nativeQuery = true)
+    int minByAccountCount();
+
 }
