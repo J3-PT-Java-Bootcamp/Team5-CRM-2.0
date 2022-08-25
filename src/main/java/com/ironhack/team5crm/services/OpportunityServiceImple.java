@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class OpportunityServiceImple implements OpportunityService, ConsoleOperations {
+public class OpportunityServiceImple implements OpportunityService, ConsoleOperations{
 
     @Autowired
     private OpportunityRepository opportunityRepository;
@@ -318,8 +318,63 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
     }
 
     @Override
-    public int medianByEmployeeCount() {
-        return opportunityRepository.medianByOpportunity();
+    public int statesByOpportunity(String states, String value) {
+        switch (states){
+            case MEAN -> {
+                switch (value){
+                    case EMPLOYEE_COUNT -> {
+                        return opportunityRepository.meanByEmployeeCount();
+                    }
+                    case OPPS -> {
+                        return opportunityRepository.meanByAccountCount();
+                    }
+                    case QUANTITY -> {
+                        return opportunityRepository.meanByQuantityCount();
+                    }
+                }
+            }
+            case MEDIAN -> {
+                switch (value){
+                    case EMPLOYEE_COUNT -> {
+                        return opportunityRepository.medianByEmployeeCount();
+                    }
+                    case OPPS -> {
+                        return opportunityRepository.medianByAccountCount();
+                    }
+                    case QUANTITY -> {
+                        return opportunityRepository.medianByQuantityCount();
+                    }
+                }
+            }
+            case MIN -> {
+                switch (value){
+                    case EMPLOYEE_COUNT -> {
+                        return opportunityRepository.minByEmployeeCount();
+                    }
+                    case OPPS -> {
+                        return opportunityRepository.minByAccountCount();
+                    }
+                    case QUANTITY -> {
+                        return opportunityRepository.minByQuantityCount();
+                    }
+                }
+            }
+            case MAX -> {
+                switch (value){
+                    case EMPLOYEE_COUNT -> {
+                        return opportunityRepository.maxByEmployeeCount();
+                    }
+                    case OPPS -> {
+                        return opportunityRepository.maxByAccountCount();
+                    }
+                    case QUANTITY -> {
+                        return opportunityRepository.maxByQuantityCount();
+                    }
+                }
+            }
+        }
+        return 0;
     }
+
 
 }

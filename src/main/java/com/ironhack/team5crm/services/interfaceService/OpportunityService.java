@@ -45,5 +45,6 @@ public interface OpportunityService {
 
     //******************  reportBy MEAN, MAX, MIN AND AVG
 
-    int medianByEmployeeCount();
+    int statesByOpportunity(String status, String option);
+
 }

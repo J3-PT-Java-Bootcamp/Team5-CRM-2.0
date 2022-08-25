@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Component
-public class EmployeeCountView extends JFrame implements ActionListener, Operations {
+public class QuantityReportView extends JFrame implements ActionListener, Operations {
 
     @Autowired
     OpportunityServiceImple opportunityServiceImple;
@@ -22,20 +22,20 @@ public class EmployeeCountView extends JFrame implements ActionListener, Operati
     private JTextField field;
     private JButton exit, search;
 
-    public EmployeeCountView(){
+    public QuantityReportView(){
 
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p style = 'color : red;'>Reports By EmployeeCount<p></html>");
+        title = new JLabel("<html><p style = 'color : red;'>Reports By Quantity<p></html>");
         title.setBounds(200, 20, 400, 30);
         title.setFont(new Font("Courier New", 1, 25));
 
         text = new JLabel();
         text.setText(
                 "<html><h2>List of commands</h2></br>" +
-                        "<p><b>[Mean EmployeeCount]</b> -> The mean employeeCount. <p>" +
-                        "<p><b>[Median EmployeeCount]</b> -> The median employeeCount. <p>" +
-                        "<p><b>[Max EmployeeCount]</b> -> The maximum employeeCount. <p>" +
-                        "<p><b>[Min EmployeeCount]</b> -> The minimum employeeCount. <p></html>"
+                        "<p><b>[Mean Quantity]</b> -> The mean Quantity. <p>" +
+                        "<p><b>[Median Quantity]</b> -> The median Quantity. <p>" +
+                        "<p><b>[Max Quantity]</b> -> The maximum Quantity. <p>" +
+                        "<p><b>[Min Quantity]</b> -> The minimum Quantity. <p></html>"
         );
         text.setBounds(30, -40, 650, 450);
         text.setFont(new Font("Courier New", Font.PLAIN, 12));
@@ -107,10 +107,10 @@ public class EmployeeCountView extends JFrame implements ActionListener, Operati
         //CALL TO METHOD FOR CHECK THE SPECIFIC SINTAX
         String toVerified = String.valueOf(verifiedInput(extension));
         String stats = extension[0];
-        String employee = extension[1];
+        String quantity = extension[1];
 
         switch (toVerified) {
-            case MEAN , MEDIAN, MIN, MAX -> JOptionPane.showMessageDialog(null, opportunityServiceImple.statesByOpportunity(stats, employee));
+            case MEAN , MEDIAN, MIN, MAX -> JOptionPane.showMessageDialog(null, opportunityServiceImple.statesByOpportunity(stats, quantity));
             default -> JOptionPane.showMessageDialog(null, "only a valid option, check your sintax");
         }
         dispose();
@@ -125,3 +125,4 @@ public class EmployeeCountView extends JFrame implements ActionListener, Operati
         return getting;
     }
 }
+
