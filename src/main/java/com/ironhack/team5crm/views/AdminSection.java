@@ -120,6 +120,8 @@ public class AdminSection extends JFrame implements ActionListener {
             case "reports" -> reportingChoicesFrame.setVisible(true);
             default -> JOptionPane.showMessageDialog(null, "Just a valid option, please");
         }
+
+        setVisible(false);
     }
 }
 

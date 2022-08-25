@@ -18,54 +18,78 @@ public class AdminFrame extends JFrame implements ActionListener {
     SalesRepServiceImpl salesRepServiceImpl;
 
     @Autowired
+    AdminSection adminSection;
+
+    @Autowired
     private Menu menu;
-    private JLabel text;
+
+    static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
+    private JLabel text, title, image;
     private JTextField textField;
-    private JButton search, exit;
+    private JButton choice, back;
 
     public AdminFrame() {
         //**** JPANE : PART TEXT LABEL
-        text = new JLabel();
-        text.setText("<html><h2 align = 'center'> ADMIN SECTION<h2></br>" +
-                "</br>" +
-                "</br>" +
-                " <b><h3>[ new salesrep ] </b>  -> creates a new sales rep</br>" +
-                "<b> [ show salesrep ] </b> -> show all sales rep </br>" +
-                "</br>" +
-                "<b> [ exit ] </b>  - to Exit CRM</br>" + "</h3></html>");
+        title = new JLabel("<html><p>Options to Admin<p></html>");
+        title.setBounds(85, 100, 400, 30);
+        title.setFont(new Font("Courier New", 1, 25));
+        title.setForeground(Color.gray);
 
-        text.setFont(new Font("Courier", Font.PLAIN, 16));
-        text.setBounds(70, -50, 300, 330);
+        //ADD THE ICON
+        image = new JLabel(teamIcon);
+        image.setBounds(295, 15, 130, 130);
+
+        text = new JLabel();
+        text.setText(
+                "<html><h2>List of commands</h2></br>" +
+                        "<p><b>[new salesrep]</b> -> creates a new sales rep. <p>" +
+                        "<p><b>[show salesrep]</b> -> show all sales rep. <p></html>"
+        );
+        text.setBounds(30, -45, 650, 450);
+        text.setFont(new Font("Courier New", Font.PLAIN, 12));
+        text.setForeground(Color.gray);
 
         //**** JPANE : PART TEXTFIELD
         textField = new JTextField();
         textField.setText("");
-        textField.setBounds(170, 250, 100, 20);//need the clean method
+        textField.setBounds(170, 245, 100, 30);//need the clean method
 
         //**** JPANE : PART BUTTONS
-        search = new JButton();
-        search.setText("Search"); // we need a better name
-        search.setBounds(120, 275, 80, 20);
+        choice = new JButton();
+        choice.setText("Choice"); // we need a better name
+        choice.setBounds(120, 285, 80, 30);
+        choice.setFont(new Font("Courier New", Font.PLAIN, 12));
+        choice.setForeground(Color.WHITE);
+        choice.setBackground(Color.gray);
+        choice.setBorder(BorderFactory.createEtchedBorder());
 
-        exit = new JButton();
-        exit.setText("Exit");
-        exit.setBounds(240, 275, 80, 20);
+        back = new JButton();
+        back.setText("Back");
+        back.setBounds(240, 285, 80, 30);
+        back.setFont(new Font("Courier New", Font.PLAIN, 12));
+        back.setForeground(Color.WHITE);
+        back.setBackground(Color.gray);
+        back.setBorder(BorderFactory.createLoweredSoftBevelBorder());
 
         //**** JPANE : ADD THE LISTENERS
-        search.addActionListener(this);
-        exit.addActionListener(this);
+        choice.addActionListener(this);
+        back.addActionListener(this);
 
         //*** JPANE : PART ADDING OBJECTS TO PANEL
 
+        getContentPane().add(title);
+        getContentPane().add(image);
         getContentPane().add(text);
         getContentPane().add(textField);
-        getContentPane().add(search);
-        getContentPane().add(exit);
+        getContentPane().add(choice);
+        getContentPane().add(back);
+
+        //CUSTOM UI VALUES TO FRAME
+        getContentPane().setBackground(Color.WHITE);
 
 
         //**** JPANE : SETTING THE SIZE
         //CALL TO CLEANUP METHOD
-        cleanUp();
         setSize(450, 400);
         setTitle("From 5 to 3 CRM");
         setLocationRelativeTo(null);
@@ -81,10 +105,10 @@ public class AdminFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        cleanUp();
         switch (e.getActionCommand().toLowerCase()) {
-            case "exit" -> dispose();
-            case "search" -> {// this gonna call to the main methods
-
+            case "back" -> adminSection.setVisible(true);
+            case "choice" -> {// this gonna call to the main methods
                 if(textField.getText().equalsIgnoreCase("new salesrep")){
                     try {
                         menu.newSalesRep();
@@ -98,6 +122,6 @@ public class AdminFrame extends JFrame implements ActionListener {
                 }
             }
         }
-        dispose();
+        setVisible(false);
     }
 }
