@@ -7,4 +7,6 @@ import com.ironhack.team5crm.models.Contact;
 
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Integer> {
+
+
 }

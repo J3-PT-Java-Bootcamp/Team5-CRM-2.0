@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.services.servicesImplements;
+package com.ironhack.team5crm.services;
 
 import com.ironhack.team5crm.models.*;
 import com.ironhack.team5crm.models.enums.Product;
@@ -9,6 +9,7 @@ import com.ironhack.team5crm.repositories.LeadRepository;
 import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
+import com.ironhack.team5crm.services.interfaceService.LeadService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,14 @@ import java.util.List;
 
 @Service
 @NoArgsConstructor
-public class LeadServiceImple {
+public class LeadServiceImple implements LeadService {
 
     @Autowired
     private LeadRepository leadRepository;
     @Autowired
     private AccountRepository accountRepository;
-
     @Autowired
     ContactRepository contactRepository;
-
     @Autowired
     OpportunityRepository opportunityRepository;
 
@@ -37,19 +36,25 @@ public class LeadServiceImple {
     }
 
     /**
-     * Method that converts a lead into an opportunity, a contact and both into an
-     * account
+     * Method that takes a lead and converts it into an opportunity and a contact and adds
+     * both into an account
      *
-     * @param leadId
+     * @param lead
+     * @param product
+     * @param productQuantity
+     * @param account
+     * @return
      */
     public Account convert(Lead lead, Product product, int productQuantity, Account account) {
-        var contactToSave = new Contact(lead.getName(), lead.getPhoneNumber(),
-                lead.getEmail(), null);
+        // Generates Contact from Lead
+        var contactToSave = new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), null);
         contactToSave = contactRepository.save(contactToSave);
-        var oppToSave = new Opportunity(
-                Status.OPEN, product, productQuantity, contactToSave, null, lead.getSalesRep());
+
+        // Generates Opportunity from Lead
+        var oppToSave = new Opportunity(Status.OPEN, product, productQuantity, contactToSave, null, lead.getSalesRep());
         oppToSave = opportunityRepository.save(oppToSave);
 
+        // Adds Contact and Opportunity to Account
         account.getContactList().add(contactToSave);
         account.getOpportunityList().add(oppToSave);
 
@@ -63,13 +68,14 @@ public class LeadServiceImple {
         opportunityRepository.save(oppToSave);
 
         leadRepository.deleteById(lead.getId());
+
         return account;
     }
 
     /**
      * Method that shows all available Leads in the database
      */
-    public List<Lead> getAllLeads() throws EmptyException {
+    public List<Lead> getAll() throws EmptyException {
         var leads = leadRepository.findAll();
         if (leads.size() != 0) {
             return leads;
@@ -81,7 +87,7 @@ public class LeadServiceImple {
     /**
      * Method that shows the requested Lead by ID
      */
-    public Lead lookUpLead(int id) throws EmptyException, DataNotFoundException {
+    public Lead lookUpLead(int id) throws DataNotFoundException, EmptyException {
         if (leadRepository.findAll().size() != 0) {
             var lead = leadRepository.findById(id);
             if (lead.isPresent()) {
@@ -93,5 +99,4 @@ public class LeadServiceImple {
             throw new EmptyException();
         }
     }
-
 }

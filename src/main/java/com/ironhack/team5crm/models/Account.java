@@ -92,8 +92,8 @@ public class Account {
             opportunitesString = opportunitesString + oppInList.toString() + "\n";
         }
 
-        // adding the two strings creaated above (contacts and opportunities) and
-        // addinf this to the toString final string.
+        // adding the two strings created above (contacts and opportunities) and
+        // adding this to the toString final string.
         return "📁 Account with ID " + id + ": \n" + "***************************\n" + "Industry: " + industry
                 + " | Number of Employees: " + employeesCount + "\n" + "City / Country: " + city + " - " + country
                 + "\n\n" + "👥 Contacts in this account \n" + "---------------------------\n" + contactsString

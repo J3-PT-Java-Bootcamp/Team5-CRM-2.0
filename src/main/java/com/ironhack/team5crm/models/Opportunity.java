@@ -50,7 +50,6 @@ public class Opportunity {
 
     // * CONSTRUCTORS
     // **********************************************
-
     public Opportunity(Status status, Product product, int quantity, Contact decisionMaker, Account account, SalesRep salesRep) {
         this.status = status;
         this.product = product;

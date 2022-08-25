@@ -1,0 +1,13 @@
+package com.ironhack.team5crm.ui.panes;
+
+public enum TeamPaneDialog {
+    DATA_NOT_FOUND,
+    LEADS_NOT_FOUND,
+    OPPORTUNITIES_NOT_FOUND,
+    SALESREPS_NOT_FOUND,
+    ACCOUNTS_NOT_FOUND,
+    COMMAND_NOT_RECOGNIZED,
+    OPP_STATUS_CLOSED_LOST,
+    OPP_STATUS_CLOSED_WON,
+    OPP_STATUS_OPEN
+}

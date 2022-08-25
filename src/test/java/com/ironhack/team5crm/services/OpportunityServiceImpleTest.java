@@ -9,7 +9,6 @@ import com.ironhack.team5crm.repositories.OpportunityRepository;
 import com.ironhack.team5crm.repositories.SalesRepRepository;
 import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
-import com.ironhack.team5crm.services.servicesImplements.OpportunityServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class OpportunityServiceImplTest {
+
+class OpportunityServiceImpleTest {
 
     @Autowired
     OpportunityRepository opportunityRepository;
@@ -28,7 +28,8 @@ class OpportunityServiceImplTest {
     SalesRepRepository salesRepRepository;
 
     @Autowired
-    OpportunityServiceImpl opportunityServiceImpl;
+
+    OpportunityServiceImple opportunityServiceImple;
 
     Opportunity opp1;
     Opportunity opp2;
@@ -51,7 +52,8 @@ class OpportunityServiceImplTest {
 
         Team5CrmException exception = null;
         try {
-            var opportunities = opportunityServiceImpl.getAllOpportunities();
+
+            var opportunities = opportunityServiceImple.getAll();
             assertEquals(2, opportunities.size());
         } catch (EmptyException e) {
             exception = e;
@@ -62,7 +64,9 @@ class OpportunityServiceImplTest {
 
     @Test
     void test_getAllOpportunities_shouldThrowIfNoLeadsAdded() {
-        assertThrowsExactly(EmptyException.class, () -> opportunityServiceImpl.getAllOpportunities());
+
+        assertThrowsExactly(EmptyException.class, () -> opportunityServiceImple.getAll());
+        assertThrowsExactly(EmptyException.class, () -> opportunityServiceImple.getAll());
     }
 
     @Test
@@ -71,7 +75,8 @@ class OpportunityServiceImplTest {
 
         Team5CrmException exception = null;
         try {
-            var oppFound = opportunityServiceImpl.lookUpOpportunity(opp1.getId());
+
+            var oppFound = opportunityServiceImple.lookUpOpportunity(opp1.getId());
             assertEquals(opp1.getId(), oppFound.getId());
             assertEquals(opp1.getDecisionMaker(), oppFound.getDecisionMaker());
             assertEquals(opp1.getProduct(), oppFound.getProduct());
@@ -85,7 +90,8 @@ class OpportunityServiceImplTest {
 
     @Test
     void test_lookUpOpportunity_shouldThrowIfNoLeadsAdded() {
-        assertThrowsExactly(EmptyException.class, () -> opportunityServiceImpl.lookUpOpportunity(5));
+
+        assertThrowsExactly(EmptyException.class, () -> opportunityServiceImple.lookUpOpportunity(5));
     }
 
     @Test
@@ -94,7 +100,8 @@ class OpportunityServiceImplTest {
 
         Team5CrmException exception = null;
         try {
-            var oppUpdated = opportunityServiceImpl.updateOpportunityStatus(opp1.getId(), Status.CLOSED_WON);
+
+            var oppUpdated = opportunityServiceImple.updateOpportunityStatus(opp1.getId(), Status.CLOSED_WON);
             assertEquals(opp1.getId(), oppUpdated.getId());
             assertEquals(opp1.getDecisionMaker(), oppUpdated.getDecisionMaker());
             assertEquals(opp1.getProduct(), oppUpdated.getProduct());

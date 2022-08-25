@@ -10,7 +10,6 @@ import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
 import com.ironhack.team5crm.models.exceptions.Team5CrmException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
-import com.ironhack.team5crm.services.servicesImplements.LeadServiceImple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -125,7 +124,7 @@ class LeadServiceImpleTest {
 
         Team5CrmException exception = null;
         try {
-            var leads = leadServiceImple.getAllLeads();
+            var leads = leadServiceImple.getAll();
             assertEquals(2, leads.size());
         } catch (EmptyException e) {
             exception = e;
@@ -136,7 +135,7 @@ class LeadServiceImpleTest {
 
     @Test
     void test_getAllLeads_shouldThrowIfNoLeadsAdded() {
-        assertThrowsExactly(EmptyException.class, () -> leadServiceImple.getAllLeads());
+        assertThrowsExactly(EmptyException.class, () -> leadServiceImple.getAll());
     }
 
     @Test

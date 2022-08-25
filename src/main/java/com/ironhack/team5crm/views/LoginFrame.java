@@ -1,8 +1,7 @@
 package com.ironhack.team5crm.views;
 
 import com.ironhack.team5crm.models.SalesRep;
-import com.ironhack.team5crm.services.servicesImplements.SalesRepServiceImple;
-import com.ironhack.team5crm.ui.Menu;
+import com.ironhack.team5crm.services.SalesRepServiceImple;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
