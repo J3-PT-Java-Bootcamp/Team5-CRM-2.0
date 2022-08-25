@@ -10,36 +10,38 @@ import java.util.Map;
 
 public interface OpportunityService {
 
-    List<Opportunity> getAllOpportunities() throws EmptyException;
+    List<Opportunity> getAll() throws EmptyException;
     Opportunity lookUpOpportunity(int id) throws EmptyException, DataNotFoundException;
     Opportunity updateOpportunityStatus(int id, Status status) throws DataNotFoundException;
 
-    //***new report methods
-    //CUSTOM QUERYS FOR DASHBOARDS
+    // new report methods:
+    // CUSTOM QUERIES FOR DASHBOARDS
 
-    //BY PRODUCT
 
+    // **********************************************
+    // *  BY PRODUCT
+    // **********************************************
     Map<Object, Object> counterOpportunitiesByProduct(String product) throws EmptyException;
     Map<Object, Object> reportsByProducts(String stats, String product) throws EmptyException;
 
 
-    //BY COUNTRY
-
-    //******************reportByCountry
-
+    // **********************************************
+    // *  BY COUNTRY
+    // **********************************************
     Map<Object, Object> counterOpportunitiesByCountry(String country) throws EmptyException;
     Map<Object, Object> reportByCountry(String stats, String country) throws EmptyException;
 
-    //BY CITY
 
-    //******************  reportBy CITY
-
+    // **********************************************
+    // *  BY CITY
+    // **********************************************
     Map<Object, Object> counterOpportunitiesByCity(String country) throws EmptyException;
     Map<Object, Object> reportByCity(String stats, String country) throws EmptyException;
 
 
-    //******************  reportBy INDUSTRY
-
+    // **********************************************
+    // *  BY INDUSTRY
+    // **********************************************
     Map<Object, Object> counterOpportunitiesByIndustry(String industry) throws EmptyException;
     Map<Object, Object> reportByIndustry(String stats, String industry) throws EmptyException;
 

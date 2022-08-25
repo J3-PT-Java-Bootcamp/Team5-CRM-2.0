@@ -7,4 +7,6 @@ import com.ironhack.team5crm.models.Lead;
 
 @Repository
 public interface LeadRepository extends JpaRepository<Lead, Integer> {
+
+
 }

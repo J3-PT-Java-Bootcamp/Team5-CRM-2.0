@@ -24,7 +24,7 @@ public class SalesRepServiceImple implements SalesRepService, ConsoleOperations 
         return salesRepRepository.save(new SalesRep(name));
     }
 
-    public List<SalesRep> findAllSalesRep() {
+    public List<SalesRep> getAll() {
         return salesRepRepository.findAll();
     }
 
@@ -117,5 +117,4 @@ public class SalesRepServiceImple implements SalesRepService, ConsoleOperations 
         }
         return count;
     }
-
 }

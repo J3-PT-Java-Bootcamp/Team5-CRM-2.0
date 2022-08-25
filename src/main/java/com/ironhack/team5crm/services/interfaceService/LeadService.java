@@ -13,7 +13,7 @@ public interface LeadService {
 
     Lead newLead(String name, String phone, String email, String company, SalesRep assignedSalesRep);
     Account convert(Lead lead, Product product, int productQuantity, Account account);
-    List<Lead> getAllLeads() throws EmptyException;
+    List<Lead> getAll() throws EmptyException;
     Lead lookUpLead(int id) throws DataNotFoundException, EmptyException;
 
 }

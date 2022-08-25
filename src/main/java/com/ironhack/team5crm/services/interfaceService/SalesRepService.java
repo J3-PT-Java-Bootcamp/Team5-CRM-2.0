@@ -10,7 +10,7 @@ import java.util.Map;
 public interface SalesRepService {
     SalesRep newSalesRep(String name);
 
-    List<SalesRep> findAllSalesRep();
+    List<SalesRep> getAll();
 
     SalesRep findSalesRepById(int id) throws DataNotFoundException;
 
@@ -23,6 +23,5 @@ public interface SalesRepService {
     Map <Object, Object> counterOpportunitiesBySalesRep() throws EmptyException;
 
     Map <Object, Object> counterOpportunitiesByStatus(String status) throws EmptyException;
-
 
 }

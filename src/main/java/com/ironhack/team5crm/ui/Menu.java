@@ -9,18 +9,20 @@ import com.ironhack.team5crm.models.Lead;
 import com.ironhack.team5crm.models.enums.Industry;
 import com.ironhack.team5crm.models.enums.Product;
 import com.ironhack.team5crm.models.enums.Status;
-import com.ironhack.team5crm.services.OpportunityServiceImple;
-import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.services.AccountServiceImple;
 import com.ironhack.team5crm.services.LeadServiceImple;
+import com.ironhack.team5crm.services.OpportunityServiceImple;
+import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
+import com.ironhack.team5crm.ui.panes.TeamPane;
+import com.ironhack.team5crm.ui.panes.TeamPaneDialog;
+import com.ironhack.team5crm.ui.panes.TeamScrollPaneContent;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,81 +30,91 @@ import java.util.List;
 @NoArgsConstructor
 public class Menu implements ConsoleOperations {
 
+    TeamPane teamPane = new TeamPane();
     @Autowired
     private LeadServiceImple leadServiceImple;
-
     @Autowired
     private OpportunityServiceImple opportunityServiceImple;
-
     @Autowired
     private AccountServiceImple accountServiceImple;
-
     @Autowired
-    private SalesRepServiceImple salesRepServiceImple;
-
+    private SalesRepServiceImple salesRepServiceImpl;
     private SalesRep salesRepLoggedIn;
 
-    static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
+
+    /**
+     *  MAIN METHOD OF THE MENU
+    *****************************************************************************************************************
+     */
     public void main(SalesRep salesRep) throws WrongInputException, AbortedException {
 
         salesRepLoggedIn = salesRep;
-
         FlatLightLaf.setup();
-
         String input;
 
+        // This Menu had to be formatted to html in order for the JOptionPane to display it correctly
+        String mainMenu =
+            "<html>\n" +
+            "<p>  ====================================================================================================== </p>\n" +
+            "<body>\n" +
+            "<h3>\uD83E\uDD16\uD83D\uDCAC Welcome %s to  </h3>\n" +
+            "<h1> Team 5 CRM </h1>\n" +
+            "<p>  </p>\n" +
+            "<p>  </p>\n" +
+            "\n" +
+
+            "<p><b>AVAILABLE OPERATIONS: </b></p>\n" +
+            "<p>====================</p>\n" +
+            "<ul style=\"font-family:'menlo'\">\n" +
+            "<li><b>  new lead   </b>.................> create a new Lead </li>\n" +
+            "<li><b>  show leads   </b>..............-> show all leads </li>\n" +
+            "<li><b>  lookup lead id   </b>...........> look up a lead by ID </li>\n" +
+            "<li><b>  convert id   </b>..............-> convert lead into Opportunity </li>\n" +
+            "<li><b>  show opportunities   </b>......-> show all available opportunities </li>\n" +
+            "<li><b>  lookup opportunity id   </b>...-> look up an opportunity by it's ID </li>\n" +
+            "<li><b>  open id   </b>.................-> sets the opportunity status to open </li>\n" +
+            "<li><b>  close-lost id   </b>...........-> sets the opportunity status to CLOSE / LOST </li>\n" +
+            "<li><b>  close-won id   </b>............-> sets the opportunity status to CLOSE / WON </li>\n" +
+            "<li><b>  show accounts   </b>...........-> show all available accounts </li>\n" +
+            "\n" +
+            "</ul>\n" +
+            "<p>  </p>\n" +
+
+            "<p><b>ADMIN OPERATIONS: </b></p>\n" +
+            "<p>====================</p>\n" +
+            "<ul style=\"font-family:'menlo'\">\n" +
+            "<li><b>  new salesrep  </b>...-> creates a new sales rep</li>\n" +
+            "<li><b>  show salesrep  </b>..-> creates a new sales rep </li>\n" +
+            "</ul>\n" +
+            "\n" +
+            "<p>  </p>\n" +
+
+            "<p><b>NOTE: </b></p>\n" +
+            "<p>====================</p>\n" +
+            "<ul style=\"font-family:'menlo'\">\n" +
+            "<li><b>  exit </b>...-> to Exit CRM </li>\n" +
+            "</ul>\n" +
+            "<p>  </p>\n" +
+            "<p>When the command has 'id', replace it with the id of the lead or opportunity you want to work with </p>\n" +
+            "<p>  ====================================================================================================== </p>\n" +
+            "</body></p>\n" +
+            "</body>\n" +
+            "</html>\n";
+
+        mainMenu = mainMenu.formatted(salesRepLoggedIn.getName());
+
+        //Then the html formatted text is added to a label, which can interpret the html code
+        JLabel menuLabel = new JLabel(mainMenu);
+
+        /* MENU AND LOGIC */
+        //**************************************************************************************************************
         do {
-            var mainMenu = """
-                    🤖💬 Welcome %s to
-                    <html>  <h1> <b> Team 5 CRM </b> </h1>
-
-                    Available Operations:
-                    =====================
-
-                    <html> <b> [ new lead ] </b> -> create a new Lead
-
-                    <html> <b> [ show leads ] </b> -> show all leads
-
-                    <html> <b> [ lookup lead id ] </b> -> look up a lead by ID
-
-                    <html> <b> [ convert id ] </b> -> convert a selected lead into a new Opportunity
-
-                    <html> <b> [ show opportunities ] </b> -> show all available opportunities
-
-                    <html> <b> [ lookup opportunity id ] </b> -> look up an opportunity by it's ID
-
-                    <html> <b> [ open id ]  </b> -> sets the opportunity status to open
-
-                    <html> <b> [ close-lost id ] </b> -> sets the opportunity status to CLOSE / LOST
-
-                    <html> <b> [ close-won id ] </b> -> sets the opportunity status to CLOSE / WON
-
-                    <html> <b> [ show acounts ] </b> -> show all available accounts
-
-                    ====================
-
-                    ADMIN SECTION
-
-                    <html> <b> [ new salesrep ] </b> -> creates a new sales rep
-
-                    <html> <b> [ show salesrep ] </b> -> creates a new sales rep
-
-                    ====================
-
-                    <html> <b> [ exit ] </b>  - to Exit CRM
-                    ====================
-
-                    When the command has 'id', replace it with the id of the lead or opportunity you want to work with
-
-                    ====================
-
-                    Write your COMMAND:
-                    """.formatted(salesRepLoggedIn.getName());
-            input = (String) JOptionPane.showInputDialog(null, mainMenu, "Team 5 - CRM", 3, teamIcon, null, null);
-
+            /* USER INPUT AND MENU DISPLAY: */
+            input = (String) teamPane.showInputDialog("Team 5 - CRM", menuLabel, 3);
             var inputSplit = input.toLowerCase().split(" ");
 
+            /* THIS IS THE LOGIC OF THE MENU: */
             try {
                 switch (inputSplit[0]) {
                     case NEW -> newMenu(inputSplit);
@@ -119,19 +131,18 @@ public class Menu implements ConsoleOperations {
                     default -> System.out.println("Command not recognized!");
                 }
             } catch (WrongInputException e) {
-                JOptionPane.showMessageDialog(null, "Command not recognized, please try again. 🤔 ", "Not Found", 2);
-            } catch (DataNotFoundException e) {
-                JOptionPane.showMessageDialog(null, "Data not found", "Not Found", 2);
-            } catch (AbortedException a) {
-                JOptionPane.showMessageDialog(null, "Convert aborted", "Aborted", 2);
+                teamPane.showNotFoundDialog(TeamPaneDialog.COMMAND_NOT_RECOGNIZED);
+            } catch (DataNotFoundException | AbortedException e) {
+                teamPane.showNotFoundDialog(TeamPaneDialog.DATA_NOT_FOUND);
             }
-
         } while (!input.equals("exit"));
     }
+    // ++ END OF MAIN METHOD **
+    //**************************************************************************************************************
+
 
     // STATUS UPDATERS
-    // **********************************************************
-
+    //**************************************************************************************************************
     /**
      * This menu method is for setting the status of an opportunity to OPEN
      */
@@ -141,46 +152,38 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        var opportunity = opportunityServiceImple.updateOpportunityStatus(id, Status.OPEN);
-        JOptionPane.showMessageDialog(null, "✏️ Opportunity Status is now 'OPEN': \n" + opportunity, "Status Update",
-                1);
+        opportunityServiceImple.updateOpportunityStatus(id, Status.OPEN);
+        teamPane.showOppStatusUpdate(TeamPaneDialog.OPP_STATUS_OPEN);
     }
 
-    /**
-     * This menu method is for setting the status of an opportunity to CLOSE_LOST
-     */
+    /** This menu method is for setting the status of an opportunity to CLOSE_LOST */
     private void closeLostMenu(String[] inputSplit) throws WrongInputException, DataNotFoundException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        var opportunity = opportunityServiceImple.updateOpportunityStatus(id, Status.CLOSED_LOST);
-        JOptionPane.showMessageDialog(null, "🆑 Opportunity Status is now 'CLOSE_LOST': \n" + opportunity,
-                "Status Update", 1);
+        opportunityServiceImple.updateOpportunityStatus(id, Status.CLOSED_LOST);
+        teamPane.showOppStatusUpdate(TeamPaneDialog.OPP_STATUS_CLOSED_LOST);
+
     }
 
-    /**
-     * This menu method is for setting the status of an opportunity to CLOSE_WON
-     */
+    /** This menu method is for setting the status of an opportunity to CLOSE_WON */
     private void closeWonMenu(String[] inputSplit) throws WrongInputException, DataNotFoundException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        var opportunity = opportunityServiceImple.updateOpportunityStatus(id, Status.CLOSED_WON);
-        JOptionPane.showMessageDialog(null, "✅ Opportunity Status is now 'CLOSE_WON': \n" + opportunity,
-                "Status Update", 1);
+        opportunityServiceImple.updateOpportunityStatus(id, Status.CLOSED_WON);
+        teamPane.showOppStatusUpdate(TeamPaneDialog.OPP_STATUS_CLOSED_WON);
+
     }
 
     // 'LOOK UP' MENUS
     // **********************************************************
 
-    /**
-     * This method is for selecting the "lookup menu" desired by the user according
-     * to user's input
-     */
+    /** This method is for selecting the "lookup menu" desired by the user according to user's input */
     private void lookupMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 2) {
             throw new WrongInputException();
@@ -194,41 +197,33 @@ public class Menu implements ConsoleOperations {
         }
     }
 
-    /**
-     * This method handles the 'lookup opportunity' menu
-     */
+    /** This method handles the 'lookup opportunity' menu */
     private void lookUpOpportunity(int id) {
         try {
-            JOptionPane.showMessageDialog(null, opportunityServiceImple.lookUpOpportunity(id), "Opportunities " + id, 1);
+            teamPane.showMessageDialog("Opportunities " + id, opportunityServiceImple.lookUpOpportunity(id), 1);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Opportunity with ID " + id + " was not found in the Database!",
-                    "Not Found", 2);
+            teamPane.showMessageDialog("Not Found", "Opportunity with ID " + id + " was not found in the Database!", 2);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No Opportunities in the database!", "Not Found", 2);
+            teamPane.showMessageDialog("Not Found", "No Opportunities in the database!", 2);
         }
     }
 
-    /**
-     * This method handles the 'lookup leads' menu
-     */
+    /** This method handles the 'lookup leads' menu */
     private void lookUpLead(int id) {
         try {
-            JOptionPane.showMessageDialog(null, leadServiceImple.lookUpLead(id), "Lead " + id, 1);
+            teamPane.showMessageDialog("Lead " + id, leadServiceImple.lookUpLead(id),  1);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No leads in Database!", "Not Found", 2);
+            teamPane.showMessageDialog("Not Found",  "No leads in Database!", 2);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "The Lead with ID " + id + " was not found in the database!",
-                    "Not Found", 2);
+            teamPane.showMessageDialog("Not Found",  "The Lead with ID " + id + " was not found in the database!", 2);
         }
     }
 
-    // 'SHOW' MENUS
-    // **********************************************************
 
-    /**
-     * This method is for selecting the "show menu" desired by the user according to
-     * user's input
-     */
+    // 'SHOW' MENUS
+    //**************************************************************************************************************
+
+    /** This method is for selecting the "show menu" desired by the user according to user's input */
     private void showMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
@@ -242,124 +237,69 @@ public class Menu implements ConsoleOperations {
         }
     }
 
-    /**
-     * This method handles the 'show leads' menu
-     */
+    /** This method handles the 'show leads' menu */
     private void showLeads() {
         try {
-            StringBuffer output = new StringBuffer();
-            output.append("Following Leads where found in the database: \n");
-            output.append("************************************************\n\n");
-
-            var leads = leadServiceImple.getAllLeads();
-            for (var lead : leads) {
-                output.append(lead).append("\n");
-            }
-            JTextArea textArea = new JTextArea(String.valueOf(output));
-
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(500, 500));
-
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-
-            JOptionPane.showMessageDialog(null, scrollPane, "Leads in Database", 1, teamIcon);
+            var leadsList = leadServiceImple.getAll();
+            teamPane.showScrollPaneFor(TeamScrollPaneContent.LEADS,leadsList);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No Leads in Database!", "Not Found", 2);
+            teamPane.showNotFoundDialog(TeamPaneDialog.LEADS_NOT_FOUND);
         }
     }
-
+    /** This method handles the 'show opportunities' menu */
     private void showOpportunities() {
         try {
-            StringBuffer output = new StringBuffer();
-            output.append("Following Opportunities where found in the database: \n");
-            output.append("************************************************\n\n");
-
-            var opps = opportunityServiceImple.getAllOpportunities();
-            for (var opp : opps) {
-                output.append(opp.toString()).append("\n");
-            }
-            JTextArea textArea = new JTextArea(String.valueOf(output));
-
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(500, 500));
-
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-
-            JOptionPane.showMessageDialog(null, scrollPane, "Opportunities in Database", 1, teamIcon);
+            var opportunitiesList = opportunityServiceImple.getAll();
+            teamPane.showScrollPaneFor(TeamScrollPaneContent.OPPORTUNITIES,opportunitiesList);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No Opportunities in the Database!", "Not Found", 2);
+            teamPane.showNotFoundDialog(TeamPaneDialog.OPPORTUNITIES_NOT_FOUND);
         }
     }
 
+    /** This method handles the 'show accounts' menu */
     private void showAccounts() {
         try {
-            StringBuffer output = new StringBuffer();
-            output.append("Following Accounts where found in the database: \n");
-            output.append("************************************************\n\n");
-
-            var accounts = accountServiceImple.getAllAccounts();
-            for (var account : accounts) {
-                output.append(account.toString()).append("\n");
-            }
-            JTextArea textArea = new JTextArea(String.valueOf(output));
-
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(500, 500));
-
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-
-            JOptionPane.showMessageDialog(null, scrollPane, "Accounts in Database", 1, teamIcon);
+            var accountsList = accountServiceImple.getAll();
+            teamPane.showScrollPaneFor(TeamScrollPaneContent.ACCOUNTS,accountsList);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No Accounts in the Database!", "Not Found", 2);
+            teamPane.showNotFoundDialog(TeamPaneDialog.ACCOUNTS_NOT_FOUND);
         }
     }
 
+    /** This method handles the 'show salesRep' menu */
     private void showSalesRep() {
         try {
-            StringBuffer output = new StringBuffer();
-            output.append("Following SalesReps where found in the database: \n");
-            output.append("************************************************\n\n");
-
-            var salesReps = salesRepServiceImple.getAllSalesRep();
-            for (var salesrep : salesReps) {
-                output.append(salesrep.toString()).append("\n");
-            }
-            JTextArea textArea = new JTextArea(String.valueOf(output));
-
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(500, 500));
-
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-
-            JOptionPane.showMessageDialog(null, scrollPane, "SalesReps in Database", 1, teamIcon);
+            var salesRepsList = salesRepServiceImpl.getAll();
+            teamPane.showScrollPaneFor(TeamScrollPaneContent.SALESREPS,salesRepsList);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No SalesReps in the Database!", "Not Found", 2);
+            teamPane.showNotFoundDialog(TeamPaneDialog.SALESREPS_NOT_FOUND);
         }
     }
 
     // CONVERT MENUS
-    // **********************************************************
+    //**************************************************************************************************************
+
+    /** This method converts a lead into an opportunity and contact */
     private void convertMenu(String[] inputSplit) throws WrongInputException, AbortedException {
+        // check if the input is right
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
         }
+        // get commandos
         int id = Integer.parseInt(inputSplit[1]);
+
         try {
             // checks that the lead id is valid, if not throws DataNotFoundException
             Lead leadFound = leadServiceImple.lookUpLead(id);
 
             // asks if user wants to associate this lead conversion to an existing account
-            int associateToAccount = JOptionPane.showConfirmDialog(null,
+            int associateToAccount = teamPane.showConfirmDialog(
+                    "Convert or Associate",
                     "Do you want to associate this lead conversion to an existing account?",
-                    "Associate to an existing account", JOptionPane.YES_NO_OPTION);
+                     JOptionPane.YES_NO_OPTION);
 
             try {
                 Account leadsAccount = null;
-
                 // if user wants to associate to an existing account, we ask for its id
                 if (associateToAccount == 0) {
                     int accountId = Integer.parseInt((String) getValues("Input the Account ID").get(0));
@@ -383,58 +323,53 @@ public class Menu implements ConsoleOperations {
 
                 // sends the data to be converted
                 leadServiceImple.convert(leadFound, product, productQty, leadsAccount);
-
-                JOptionPane.showMessageDialog(null, "Lead Succesfully converted");
+                teamPane.showMessageDialog("Converted","Lead Successfully converted",1);
 
             } catch (EmptyException | DataNotFoundException e) {
-                JOptionPane.showMessageDialog(null, "The Account with ID " + id + " was not found in the database!",
-                        "Not Found", 2);
+                teamPane.showMessageDialog("Not Found", "The Account with ID " + id + " was not found in the database!",2);
             }
 
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No leads in Database!", "Not Found", 2);
+            teamPane.showNotFoundDialog(TeamPaneDialog.LEADS_NOT_FOUND);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "The Lead with ID " + id + " was not found in the database!",
-                    "Not Found", 2);
+            teamPane.showMessageDialog("Not Found", "The Lead with ID " + id + " was not found in the database!",2);
         }
     }
 
     // 'NEW' MENUS
-    // **********************************************************
+    //**************************************************************************************************************
     private void newMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
         }
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEAD -> {
-                List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
+                List<Object> values = getValues("Name :</br>", "Phone number : </br>", "Email : </br>", "Company : ");
                 Lead lead = leadServiceImple.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
                         (String) values.get(3), salesRepLoggedIn);
-                JOptionPane.showMessageDialog(null, "Lead successfully added: \n" + lead, "Lead Added", 1);
+                teamPane.showMessageDialog("Lead Added", "Lead successfully added: </br>" + lead,1);
             }
-            case ConsoleOperationEntities.SALES_REP -> {
-                newSalesRep();
-            }
+            case ConsoleOperationEntities.SALES_REP -> newSalesRep();
             default -> throw new WrongInputException();
         }
     }
 
     public void newSalesRep() throws WrongInputException {
         List<Object> values = getValues("Name :");
-        SalesRep salesRep = salesRepServiceImple.newSalesRep((String) values.get(0));
-        JOptionPane.showMessageDialog(null, "SalesRep successfully created: \n" + salesRep, "SalesRep Added", 1);
+        SalesRep salesRep = salesRepServiceImpl.newSalesRep((String) values.get(0));
+        teamPane.showMessageDialog("Sales Representative Added", "SalesRep successfully created: </br>" + salesRep,1);
     }
 
     // OTHER MENUS METHODS
-    // **********************************************************
+    //**************************************************************************************************************
+
 
     // ******************* USING VARARGS FOR REUSING METHODS
-    public static List<Object> getValues(Object... values) throws WrongInputException {
+    public  List<Object> getValues(Object... values) throws WrongInputException {
         List<Object> value = new ArrayList<>();
         for (var i : values) {
             try {
-                value.add(JOptionPane.showInputDialog(null, i, "Input", JOptionPane.QUESTION_MESSAGE, teamIcon, null,
-                        null));
+                value.add(teamPane.showInputDialog("Input", i, JOptionPane.QUESTION_MESSAGE));
             } catch (Exception e) {
                 throw new WrongInputException("1");
             }
@@ -443,7 +378,7 @@ public class Menu implements ConsoleOperations {
     }
 
     /**
-     * Opens a dropsdown menu that gives the user the options to select a status
+     * Opens a Dropdown menu that gives the user the options to select a status
      * This method returns a status accordingly to users selection
      */
     public Status getStatus() throws AbortedException {
@@ -455,14 +390,12 @@ public class Menu implements ConsoleOperations {
         String message = "Please select status to set new status";
 
         // opens a dropdown menu
-        status = (String) JOptionPane.showInputDialog(
-                null,
-                message,
+        status = (String) teamPane.showInputDialog(
                 "Status Update",
+                message,
                 JOptionPane.QUESTION_MESSAGE,
-                teamIcon,
                 options,
-                "---");
+                "select");
 
         // logic
         switch (status) {
@@ -480,7 +413,7 @@ public class Menu implements ConsoleOperations {
     }
 
     /**
-     * Opens a dropsdown menu that gives the user the options to select a product
+     * Opens a Dropdown menu that gives the user the options to select a product
      * This method returns a product accordingly to users selection
      */
     public Product getProduct() throws AbortedException {
@@ -493,14 +426,12 @@ public class Menu implements ConsoleOperations {
         String message = "Please select a product";
 
         // opens a dropdown menu
-        product = (String) JOptionPane.showInputDialog(
-                null,
-                message,
+        product = (String) teamPane.showInputDialog(
                 "Product",
+                message,
                 JOptionPane.QUESTION_MESSAGE,
-                teamIcon,
                 options,
-                "Select");
+                "select");
 
         // Logic:
         try {
@@ -522,7 +453,7 @@ public class Menu implements ConsoleOperations {
     }
 
     /**
-     * Opens a dropsdown menu that gives the user the options to select an industry
+     * Opens a Dropdown menu that gives the user the options to select an industry
      * This method returns an industry accordingly to users selection
      */
     public Industry getIndustry() throws AbortedException {
@@ -534,14 +465,12 @@ public class Menu implements ConsoleOperations {
         String message = "Please select an industry";
 
         // opens a dropdown menu
-        industry = (String) JOptionPane.showInputDialog(
-                null,
-                message,
+        industry = (String) teamPane.showInputDialog(
                 "Industry",
+                message,
                 JOptionPane.QUESTION_MESSAGE,
-                teamIcon,
                 options,
-                "---");
+                "select");
 
         // Logic:
         switch (industry) {
@@ -563,4 +492,5 @@ public class Menu implements ConsoleOperations {
             default -> throw new AbortedException();
         }
     }
+
 }

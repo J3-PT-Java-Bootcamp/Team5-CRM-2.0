@@ -18,16 +18,14 @@ import java.util.List;
 
 @Service
 @NoArgsConstructor
-
 public class LeadServiceImple implements LeadService {
+
     @Autowired
     private LeadRepository leadRepository;
     @Autowired
     private AccountRepository accountRepository;
-
     @Autowired
     ContactRepository contactRepository;
-
     @Autowired
     OpportunityRepository opportunityRepository;
 
@@ -38,18 +36,25 @@ public class LeadServiceImple implements LeadService {
     }
 
     /**
-     * Method that converts a lead into an opportunity, a contact and both into an
-     * account
+     * Method that takes a lead and converts it into an opportunity and a contact and adds
+     * both into an account
      *
+     * @param lead
+     * @param product
+     * @param productQuantity
+     * @param account
+     * @return
      */
     public Account convert(Lead lead, Product product, int productQuantity, Account account) {
-        var contactToSave = new Contact(lead.getName(), lead.getPhoneNumber(),
-                lead.getEmail(), null);
+        // Generates Contact from Lead
+        var contactToSave = new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), null);
         contactToSave = contactRepository.save(contactToSave);
-        var oppToSave = new Opportunity(
-                Status.OPEN, product, productQuantity, contactToSave, null, lead.getSalesRep());
+
+        // Generates Opportunity from Lead
+        var oppToSave = new Opportunity(Status.OPEN, product, productQuantity, contactToSave, null, lead.getSalesRep());
         oppToSave = opportunityRepository.save(oppToSave);
 
+        // Adds Contact and Opportunity to Account
         account.getContactList().add(contactToSave);
         account.getOpportunityList().add(oppToSave);
 
@@ -63,13 +68,14 @@ public class LeadServiceImple implements LeadService {
         opportunityRepository.save(oppToSave);
 
         leadRepository.deleteById(lead.getId());
+
         return account;
     }
 
     /**
      * Method that shows all available Leads in the database
      */
-    public List<Lead> getAllLeads() throws EmptyException {
+    public List<Lead> getAll() throws EmptyException {
         var leads = leadRepository.findAll();
         if (leads.size() != 0) {
             return leads;
@@ -93,5 +99,4 @@ public class LeadServiceImple implements LeadService {
             throw new EmptyException();
         }
     }
-
 }
