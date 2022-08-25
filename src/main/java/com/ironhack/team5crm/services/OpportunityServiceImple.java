@@ -317,4 +317,9 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
         return count;
     }
 
+    @Override
+    public int medianByEmployeeCount() {
+        return opportunityRepository.medianByOpportunity();
+    }
+
 }

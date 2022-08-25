@@ -27,6 +27,9 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
     @Autowired
     IndustryFrameView industryFrameView;
 
+    @Autowired
+    EmployeeCountView employeeCountView;
+
     //*********************** Attributes by frame
 
     private JLabel text, title;
@@ -90,6 +93,7 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
                 case "country" -> countryReportView.setVisible(true);
                 case "city" -> cityReportView.setVisible(true);
                 case "industry" -> industryFrameView.setVisible(true);
+                case "employeecount" -> employeeCountView.setVisible(true);
 
             }
             dispose();

@@ -16,7 +16,10 @@ public interface Operations {
 
     String OPEN = "report open by ";
 
-
+    String MEAN = "mean ";
+    String MEDIAN = "median ";
+    String MIN = "max ";
+    String MAX = "min ";
 
 
 
