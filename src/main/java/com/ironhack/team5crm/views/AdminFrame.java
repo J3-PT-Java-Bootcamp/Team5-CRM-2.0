@@ -118,6 +118,7 @@ public class AdminFrame extends JFrame implements ActionListener, Operations {
                 }
             }
         }
+        setVisible(false);
         adminSection.setVisible(true);
     }
 
