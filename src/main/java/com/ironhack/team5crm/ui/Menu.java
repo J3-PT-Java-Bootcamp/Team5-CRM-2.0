@@ -267,7 +267,7 @@ public class Menu implements ConsoleOperations {
     }
 
     /** This method handles the 'show salesRep' menu */
-    private void showSalesRep() {
+    public void showSalesRep() {
         try {
             var salesRepsList = salesRepServiceImpl.getAll();
             teamPane.showScrollPaneFor(TeamScrollPaneContent.SALESREPS,salesRepsList);
