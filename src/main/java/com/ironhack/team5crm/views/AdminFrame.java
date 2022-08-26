@@ -31,7 +31,7 @@ public class AdminFrame extends JFrame implements ActionListener, Operations {
 
     public AdminFrame() {
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p>Options to Admin<p></html>");
+        title = new JLabel("<html><p>Admin Options<p></html>");
         title.setBounds(85, 100, 400, 30);
         title.setFont(new Font("Courier New", 1, 25));
         title.setForeground(Color.gray);
@@ -53,24 +53,25 @@ public class AdminFrame extends JFrame implements ActionListener, Operations {
         //**** JPANE : PART TEXTFIELD
         textField = new JTextField();
         textField.setText("");
-        textField.setBounds(170, 245, 100, 30);//need the clean method
+        textField.setBounds(120, 245, 200, 30);//need the clean method
+        textField.setFont(new Font("Courier New", Font.PLAIN, 14));
 
         //**** JPANE : PART BUTTONS
         choice = new JButton();
         choice.setText("Choice"); // we need a better name
-        choice.setBounds(120, 285, 80, 30);
-        choice.setFont(new Font("Courier New", Font.PLAIN, 12));
+        choice.setBounds(120, 285, 90, 30);
+        choice.setFont(new Font("Courier New", Font.PLAIN, 14));
         choice.setForeground(Color.WHITE);
         choice.setBackground(Color.gray);
         choice.setBorder(BorderFactory.createEtchedBorder());
 
         back = new JButton();
         back.setText("Back");
-        back.setBounds(240, 285, 80, 30);
-        back.setFont(new Font("Courier New", Font.PLAIN, 12));
+        back.setBounds(230, 285, 90, 30);
+        back.setFont(new Font("Courier New", Font.PLAIN, 14));
         back.setForeground(Color.WHITE);
         back.setBackground(Color.gray);
-        back.setBorder(BorderFactory.createLoweredSoftBevelBorder());
+        back.setBorder(BorderFactory.createEtchedBorder());
 
         //**** JPANE : ADD THE LISTENERS
         choice.addActionListener(this);
@@ -117,7 +118,7 @@ public class AdminFrame extends JFrame implements ActionListener, Operations {
                 }
             }
         }
-        setVisible(false);
+        adminSection.setVisible(true);
     }
 
     public void checkTheText(String any) throws EmptyException, WrongInputException {
