@@ -104,7 +104,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
                     }
                 }
             }
-            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by the product
+            case CLOSED_LOST -> { //A count of all CLOSED_LOST Opportunities by the product
 
                 List <Object[]> product = opportunityRepository.countByStatusAndProduct(CLOSE_LOST_TABLES, products);
                 if ((product.isEmpty())){
@@ -115,7 +115,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
                     }
                 }
             }
-            case CLOSE_WON -> { //A count of all CLOSED_WON Opportunities by the product
+            case CLOSED_WON -> { //A count of all CLOSED_WON Opportunities by the product
 
                 List <Object[]> product = opportunityRepository.countByStatusAndProduct(CLOSE_WON_TABLES, products);
                 if ((product.isEmpty())){
@@ -157,7 +157,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
         Map <Object, Object> count = new HashMap<>();
 
         switch (stats){
-            case CLOSE_WON -> {  //A count of all CLOSED_WON Opportunities by country
+            case CLOSED_WON -> {  //A count of all CLOSED_WON Opportunities by country
 
                 List <Object[]> product = opportunityRepository.countByCountryByStatus(CLOSE_WON_TABLES, countrys);
                 if ((product.isEmpty())){
@@ -168,7 +168,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
                     }
                 }
             }
-            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by country
+            case CLOSED_LOST -> { //A count of all CLOSED_LOST Opportunities by country
 
                 List <Object[]> product = opportunityRepository.countByCountryByStatus(CLOSE_LOST_TABLES, countrys);
                 if ((product.isEmpty())){
@@ -221,7 +221,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
         Map <Object, Object> count = new HashMap<>();
 
         switch (stats){
-            case CLOSE_WON -> {  //A count of all CLOSED_WON Opportunities by city
+            case CLOSED_WON -> {  //A count of all CLOSED_WON Opportunities by city
 
                 List <Object[]> product = opportunityRepository.countByStatusAndCity(CLOSE_WON_TABLES, city);
                 if ((product.isEmpty())){
@@ -232,7 +232,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
                     }
                 }
             }
-            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by city
+            case CLOSED_LOST -> { //A count of all CLOSED_LOST Opportunities by city
 
                 List <Object[]> product = opportunityRepository.countByStatusAndCity(CLOSE_LOST_TABLES, city);
                 if ((product.isEmpty())){
@@ -280,7 +280,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
         Map <Object, Object> count = new HashMap<>();
 
         switch (stats){
-            case CLOSE_WON -> {  //A count of all CLOSED_WON Opportunities by Industry
+            case CLOSED_WON -> {  //A count of all CLOSED_WON Opportunities by Industry
 
                 List <Object[]> product = opportunityRepository.countByIndustryStatus(CLOSE_WON_TABLES,  industry);
                 if ((product.isEmpty())){
@@ -291,7 +291,7 @@ public class OpportunityServiceImple implements OpportunityService, ConsoleOpera
                     }
                 }
             }
-            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by industry
+            case CLOSED_LOST -> { //A count of all CLOSED_LOST Opportunities by industry
 
                 List <Object[]> product = opportunityRepository.countByIndustryStatus(CLOSE_LOST_TABLES,  industry);
                 if ((product.isEmpty())){

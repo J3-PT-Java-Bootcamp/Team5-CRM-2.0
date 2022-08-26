@@ -1,6 +1,7 @@
 package com.ironhack.team5crm.views;
 
 import com.ironhack.team5crm.services.SalesRepServiceImple;
+import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.ui.Menu;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Component
-public class AdminFrame extends JFrame implements ActionListener {
+public class AdminFrame extends JFrame implements ActionListener, Operations {
 
     @Autowired
     SalesRepServiceImple salesRepServiceImple;
@@ -30,7 +31,7 @@ public class AdminFrame extends JFrame implements ActionListener {
 
     public AdminFrame() {
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p>Options to Admin<p></html>");
+        title = new JLabel("<html><p>Admin Options<p></html>");
         title.setBounds(85, 100, 400, 30);
         title.setFont(new Font("Courier New", 1, 25));
         title.setForeground(Color.gray);
@@ -52,24 +53,25 @@ public class AdminFrame extends JFrame implements ActionListener {
         //**** JPANE : PART TEXTFIELD
         textField = new JTextField();
         textField.setText("");
-        textField.setBounds(170, 245, 100, 30);//need the clean method
+        textField.setBounds(120, 245, 200, 30);//need the clean method
+        textField.setFont(new Font("Courier New", Font.PLAIN, 14));
 
         //**** JPANE : PART BUTTONS
         choice = new JButton();
         choice.setText("Choice"); // we need a better name
-        choice.setBounds(120, 285, 80, 30);
-        choice.setFont(new Font("Courier New", Font.PLAIN, 12));
+        choice.setBounds(120, 285, 90, 30);
+        choice.setFont(new Font("Courier New", Font.PLAIN, 14));
         choice.setForeground(Color.WHITE);
         choice.setBackground(Color.gray);
         choice.setBorder(BorderFactory.createEtchedBorder());
 
         back = new JButton();
         back.setText("Back");
-        back.setBounds(240, 285, 80, 30);
-        back.setFont(new Font("Courier New", Font.PLAIN, 12));
+        back.setBounds(230, 285, 90, 30);
+        back.setFont(new Font("Courier New", Font.PLAIN, 14));
         back.setForeground(Color.WHITE);
         back.setBackground(Color.gray);
-        back.setBorder(BorderFactory.createLoweredSoftBevelBorder());
+        back.setBorder(BorderFactory.createEtchedBorder());
 
         //**** JPANE : ADD THE LISTENERS
         choice.addActionListener(this);
@@ -105,23 +107,47 @@ public class AdminFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        cleanUp();
+
         switch (e.getActionCommand().toLowerCase()) {
             case "back" -> adminSection.setVisible(true);
-            case "choice" -> {// this gonna call to the main methods
-                if(textField.getText().equalsIgnoreCase("new salesrep")){
-                    try {
-                        menu.newSalesRep();
-                    } catch (WrongInputException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                } else if (textField.getText().equalsIgnoreCase("show salesrep")) {
-                    JOptionPane.showMessageDialog(null, salesRepServiceImple.getAll());
-                } else {
-                    JOptionPane.showMessageDialog(null, "Please, check the rigth options");
+            case "choice" -> {
+                try {
+                    checkTheText(textField.getText());
+                } catch (EmptyException | WrongInputException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         }
         setVisible(false);
+        adminSection.setVisible(true);
     }
+
+    public void checkTheText(String any) throws EmptyException, WrongInputException {
+        cleanUp();
+        var extension = any.toLowerCase().split(" ");
+        //CALL TO THE EXCEPTION FOR CHECK THE EXTENSION
+        if(extension.length < 1){
+            throw new WrongInputException();
+        }
+
+        //CALL TO METHOD FOR CHECK THE SPECIFIC SINTAX
+        String toVerified = String.valueOf(verifiedInput(extension));
+
+        switch (toVerified) {
+            case NEW_SALES_REP -> menu.newSalesRep();
+            case ALL_SALES_REP-> menu.showSalesRep();
+            default -> JOptionPane.showMessageDialog(null, "only a valid option, check your sintax");
+        }
+        dispose();
+    }
+
+    //METHOD FOR CHECK THE SPECIFIC SINTAX
+    public StringBuilder verifiedInput(String [] estend){
+        StringBuilder getting = new StringBuilder();
+        for( int i = 0; i < estend.length; i++){
+            getting.append(estend[i] + " ");
+        }
+        return getting;
+    }
+
 }

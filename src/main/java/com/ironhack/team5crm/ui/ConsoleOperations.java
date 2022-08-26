@@ -8,10 +8,14 @@ public interface ConsoleOperations {
     String SHOW = "show";
     String LOOKUP = "lookup";
 
-    // OPERATIONS FOR STATUSES
+    // OPERATIONS FOR STATUS
     String OPEN = "open";
     String CLOSE_LOST = "close-lost";
     String CLOSE_WON = "close-won";
+
+    //
+    String CLOSED_LOST = "closed-lost";
+    String CLOSED_WON = "closed-won";
 
     // OPERATIONS FOR PRODUCTS
     String HYBRID = "Hybrid";
