@@ -16,6 +16,9 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
     SalesRepReportView salesRepReportView;
 
     @Autowired
+    AdminSection adminSection;
+
+    @Autowired
     private ProductReportView productReportView;
 
     @Autowired
@@ -115,8 +118,8 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equalsIgnoreCase("exit") ){
-            dispose();
+        if(e.getActionCommand().equalsIgnoreCase("back") ){
+            adminSection.setVisible(true);
         } else if (e.getActionCommand().equalsIgnoreCase("select")) {
             var aux = options.getSelectedItem().toString();
             switch (aux.toLowerCase()){
@@ -130,9 +133,9 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
                 case "opportunity" -> accountByOppsReportView.setVisible(true);
 
             }
-            setVisible(false);
         }
-        dispose();
+        setVisible(false);
+        //adminSection.setVisible(true);
     }
 }
 

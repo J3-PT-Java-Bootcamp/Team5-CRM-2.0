@@ -100,6 +100,7 @@ public class SalesRepReportView extends JFrame implements ActionListener, Operat
         getContentPane().setLayout(null);
     }
 
+    //this method just clean the JText in every use
     public void cleanUp(){
         field.setText("");
     }
