@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 @Component
 public class PrincipalView extends JFrame implements ActionListener {
@@ -72,7 +74,7 @@ public class PrincipalView extends JFrame implements ActionListener {
         salesButton.setFont(new Font("Courier New", Font.PLAIN, 12));
         salesButton.setForeground(Color.WHITE);
         salesButton.setBackground(Color.gray);
-        salesButton.setBorder(BorderFactory.createLoweredSoftBevelBorder());
+        salesButton.setBorder(BorderFactory.createEtchedBorder());
 
         // add the action for every button
         adminButton.addActionListener(this);

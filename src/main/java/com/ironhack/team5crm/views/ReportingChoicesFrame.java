@@ -135,7 +135,6 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
             }
         }
         setVisible(false);
-        //adminSection.setVisible(true);
     }
 }
 
