@@ -18,16 +18,26 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
     @Autowired
     OpportunityServiceImple opportunityServiceImple;
 
-    private JLabel title, text;
+    @Autowired
+    ReportingChoicesFrame reportingChoicesFrame;
+
+    static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
+
+    private JLabel title, text, image;
     private JTextField field;
     private JButton exit, search;
 
     public QuantityReportView(){
 
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p style = 'color : red;'>Reports By Quantity<p></html>");
-        title.setBounds(200, 20, 400, 30);
+        title = new JLabel("<html><p>Reports By Quantity<p></html>");
+        title.setBounds(200, 50, 400, 30);
         title.setFont(new Font("Courier New", 1, 25));
+        title.setForeground(Color.gray);
+
+        //ADD THE ICON
+        image = new JLabel(teamIcon);
+        image.setBounds(530, 25, 130, 130);
 
         text = new JLabel();
         text.setText(
@@ -37,8 +47,9 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
                         "<p><b>[Max Quantity]</b> -> The maximum Quantity. <p>" +
                         "<p><b>[Min Quantity]</b> -> The minimum Quantity. <p></html>"
         );
-        text.setBounds(30, -40, 650, 450);
+        text.setBounds(80, -40, 650, 450);
         text.setFont(new Font("Courier New", Font.PLAIN, 12));
+        text.setForeground(Color.gray);
 
         //**** JPANE : PART TEXT FIELD
         field = new JTextField();
@@ -48,12 +59,21 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
         //**** JPANE : PART BUTTONS
 
         exit = new JButton();
-        exit.setText("Exit");
+        exit.setText("Back");
         exit.setBounds(250, 340, 80, 30);
+        exit.setFont(new Font("Courier New", Font.PLAIN, 14));
+        exit.setForeground(Color.WHITE);
+        exit.setBackground(Color.gray);
+        exit.setBorder(BorderFactory.createEtchedBorder());
 
         search = new JButton();
         search.setText("Search");
         search.setBounds(340, 340, 80, 30);
+        search.setFont(new Font("Courier New", Font.PLAIN, 14));
+        search.setForeground(Color.WHITE);
+        search.setBackground(Color.gray);
+        search.setBorder(BorderFactory.createEtchedBorder());
+
 
         //**** JPANE : PART, CALL THE LISTENERS
 
@@ -62,13 +82,17 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
 
         //**** JPANE : PART ADDING OBJECTS TO PANEL
         getContentPane().add(title);
+        getContentPane().add(image);
         getContentPane().add(text);
         getContentPane().add(field);
         getContentPane().add(exit);
         getContentPane().add(search);
 
+        //CUSTOM UI VALUES TO FRAME
+        getContentPane().setBackground(Color.WHITE);
+
         //**** JPANE : PART CUSTOM SIZE
-        cleanUp();
+
         setSize(700, 500);
         setTitle("From 5 to 3 CRM");
         setLocationRelativeTo(null);
@@ -86,13 +110,11 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand().toLowerCase()){
-            case "exit" -> dispose();
-            case "search" -> {
-                checkTheText(field.getText());
-            }
+            case "back" -> reportingChoicesFrame.setVisible(true);
+            case "search" -> checkTheText(field.getText());
         }
-        cleanUp();
-        dispose();
+        setVisible(false);
+        reportingChoicesFrame.setVisible(true);
     }
 
 

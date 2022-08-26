@@ -81,7 +81,7 @@ public class SalesRepServiceImple implements SalesRepService, ConsoleOperations 
         Map <Object, Object> count = new HashMap<>();
 
         switch (status) {
-            case CLOSE_WON -> {   //A count of all CLOSED_WON Opportunities by SalesRep
+            case CLOSED_WON -> {   //A count of all CLOSED_WON Opportunities by SalesRep
 
                 List<Object[]> product = salesRepRepository.opportunitiesByStatus(CLOSE_WON_TABLES);
                 if ((product.isEmpty())) {
@@ -92,7 +92,7 @@ public class SalesRepServiceImple implements SalesRepService, ConsoleOperations 
                     }
                 }
             }
-            case CLOSE_LOST -> { //A count of all CLOSED_LOST Opportunities by SalesRe
+            case CLOSED_LOST -> { //A count of all CLOSED_LOST Opportunities by SalesRe
 
                 List<Object[]> product = salesRepRepository.opportunitiesByStatus(CLOSE_LOST_TABLES);
                 if ((product.isEmpty())) {
