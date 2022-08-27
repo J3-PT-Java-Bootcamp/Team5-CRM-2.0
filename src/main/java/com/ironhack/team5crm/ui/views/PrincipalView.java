@@ -1,9 +1,11 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 import com.ironhack.team5crm.models.SalesRep;
 import com.ironhack.team5crm.ui.Menu;
 import com.ironhack.team5crm.ui.exceptions.AbortedException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
+import com.ironhack.team5crm.ui.panes.TeamPane;
+import com.ironhack.team5crm.ui.panes.TeamPaneDialog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +19,13 @@ public class PrincipalView extends JFrame implements ActionListener {
 
     @Autowired
     private Menu menu;
-
     @Autowired
     AdminSection adminSection;
 
     private SalesRep salesRep;
 
+    TeamPane teamPane = new TeamPane();
+    static JPanel panel = new JPanel();
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
     private JButton adminButton; // -- check the admind options
@@ -32,69 +35,79 @@ public class PrincipalView extends JFrame implements ActionListener {
 
     //**** Contructor for start every controller
     public PrincipalView() {
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        //ADD THE TITLE AND WELCOME SECTION
-        title = new JLabel("CRM");
-        text = new JLabel();
-        text.setText("Please, choice any option for continue.");
+        //ADD PANEL
+        getContentPane().add(panel);
+        panel.setBackground(Color.white);
+        panel.setLayout(null);
+        panel.setBackground(Color.WHITE);
+        panel.setSize(450, 350);
+
+
+
+        //SET DEFAULT VIEW-FONT
+        String viewFont = "melo";
+
 
         //ADD THE ICON
         image = new JLabel(teamIcon);
-
-        //ADD THE LOCATION FOR TEXT
-        title.setBounds(180, 40, 200, 30);
-        title.setFont(new Font("Courier New", 1, 25));
-        title.setForeground(Color.gray);
-
         image.setBounds(280, 15, 150, 150);
 
-        text.setBounds(80, 110, 350, 100);
-        text.setFont(new Font("Courier New", Font.PLAIN, 12));
-        text.setForeground(Color.gray);
 
+        //ADD THE TITLE AND WELCOME SECTION
+        title = new JLabel("5to3 - CRM");
+        title.setBounds(66, 40, 350, 100);
+        title.setFont(new Font(viewFont, 1, 25));
+        title.setForeground(Color.darkGray);
+
+
+        //ADD THE LOCATION FOR TEXT
+        text = new JLabel();
+        text.setText("Please, select an option to continue.");
+        text.setBounds(66, 160, 350, 50);
+        text.setFont(new Font(viewFont, Font.PLAIN, 18));
+        text.setForeground(Color.darkGray);
 
 
         // ADMIN BUTTON VALUES
         adminButton = new JButton();
         adminButton.setBounds(66, 220, 154, 25);
         adminButton.setText("Admin"); // *** check for a better name
-        adminButton.setFont(new Font("Courier New", Font.PLAIN, 12));
-        adminButton.setForeground(Color.WHITE);
-        adminButton.setBackground(Color.gray);
+        adminButton.setFont(new Font(viewFont, Font.PLAIN, 12));
+        adminButton.setForeground(Color.DARK_GRAY);
+        adminButton.setBackground(Color.blue);
         adminButton.setBorder(BorderFactory.createEtchedBorder());
 
         // SALES BUTTON VALUES
         salesButton = new JButton();
         salesButton.setBounds(240, 220, 154, 25);
         salesButton.setText("Sales");
-        salesButton.setFont(new Font("Courier New", Font.PLAIN, 12));
-        salesButton.setForeground(Color.WHITE);
-        salesButton.setBackground(Color.gray);
-        salesButton.setBorder(BorderFactory.createLoweredSoftBevelBorder());
+        salesButton.setFont(new Font(viewFont, Font.PLAIN, 12));
+        salesButton.setForeground(Color.darkGray);
+        salesButton.setBackground(Color.blue);
+        salesButton.setBorder(BorderFactory.createEtchedBorder(1));
 
         // add the action for every button
         adminButton.addActionListener(this);
         salesButton.addActionListener(this);
 
-        //TAKING THE BUTTONS ON PANECONTAINER
-        getContentPane().add(title);
-        getContentPane().add(text);
-        getContentPane().add(image);
-        getContentPane().add(adminButton);
-        getContentPane().add(salesButton);
+        //TAKING THE BUTTONS ON PANELCONTAINER
+        panel.add(title);
+        panel.add(text);
+        panel.add(image);
+        panel.add(adminButton);
+        panel.add(salesButton);
 
 
         //CUSTOM UI VALUES TO FRAME
-        getContentPane().setBackground(Color.WHITE);
 
         //ADDING CUSTOM VALUES TO FRAME
         setSize(450, 350);
-        setTitle("From 5 To 3 CRM");
+        setTitle("5to3 - CRM");
         setLocationRelativeTo(null);
         setResizable(false);
-        getContentPane().setLayout(null);
+        setLayout(null);
 
     }
 
@@ -118,7 +131,7 @@ public class PrincipalView extends JFrame implements ActionListener {
                     throw new RuntimeException(ex);
                 }
             }
-            default -> JOptionPane.showMessageDialog(null, "Just a valid option, please");
+            default -> teamPane.showNotFoundDialog(TeamPaneDialog.COMMAND_NOT_RECOGNIZED);
         }
 
         setVisible(false);

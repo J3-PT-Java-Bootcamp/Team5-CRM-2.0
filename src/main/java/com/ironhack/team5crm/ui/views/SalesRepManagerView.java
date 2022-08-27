@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 import com.ironhack.team5crm.services.SalesRepServiceImple;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
@@ -13,69 +13,85 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Component
-public class AdminFrame extends JFrame implements ActionListener, Operations {
+public class SalesRepManagerView extends JFrame implements ActionListener, Operations {
 
     @Autowired
     SalesRepServiceImple salesRepServiceImple;
-
     @Autowired
     AdminSection adminSection;
-
     @Autowired
     private Menu menu;
 
+    static JPanel panel = new JPanel();
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
     private JLabel text, title, image;
     private JTextField textField;
-    private JButton choice, back;
+    private JButton search, exit;
 
-    public AdminFrame() {
+    public SalesRepManagerView() {
+//        getContentPane().add(panel);
+//        panel.setBackground(Color.white);
+//        panel.setLayout(null);
+//        panel.setBackground(Color.WHITE);
+//        panel.setSize(450, 350);
+        
+
+        //SET DEFAULT VIEW-FONT
+        String viewFont = "melo";
+
+        
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p>Admin Options<p></html>");
-        title.setBounds(85, 100, 400, 30);
-        title.setFont(new Font("Courier New", 1, 25));
-        title.setForeground(Color.gray);
+        title = new JLabel("<html><p>MANAGE SALES REPS.</p></br> </html>");
+        title.setBounds(80, 50, 400, 30);
+        title.setFont(new Font(viewFont, 1, 25));
+        title.setForeground(Color.black);
 
         //ADD THE ICON
         image = new JLabel(teamIcon);
-        image.setBounds(295, 15, 130, 130);
+        image.setBounds(500, 15, 130, 130);
 
         text = new JLabel();
         text.setText(
                 "<html><h2>List of commands</h2></br>" +
-                        "<p><b>[new salesrep]</b> -> creates a new sales rep. <p>" +
-                        "<p><b>[show salesrep]</b> -> show all sales rep. <p></html>"
+                        "<p>  </p></br>"+
+                        "<p><b>[ new salesrep ]</b> -> creates a new sales rep. <p>" +
+                        "<p><b>[ show salesrep ]</b> -> show all sales rep. <p>"+
+                        "<p>  </p></br>"+
+                        "<p>Please, select an option to continue.</p>"+
+                "</html>"
         );
-        text.setBounds(30, -45, 650, 450);
-        text.setFont(new Font("Courier New", Font.PLAIN, 12));
-        text.setForeground(Color.gray);
+        text.setBounds(80, 110, 350, 200);
+        text.setFont(new Font(viewFont, Font.PLAIN, 14));
+        text.setForeground(Color.darkGray);
+
 
         //**** JPANE : PART TEXTFIELD
         textField = new JTextField();
         textField.setText("");
-        textField.setBounds(120, 245, 200, 30);//need the clean method
-        textField.setFont(new Font("Courier New", Font.PLAIN, 14));
+        textField.setBounds(200, 300, 270, 30);
+        textField.setFont(new Font(viewFont, Font.BOLD, 15));
+        textField.setBackground(Color.white);
 
         //**** JPANE : PART BUTTONS
-        choice = new JButton();
-        choice.setText("Choice"); // we need a better name
-        choice.setBounds(120, 285, 90, 30);
-        choice.setFont(new Font("Courier New", Font.PLAIN, 14));
-        choice.setForeground(Color.WHITE);
-        choice.setBackground(Color.gray);
-        choice.setBorder(BorderFactory.createEtchedBorder());
+        exit = new JButton();
+        exit.setText("Back");
+        exit.setBounds(250, 340, 80, 30);
+        exit.setFont(new Font(viewFont, Font.PLAIN, 14));
+        exit.setForeground(Color.darkGray);
+        exit.setBackground(Color.blue);
+        exit.setBorder(BorderFactory.createEtchedBorder());
 
-        back = new JButton();
-        back.setText("Back");
-        back.setBounds(230, 285, 90, 30);
-        back.setFont(new Font("Courier New", Font.PLAIN, 14));
-        back.setForeground(Color.WHITE);
-        back.setBackground(Color.gray);
-        back.setBorder(BorderFactory.createEtchedBorder());
+        search = new JButton();
+        search.setText("Search");
+        search.setBounds(340, 340, 80, 30);
+        search.setFont(new Font(viewFont, Font.PLAIN, 14));
+        search.setForeground(Color.darkGray);
+        search.setBackground(Color.blue);
+        search.setBorder(BorderFactory.createEtchedBorder());
 
         //**** JPANE : ADD THE LISTENERS
-        choice.addActionListener(this);
-        back.addActionListener(this);
+        search.addActionListener(this);
+        exit.addActionListener(this);
 
         //*** JPANE : PART ADDING OBJECTS TO PANEL
 
@@ -83,8 +99,8 @@ public class AdminFrame extends JFrame implements ActionListener, Operations {
         getContentPane().add(image);
         getContentPane().add(text);
         getContentPane().add(textField);
-        getContentPane().add(choice);
-        getContentPane().add(back);
+        getContentPane().add(search);
+        getContentPane().add(exit);
 
         //CUSTOM UI VALUES TO FRAME
         getContentPane().setBackground(Color.WHITE);
@@ -92,8 +108,8 @@ public class AdminFrame extends JFrame implements ActionListener, Operations {
 
         //**** JPANE : SETTING THE SIZE
         //CALL TO CLEANUP METHOD
-        setSize(450, 400);
-        setTitle("From 5 to 3 CRM");
+        setSize(700, 500);
+        setTitle("5to3 - CRM");
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(null);
@@ -110,7 +126,7 @@ public class AdminFrame extends JFrame implements ActionListener, Operations {
 
         switch (e.getActionCommand().toLowerCase()) {
             case "back" -> adminSection.setVisible(true);
-            case "choice" -> {
+            case "search" -> {
                 try {
                     checkTheText(textField.getText());
                 } catch (EmptyException | WrongInputException ex) {
