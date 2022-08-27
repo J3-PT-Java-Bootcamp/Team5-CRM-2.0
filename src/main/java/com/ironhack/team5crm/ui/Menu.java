@@ -344,10 +344,10 @@ public class Menu implements ConsoleOperations {
         }
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEAD -> {
-                List<Object> values = getValues("Name :</br>", "Phone number : </br>", "Email : </br>", "Company : ");
+                List<Object> values = getValues("Name :", "Phone number :", "Email : ", "Company : ");
                 Lead lead = leadServiceImple.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
                         (String) values.get(3), salesRepLoggedIn);
-                teamPane.showMessageDialog("Lead Added", "Lead successfully added: </br>" + lead,1);
+                teamPane.showMessageDialog("Lead Added", "Lead successfully added: " + lead,1);
             }
             case ConsoleOperationEntities.SALES_REP -> newSalesRep();
             default -> throw new WrongInputException();
@@ -357,7 +357,7 @@ public class Menu implements ConsoleOperations {
     public void newSalesRep() throws WrongInputException {
         List<Object> values = getValues("Name :");
         SalesRep salesRep = salesRepServiceImpl.newSalesRep((String) values.get(0));
-        teamPane.showMessageDialog("Sales Representative Added", "SalesRep successfully created: </br>" + salesRep,1);
+        teamPane.showMessageDialog("Sales Representative Added", "SalesRep successfully created: " + salesRep,1);
     }
 
     // OTHER MENUS METHODS
