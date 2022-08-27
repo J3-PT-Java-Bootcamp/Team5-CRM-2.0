@@ -1,7 +1,6 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 import com.ironhack.team5crm.services.OpportunityServiceImple;
-import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,67 +12,69 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Component
-public class QuantityReportView extends JFrame implements ActionListener, Operations {
+public class AccountByOppsReportView extends JFrame implements ActionListener, Operations {
 
     @Autowired
     OpportunityServiceImple opportunityServiceImple;
 
     @Autowired
     ReportingChoicesFrame reportingChoicesFrame;
-
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
     private JLabel title, text, image;
     private JTextField field;
     private JButton exit, search;
 
-    public QuantityReportView(){
+    public AccountByOppsReportView(){
+        String viewFont = "melo";
+
 
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p>Reports By Quantity<p></html>");
-        title.setBounds(200, 50, 400, 30);
-        title.setFont(new Font("Courier New", 1, 25));
-        title.setForeground(Color.gray);
+        title = new JLabel("<html><p>By Accounts<p></html>");
+        title.setBounds(80, 50, 400, 30);
+        title.setFont(new Font(viewFont, 1, 25));
+        title.setForeground(Color.darkGray);
 
         //ADD THE ICON
         image = new JLabel(teamIcon);
-        image.setBounds(530, 25, 130, 130);
+        image.setBounds(500, 15, 130, 130);
 
         text = new JLabel();
         text.setText(
                 "<html><h2>List of commands</h2></br>" +
-                        "<p><b>[Mean Quantity]</b> -> The mean Quantity. <p>" +
-                        "<p><b>[Median Quantity]</b> -> The median Quantity. <p>" +
-                        "<p><b>[Max Quantity]</b> -> The maximum Quantity. <p>" +
-                        "<p><b>[Min Quantity]</b> -> The minimum Quantity. <p></html>"
+                        "<p>  </p></br>"+
+
+                        "<p><b>[Mean Opps per Account]</b> -> The mean number of Opportunities associated with an Account. <p>" +
+                        "<p><b>[Median Opps per Account]</b> -> The median number of Opportunities associated with an Account. <p>" +
+                        "<p><b>[Max Opps per Account]</b> -> The maximum number of Opportunities associated with an Account. <p>" +
+                        "<p><b>[Min Opps per Account]</b> -> The minimum number of Opportunities associated with an Account. <p></html>"
         );
         text.setBounds(80, -40, 650, 450);
-        text.setFont(new Font("Courier New", Font.PLAIN, 12));
-        text.setForeground(Color.gray);
+        text.setFont(new Font(viewFont, Font.PLAIN, 12));
+        text.setForeground(Color.darkGray);
 
         //**** JPANE : PART TEXT FIELD
         field = new JTextField();
         field.setBounds(200, 300, 270, 30);
-        field.setFont(new Font("Courier New", Font.BOLD, 15));
+        field.setFont(new Font(viewFont, Font.BOLD, 15));
 
         //**** JPANE : PART BUTTONS
 
         exit = new JButton();
         exit.setText("Back");
         exit.setBounds(250, 340, 80, 30);
-        exit.setFont(new Font("Courier New", Font.PLAIN, 14));
-        exit.setForeground(Color.WHITE);
-        exit.setBackground(Color.gray);
+        exit.setFont(new Font(viewFont, Font.PLAIN, 14));
+        exit.setForeground(Color.darkGray);
+        exit.setBackground(Color.blue);
         exit.setBorder(BorderFactory.createEtchedBorder());
 
         search = new JButton();
         search.setText("Search");
         search.setBounds(340, 340, 80, 30);
-        search.setFont(new Font("Courier New", Font.PLAIN, 14));
-        search.setForeground(Color.WHITE);
-        search.setBackground(Color.gray);
+        search.setFont(new Font(viewFont, Font.PLAIN, 14));
+        search.setForeground(Color.darkGray);
+        search.setBackground(Color.blue);
         search.setBorder(BorderFactory.createEtchedBorder());
-
 
         //**** JPANE : PART, CALL THE LISTENERS
 
@@ -94,7 +95,7 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
         //**** JPANE : PART CUSTOM SIZE
 
         setSize(700, 500);
-        setTitle("From 5 to 3 CRM");
+        setTitle("5to3 - CRM");
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(null);
@@ -118,21 +119,21 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
     }
 
 
-    public void checkTheText(String any) throws EmptyException, WrongInputException {
+    public void checkTheText(String any) throws WrongInputException {
         cleanUp();
         var extension = any.toLowerCase().split(" ");
         //CALL TO THE EXCEPTION FOR CHECK THE EXTENSION
-        if(extension.length < 1){
+        if(extension.length < 3){
             throw new WrongInputException();
         }
 
         //CALL TO METHOD FOR CHECK THE SPECIFIC SINTAX
         String toVerified = String.valueOf(verifiedInput(extension));
         String stats = extension[0];
-        String quantity = extension[1];
+        String opps = extension[1];
 
         switch (toVerified) {
-            case MEAN , MEDIAN, MIN, MAX -> JOptionPane.showMessageDialog(null, opportunityServiceImple.statesByOpportunity(stats, quantity));
+            case MEAN_OPPS , MEDIAN_OPPS, MIN_OPPS, MAX_OPPS -> JOptionPane.showMessageDialog(null, opportunityServiceImple.statesByOpportunity(stats, opps));
             default -> JOptionPane.showMessageDialog(null, "only a valid option, check your sintax");
         }
         dispose();
@@ -141,10 +142,9 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
     //METHOD FOR CHECK THE SPECIFIC SINTAX
     public StringBuilder verifiedInput(String [] estend){
         StringBuilder getting = new StringBuilder();
-        for( int i = 0; i < estend.length - 1; i++){
+        for( int i = 0; i < estend.length; i++){
             getting.append(estend[i] + " ");
         }
         return getting;
     }
 }
-

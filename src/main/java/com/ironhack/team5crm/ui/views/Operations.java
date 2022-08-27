@@ -1,9 +1,9 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 public interface Operations {
 
     String NEW_SALES_REP = "new salesrep ";
-    String ALL_SALES_REP = "show salesrep ";
+    String ALL_SALES_REP = "show salesrep";
 
     //  by report SalesRep
     String LEAD_REP = "report lead by salesrep";

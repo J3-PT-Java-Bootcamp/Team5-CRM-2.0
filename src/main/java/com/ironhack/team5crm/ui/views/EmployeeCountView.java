@@ -1,7 +1,6 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 import com.ironhack.team5crm.services.OpportunityServiceImple;
-import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Component
-public class CountryReportView extends JFrame implements ActionListener, Operations {
+public class EmployeeCountView extends JFrame implements ActionListener, Operations {
 
     @Autowired
     OpportunityServiceImple opportunityServiceImple;
@@ -27,13 +26,15 @@ public class CountryReportView extends JFrame implements ActionListener, Operati
     private JTextField field;
     private JButton exit, search;
 
-    public CountryReportView(){
+    public EmployeeCountView(){
+
+        String viewFont = "melo";
 
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p>Reports By Country<p></html>");
-        title.setBounds(200, 20, 400, 30);
-        title.setFont(new Font("Courier New", 1, 25));
-        title.setForeground(Color.gray);
+        title = new JLabel("<html><p>By Employee Count<p></html>");
+        title.setBounds(80, 50, 400, 30);
+        title.setFont(new Font(viewFont, 1, 25));
+        title.setForeground(Color.darkGray);
 
         //ADD THE ICON
         image = new JLabel(teamIcon);
@@ -42,36 +43,37 @@ public class CountryReportView extends JFrame implements ActionListener, Operati
         text = new JLabel();
         text.setText(
                 "<html><h2>List of commands</h2></br>" +
-                        "<p><b>[Report Opportunity by country]</b> -> A count of all Opportunities by country. <p>" +
-                        "<p><b>[Report CLOSED-WON by country]</b> -> A count of all CLOSED_WON Opportunities by country. <p>" +
-                        "<p><b>[Report CLOSED-LOST by country]</b> -> A count of all CLOSED-LOST Opportunities by country. <p>" +
-                        "<p><b>[Report OPEN by country]</b> -> A count of all OPEN Opportunities by country. <p></html>"
+                        "<p>  </p></br>"+
+                        "<p><b>[Mean EmployeeCount]</b> -> The mean employeeCount. <p>" +
+                        "<p><b>[Median EmployeeCount]</b> -> The median employeeCount. <p>" +
+                        "<p><b>[Max EmployeeCount]</b> -> The maximum employeeCount. <p>" +
+                        "<p><b>[Min EmployeeCount]</b> -> The minimum employeeCount. <p></html>"
         );
-        text.setBounds(30, -40, 650, 450);
-        text.setFont(new Font("Courier New", Font.PLAIN, 12));
-        text.setForeground(Color.gray);
+        text.setBounds(80, -40, 650, 450);
+        text.setFont(new Font(viewFont, Font.PLAIN, 12));
+        text.setForeground(Color.darkGray);
 
         //**** JPANE : PART TEXT FIELD
         field = new JTextField();
         field.setBounds(200, 300, 270, 30);
-        field.setFont(new Font("Courier New", Font.BOLD, 15));
+        field.setFont(new Font(viewFont, Font.BOLD, 15));
 
         //**** JPANE : PART BUTTONS
 
         exit = new JButton();
         exit.setText("Back");
         exit.setBounds(250, 340, 80, 30);
-        exit.setFont(new Font("Courier New", Font.PLAIN, 14));
-        exit.setForeground(Color.WHITE);
-        exit.setBackground(Color.gray);
+        exit.setFont(new Font(viewFont, Font.PLAIN, 14));
+        exit.setForeground(Color.darkGray);
+        exit.setBackground(Color.blue);
         exit.setBorder(BorderFactory.createEtchedBorder());
 
         search = new JButton();
         search.setText("Search");
         search.setBounds(340, 340, 80, 30);
-        search.setFont(new Font("Courier New", Font.PLAIN, 14));
-        search.setForeground(Color.WHITE);
-        search.setBackground(Color.gray);
+        search.setFont(new Font(viewFont, Font.PLAIN, 14));
+        search.setForeground(Color.darkGray);
+        search.setBackground(Color.blue);
         search.setBorder(BorderFactory.createEtchedBorder());
 
         //**** JPANE : PART, CALL THE LISTENERS
@@ -93,7 +95,7 @@ public class CountryReportView extends JFrame implements ActionListener, Operati
         //**** JPANE : PART CUSTOM SIZE
 
         setSize(700, 500);
-        setTitle("From 5 to 3 CRM");
+        setTitle("5to3 - CRM");
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(null);
@@ -117,22 +119,21 @@ public class CountryReportView extends JFrame implements ActionListener, Operati
     }
 
 
-    public void checkTheText(String any) throws EmptyException, WrongInputException {
+    public void checkTheText(String any) throws  WrongInputException {
         cleanUp();
         var extension = any.toLowerCase().split(" ");
         //CALL TO THE EXCEPTION FOR CHECK THE EXTENSION
-        if(extension.length <= 2){
+        if(extension.length < 1){
             throw new WrongInputException();
         }
 
         //CALL TO METHOD FOR CHECK THE SPECIFIC SINTAX
         String toVerified = String.valueOf(verifiedInput(extension));
-        String stats = extension[1];
-        String country = extension[3];
+        String stats = extension[0];
+        String employee = extension[1];
 
         switch (toVerified) {
-            case OPPORTUNITY -> JOptionPane.showMessageDialog(null, opportunityServiceImple.counterOpportunitiesByCountry(country));
-            case OPEN, CLOSE_LOST, CLOSE_WON -> JOptionPane.showMessageDialog(null, opportunityServiceImple.reportByCountry(stats, country));
+            case MEAN , MEDIAN, MIN, MAX -> JOptionPane.showMessageDialog(null, opportunityServiceImple.statesByOpportunity(stats, employee));
             default -> JOptionPane.showMessageDialog(null, "only a valid option, check your sintax");
         }
         dispose();
