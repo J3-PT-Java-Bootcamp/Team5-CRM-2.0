@@ -70,8 +70,8 @@ public class AdminSection extends JFrame implements ActionListener {
         dashboardButton.setBounds(80, 320, 100, 25);
         dashboardButton.setText("Reports"); // *** check for a better name
         dashboardButton.setFont(new Font(viewFont, Font.PLAIN, 12));
-        dashboardButton.setForeground(Color.DARK_GRAY);
-        dashboardButton.setBackground(Color.blue);
+//        dashboardButton.setForeground(Color.DARK_GRAY);
+//        dashboardButton.setBackground(Color.blue);
         dashboardButton.setBorder(BorderFactory.createEtchedBorder());
 
         // SALES BUTTON VALUES
@@ -79,8 +79,8 @@ public class AdminSection extends JFrame implements ActionListener {
         adminOptionButton.setBounds(186, 320, 100, 25);
         adminOptionButton.setText("Sales Rep.");
         adminOptionButton.setFont(new Font(viewFont, Font.PLAIN, 12));
-        adminOptionButton.setForeground(Color.darkGray);
-        adminOptionButton.setBackground(Color.blue);
+//        adminOptionButton.setForeground(Color.darkGray);
+//        adminOptionButton.setBackground(Color.blue);
         adminOptionButton.setBorder(BorderFactory.createEtchedBorder(1));
 
         // EXIT BUTTON VALUES
@@ -88,8 +88,8 @@ public class AdminSection extends JFrame implements ActionListener {
         exit.setBounds(306, 320, 100, 25);
         exit.setText("Back");
         exit.setFont(new Font(viewFont, Font.PLAIN, 12));
-        exit.setForeground(Color.darkGray);
-        exit.setBackground(Color.darkGray);
+//        exit.setForeground(Color.darkGray);
+//        exit.setBackground(Color.darkGray);
         exit.setBorder(BorderFactory.createEtchedBorder());
 
         // add the action for every button

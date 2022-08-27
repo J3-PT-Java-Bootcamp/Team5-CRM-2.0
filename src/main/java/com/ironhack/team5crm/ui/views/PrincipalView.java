@@ -75,8 +75,8 @@ public class PrincipalView extends JFrame implements ActionListener {
         adminButton.setBounds(66, 220, 154, 25);
         adminButton.setText("Admin"); // *** check for a better name
         adminButton.setFont(new Font(viewFont, Font.PLAIN, 12));
-        adminButton.setForeground(Color.DARK_GRAY);
-        adminButton.setBackground(Color.blue);
+//        adminButton.setForeground(Color.DARK_GRAY);
+//        adminButton.setBackground(Color.blue);
         adminButton.setBorder(BorderFactory.createEtchedBorder());
 
         // SALES BUTTON VALUES
@@ -84,8 +84,8 @@ public class PrincipalView extends JFrame implements ActionListener {
         salesButton.setBounds(240, 220, 154, 25);
         salesButton.setText("Sales");
         salesButton.setFont(new Font(viewFont, Font.PLAIN, 12));
-        salesButton.setForeground(Color.darkGray);
-        salesButton.setBackground(Color.blue);
+//        salesButton.setForeground(Color.darkGray);
+//        salesButton.setBackground(Color.blue);
         salesButton.setBorder(BorderFactory.createEtchedBorder(1));
 
         // add the action for every button

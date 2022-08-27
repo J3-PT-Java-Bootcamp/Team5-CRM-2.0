@@ -62,19 +62,19 @@ public class IndustryFrameView extends JFrame implements ActionListener, Operati
         //**** JPANE : PART BUTTONS
 
         exit = new JButton();
-        exit.setText("Back");
+        exit.setText("Exit");
         exit.setBounds(250, 340, 80, 30);
         exit.setFont(new Font(viewFont, Font.PLAIN, 14));
-        exit.setForeground(Color.darkGray);
-        exit.setBackground(Color.blue);
+//        exit.setForeground(Color.darkGray);
+//        exit.setBackground(Color.blue);
         exit.setBorder(BorderFactory.createEtchedBorder());
 
         search = new JButton();
         search.setText("Search");
         search.setBounds(340, 340, 80, 30);
         search.setFont(new Font(viewFont, Font.PLAIN, 14));
-        search.setForeground(Color.darkGray);
-        search.setBackground(Color.blue);
+//        search.setForeground(Color.darkGray);
+//        search.setBackground(Color.blue);
         search.setBorder(BorderFactory.createEtchedBorder());
 
         //**** JPANE : PART, CALL THE LISTENERS

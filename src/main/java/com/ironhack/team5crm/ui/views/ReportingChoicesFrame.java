@@ -79,16 +79,16 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
         exit.setText("Back");
         exit.setBounds(130, 260, 90, 30);
         exit.setFont(new Font(viewFont, Font.PLAIN, 14));
-        exit.setForeground(Color.darkGray);
-        exit.setBackground(Color.blue);
+//        exit.setForeground(Color.darkGray);
+//        exit.setBackground(Color.blue);
         exit.setBorder(BorderFactory.createEtchedBorder());
 
         select = new JButton();
         select.setText("Select");
         select.setBounds(250, 260, 90, 30);
         select.setFont(new Font(viewFont, Font.PLAIN, 14));
-        select.setForeground(Color.darkGray);
-        select.setBackground(Color.blue);
+//        select.setForeground(Color.darkGray);
+//        select.setBackground(Color.blue);
         select.setBorder(BorderFactory.createEtchedBorder());
 
         //**** JPANE : ADD THE LISTENERSv
