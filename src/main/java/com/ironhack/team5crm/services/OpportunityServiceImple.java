@@ -7,7 +7,6 @@ import com.ironhack.team5crm.services.exceptions.DataNotFoundException;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.services.interfaceService.OpportunityService;
 import com.ironhack.team5crm.ui.ConsoleOperations;
-import com.ironhack.team5crm.views.Operations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 import com.ironhack.team5crm.services.OpportunityServiceImple;
 import com.ironhack.team5crm.services.exceptions.EmptyException;
@@ -28,50 +28,53 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
     private JButton exit, search;
 
     public QuantityReportView(){
+        String viewFont = "melo";
+
 
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p>Reports By Quantity<p></html>");
-        title.setBounds(200, 50, 400, 30);
-        title.setFont(new Font("Courier New", 1, 25));
-        title.setForeground(Color.gray);
+        title = new JLabel("<html><p>By Quantity<p></html>");
+        title.setBounds(80, 50, 400, 30);
+        title.setFont(new Font(viewFont, 1, 25));
+        title.setForeground(Color.darkGray);
 
         //ADD THE ICON
         image = new JLabel(teamIcon);
-        image.setBounds(530, 25, 130, 130);
+        image.setBounds(500, 15, 130, 130);
 
         text = new JLabel();
         text.setText(
                 "<html><h2>List of commands</h2></br>" +
+                        "<p>  </p></br>"+
                         "<p><b>[Mean Quantity]</b> -> The mean Quantity. <p>" +
                         "<p><b>[Median Quantity]</b> -> The median Quantity. <p>" +
                         "<p><b>[Max Quantity]</b> -> The maximum Quantity. <p>" +
                         "<p><b>[Min Quantity]</b> -> The minimum Quantity. <p></html>"
         );
         text.setBounds(80, -40, 650, 450);
-        text.setFont(new Font("Courier New", Font.PLAIN, 12));
-        text.setForeground(Color.gray);
+        text.setFont(new Font(viewFont, Font.PLAIN, 12));
+        text.setForeground(Color.darkGray);
 
         //**** JPANE : PART TEXT FIELD
         field = new JTextField();
         field.setBounds(200, 300, 270, 30);
-        field.setFont(new Font("Courier New", Font.BOLD, 15));
+        field.setFont(new Font(viewFont, Font.BOLD, 15));
 
         //**** JPANE : PART BUTTONS
 
         exit = new JButton();
         exit.setText("Back");
         exit.setBounds(250, 340, 80, 30);
-        exit.setFont(new Font("Courier New", Font.PLAIN, 14));
-        exit.setForeground(Color.WHITE);
-        exit.setBackground(Color.gray);
+        exit.setFont(new Font(viewFont, Font.PLAIN, 14));
+//        exit.setForeground(Color.darkGray);
+//        exit.setBackground(Color.blue);
         exit.setBorder(BorderFactory.createEtchedBorder());
 
         search = new JButton();
         search.setText("Search");
         search.setBounds(340, 340, 80, 30);
-        search.setFont(new Font("Courier New", Font.PLAIN, 14));
-        search.setForeground(Color.WHITE);
-        search.setBackground(Color.gray);
+        search.setFont(new Font(viewFont, Font.PLAIN, 14));
+//        search.setForeground(Color.darkGray);
+//        search.setBackground(Color.blue);
         search.setBorder(BorderFactory.createEtchedBorder());
 
 
@@ -94,7 +97,7 @@ public class QuantityReportView extends JFrame implements ActionListener, Operat
         //**** JPANE : PART CUSTOM SIZE
 
         setSize(700, 500);
-        setTitle("From 5 to 3 CRM");
+        setTitle("5to3 - CRM");
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(null);

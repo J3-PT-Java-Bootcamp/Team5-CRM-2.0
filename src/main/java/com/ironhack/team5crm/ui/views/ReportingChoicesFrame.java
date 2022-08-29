@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,45 +48,47 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
 
 
     public  ReportingChoicesFrame(){
+        String viewFont = "melo";
+
 
         //**** JPANE : PART TEXT LABEL
         title = new JLabel();
-        title.setText("Reporting Options");
-        title.setBounds(85, 140, 400, 30);
-        title.setFont(new Font("Courier New", 1, 25));
-        title.setForeground(Color.gray);
+        title.setText("<html><p>Report </p></br> " +
+                "<p>Options<p></html>");;
+        title.setBounds(66, 40, 350, 100);
+        title.setFont(new Font(viewFont, 1, 25));
+        title.setForeground(Color.darkGray);
 
         //ADD THE ICON
-        image = new JLabel();
-        image.setBounds(295, 15, 130, 130);
+        image = new JLabel(teamIcon);
+        image.setBounds(280, 15, 150, 150);
 
         text = new JLabel();
-        text.setText("Select any option");
-        text.setFont(new Font("Courier New", Font.PLAIN, 12));
-        text.setBounds(110, 200, 150, 30);
+        text.setText("Select any option:");
+        text.setFont(new Font(viewFont, Font.PLAIN, 14));
+        text.setBounds(66, 200, 150, 30);
 
         values = new String []{"SalesRep", "Product", "Country", "City", "Industry", "EmployeeCount", "Quantity", "Opportunity"};
         options = new JComboBox<>(values);
-        options.setFont(new Font("Courier New", Font.PLAIN, 12));
-        text.setForeground(Color.gray);
-        options.setBounds(240, 205, 100, 20);
+        options.setFont(new Font(viewFont, Font.PLAIN, 14));
+        options.setBounds(240, 205, 200, 20);
 
 
         //**** JPANE : PART BUTTONS
         exit = new JButton();
         exit.setText("Back");
-        exit.setBounds(120, 260, 90, 30);
-        exit.setFont(new Font("Courier New", Font.PLAIN, 14));
-        exit.setForeground(Color.WHITE);
-        exit.setBackground(Color.gray);
+        exit.setBounds(130, 260, 90, 30);
+        exit.setFont(new Font(viewFont, Font.PLAIN, 14));
+//        exit.setForeground(Color.darkGray);
+//        exit.setBackground(Color.blue);
         exit.setBorder(BorderFactory.createEtchedBorder());
 
         select = new JButton();
         select.setText("Select");
-        select.setBounds(230, 260, 90, 30);
-        select.setFont(new Font("Courier New", Font.PLAIN, 14));
-        select.setForeground(Color.WHITE);
-        select.setBackground(Color.gray);
+        select.setBounds(250, 260, 90, 30);
+        select.setFont(new Font(viewFont, Font.PLAIN, 14));
+//        select.setForeground(Color.darkGray);
+//        select.setBackground(Color.blue);
         select.setBorder(BorderFactory.createEtchedBorder());
 
         //**** JPANE : ADD THE LISTENERSv
@@ -108,8 +110,8 @@ public class ReportingChoicesFrame extends JFrame implements ActionListener {
 
         //**** JPANE : SETTING THE SIZE
         //CALL TO CLEANUP METHOD
-        setSize(450, 400);
-        setTitle("From 5 to 3 CRM");
+        setSize(500, 400);
+        setTitle("5to3 - CRM");
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(null);
