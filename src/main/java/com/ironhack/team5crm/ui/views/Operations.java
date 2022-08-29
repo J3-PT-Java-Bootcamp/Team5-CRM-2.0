@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 public interface Operations {
 

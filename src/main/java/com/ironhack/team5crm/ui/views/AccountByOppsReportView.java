@@ -1,7 +1,6 @@
-package com.ironhack.team5crm.views;
+package com.ironhack.team5crm.ui.views;
 
 import com.ironhack.team5crm.services.OpportunityServiceImple;
-import com.ironhack.team5crm.services.exceptions.EmptyException;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ public class AccountByOppsReportView extends JFrame implements ActionListener, O
 
     @Autowired
     ReportingChoicesFrame reportingChoicesFrame;
-
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
     private JLabel title, text, image;
@@ -28,12 +26,14 @@ public class AccountByOppsReportView extends JFrame implements ActionListener, O
     private JButton exit, search;
 
     public AccountByOppsReportView(){
+        String viewFont = "melo";
+
 
         //**** JPANE : PART TEXT LABEL
-        title = new JLabel("<html><p>Reports By Accounts<p></html>");
-        title.setBounds(200, 50, 400, 30);
-        title.setFont(new Font("Courier New", 1, 25));
-        title.setForeground(Color.gray);
+        title = new JLabel("<html><p>By Accounts<p></html>");
+        title.setBounds(80, 50, 400, 30);
+        title.setFont(new Font(viewFont, 1, 25));
+        title.setForeground(Color.darkGray);
 
         //ADD THE ICON
         image = new JLabel(teamIcon);
@@ -42,36 +42,38 @@ public class AccountByOppsReportView extends JFrame implements ActionListener, O
         text = new JLabel();
         text.setText(
                 "<html><h2>List of commands</h2></br>" +
+                        "<p>  </p></br>"+
+
                         "<p><b>[Mean Opps per Account]</b> -> The mean number of Opportunities associated with an Account. <p>" +
                         "<p><b>[Median Opps per Account]</b> -> The median number of Opportunities associated with an Account. <p>" +
                         "<p><b>[Max Opps per Account]</b> -> The maximum number of Opportunities associated with an Account. <p>" +
                         "<p><b>[Min Opps per Account]</b> -> The minimum number of Opportunities associated with an Account. <p></html>"
         );
-        text.setBounds(30, -40, 650, 450);
-        text.setFont(new Font("Courier New", Font.PLAIN, 12));
-        text.setForeground(Color.gray);
+        text.setBounds(80, -40, 650, 450);
+        text.setFont(new Font(viewFont, Font.PLAIN, 12));
+        text.setForeground(Color.darkGray);
 
         //**** JPANE : PART TEXT FIELD
         field = new JTextField();
         field.setBounds(200, 300, 270, 30);
-        field.setFont(new Font("Courier New", Font.BOLD, 15));
+        field.setFont(new Font(viewFont, Font.BOLD, 15));
 
         //**** JPANE : PART BUTTONS
 
         exit = new JButton();
         exit.setText("Back");
         exit.setBounds(250, 340, 80, 30);
-        exit.setFont(new Font("Courier New", Font.PLAIN, 14));
-        exit.setForeground(Color.WHITE);
-        exit.setBackground(Color.gray);
+        exit.setFont(new Font(viewFont, Font.PLAIN, 14));
+//        exit.setForeground(Color.darkGray);
+//        exit.setBackground(Color.blue);
         exit.setBorder(BorderFactory.createEtchedBorder());
 
         search = new JButton();
         search.setText("Search");
         search.setBounds(340, 340, 80, 30);
-        search.setFont(new Font("Courier New", Font.PLAIN, 14));
-        search.setForeground(Color.WHITE);
-        search.setBackground(Color.gray);
+        search.setFont(new Font(viewFont, Font.PLAIN, 14));
+//        search.setForeground(Color.darkGray);
+//        search.setBackground(Color.blue);
         search.setBorder(BorderFactory.createEtchedBorder());
 
         //**** JPANE : PART, CALL THE LISTENERS
@@ -93,7 +95,7 @@ public class AccountByOppsReportView extends JFrame implements ActionListener, O
         //**** JPANE : PART CUSTOM SIZE
 
         setSize(700, 500);
-        setTitle("From 5 to 3 CRM");
+        setTitle("5to3 - CRM");
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(null);
