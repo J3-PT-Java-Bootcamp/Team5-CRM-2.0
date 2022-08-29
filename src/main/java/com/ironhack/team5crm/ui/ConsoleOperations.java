@@ -30,8 +30,8 @@ public interface ConsoleOperations {
     String OTHER = "Other Industries";
 
     // TABLES ENTITIES
-    String CLOSE_LOST_TABLES = "close_lost";
-    String CLOSE_WON_TABLES = "close_won";
+    String CLOSE_LOST_TABLES = "closed_lost";
+    String CLOSE_WON_TABLES = "closed_won";
 
     String MEAN = "mean";
     String MEDIAN = "median";
