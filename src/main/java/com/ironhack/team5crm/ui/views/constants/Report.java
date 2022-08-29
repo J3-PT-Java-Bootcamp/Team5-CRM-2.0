@@ -1,4 +1,4 @@
-package com.ironhack.team5crm.ui.views;
+package com.ironhack.team5crm.ui.views.constants;
 
 public interface Report {
     String MIN = "min";

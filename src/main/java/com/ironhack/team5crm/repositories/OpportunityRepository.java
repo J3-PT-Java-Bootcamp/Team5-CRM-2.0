@@ -80,7 +80,7 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
     List<Object[]> countByCity(@Param("city") String city);
 
     /**
-     * A count of all CLOSED_WON Opportunities by the city
+     * A count of all status Opportunities by the city
      */
     @Query(value = "SELECT B.city, COUNT(*)\n" +
                     "FROM opportunities A\n" +
@@ -136,13 +136,13 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
     int medianByEmployeeCount();
 
     @Query(value = "SELECT MIN(B.employee_count)\n" +
-            "FROM opportunities A\n" +
-            "JOIN accounts B on B.id = A.account_id", nativeQuery = true)
+                        "FROM opportunities A\n" +
+                        "JOIN accounts B on B.id = A.account_id", nativeQuery = true)
     int minByEmployeeCount();
 
     @Query(value = "SELECT MAX(B.employee_count)\n" +
-            "FROM opportunities A\n" +
-            "JOIN accounts B on B.id = A.account_id", nativeQuery = true)
+                        "FROM opportunities A\n" +
+                        "JOIN accounts B on B.id = A.account_id", nativeQuery = true)
     int maxByEmployeeCount();
 
     // BY QUANTITY

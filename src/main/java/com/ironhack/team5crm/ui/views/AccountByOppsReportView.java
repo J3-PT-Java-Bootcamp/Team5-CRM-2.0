@@ -2,6 +2,7 @@ package com.ironhack.team5crm.ui.views;
 
 import com.ironhack.team5crm.services.OpportunityServiceImple;
 import com.ironhack.team5crm.ui.exceptions.WrongInputException;
+import com.ironhack.team5crm.ui.views.constants.Operations;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
